@@ -1,7 +1,6 @@
 import clsx from 'clsx'
-import { useReducedMotion } from 'framer-motion'
-import { type ReactNode, useState } from 'react'
-import { HERO_POSTER_SRC, HERO_VIDEO_SRC } from '../../config/heroMedia'
+import { type ReactNode } from 'react'
+import heroBg from '../../assets/hero.png'
 import { Container } from '../ui'
 import { ContactBreadcrumb } from './ContactBreadcrumb'
 
@@ -18,14 +17,10 @@ export function ContactBanner({
   breadcrumbLinkHub = true,
   className,
 }: ContactBannerProps) {
-  const reduceMotion = useReducedMotion()
-  const [videoFailed, setVideoFailed] = useState(false)
-  const showVideo = variant === 'media' && !reduceMotion && !videoFailed
-
   return (
     <section
       className={clsx(
-        'dark-surface relative px-4 pt-24 pb-6 sm:px-6 sm:pt-28 lg:pt-32',
+        'dark-surface relative px-4 pb-6 pt-6 sm:px-6 sm:pt-8',
         className,
       )}
     >
@@ -38,26 +33,11 @@ export function ContactBanner({
         >
           {variant === 'media' ? (
             <div className="absolute inset-0" aria-hidden>
-              {showVideo ? (
-                <video
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  preload="metadata"
-                  poster={HERO_POSTER_SRC}
-                  onError={() => setVideoFailed(true)}
-                >
-                  <source src={HERO_VIDEO_SRC} type="video/mp4" />
-                </video>
-              ) : (
-                <img
-                  src={HERO_POSTER_SRC}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                />
-              )}
+              <img
+                src={heroBg}
+                alt=""
+                className="absolute inset-0 h-full w-full object-cover object-center"
+              />
               <div className="absolute inset-0 bg-brand-950/75" />
               <div className="absolute inset-0 bg-gradient-to-br from-brand-950/90 via-brand-950/60 to-electric-600/25" />
             </div>

@@ -2,7 +2,10 @@ import clsx from 'clsx'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useId, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { NAV_THEME } from '../../data/navTheme'
 import { Container } from '../ui'
+
+const isLightNav = NAV_THEME === 'light'
 
 export type MegaMenuLink = {
   title: string
@@ -54,23 +57,46 @@ export function MegaMenuPanel({
           animate={{ opacity: 1, y: 0 }}
           exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
           transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-x-0 top-full z-[90] border-t border-line bg-surface-0 shadow-lg"
+          className={clsx(
+            'absolute inset-x-0 top-full z-40 border border-t',
+            isLightNav
+              ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_8px_24px_rgba(7,19,31,0.1)]'
+              : 'border-white/[0.08] border-t bg-[#1E2222] shadow-[0_16px_40px_rgba(0,0,0,0.35)]',
+          )}
         >
           <Container className="py-8">
             <div className="grid gap-8 lg:grid-cols-[minmax(12rem,16rem)_1fr] lg:gap-12">
-              <div className="border-b border-line pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8">
+              <div
+                className={clsx(
+                  'border-b pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8',
+                  isLightNav ? 'border-line' : 'border-white/10',
+                )}
+              >
                 <p
                   id={headingId}
-                  className="font-heading text-xl text-brand-950"
+                  className={clsx(
+                    'font-heading text-xl',
+                    isLightNav ? 'text-[#172B3A]' : 'text-on-dark',
+                  )}
                 >
                   {title}
                 </p>
-                <p className="mt-3 text-sm leading-relaxed text-ink-muted">
+                <p
+                  className={clsx(
+                    'mt-3 text-sm leading-relaxed',
+                    isLightNav ? 'text-ink-muted' : 'text-on-dark-muted',
+                  )}
+                >
                   {intro}
                 </p>
                 <Link
                   to={viewAllHref}
-                  className="mt-5 inline-flex text-sm font-semibold text-electric-600 hover:text-electric-500"
+                  className={clsx(
+                    'mt-5 inline-flex text-sm font-semibold transition-colors duration-200',
+                    isLightNav
+                      ? 'text-[#078BCB] hover:text-[#087FC1]'
+                      : 'text-[#078BCB] hover:text-electric-300',
+                  )}
                   onClick={onClose}
                 >
                   {viewAllLabel} →
@@ -82,17 +108,37 @@ export function MegaMenuPanel({
                     <Link
                       to={item.href}
                       className={clsx(
-                        'block min-w-0 rounded-lg border border-transparent px-3 py-2.5 transition-colors',
-                        'hover:border-line hover:bg-surface-50',
-                        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-500',
+                        'group',
+                        'block min-w-0 rounded-lg border border-transparent px-3 py-2.5 transition-colors duration-200',
+                        isLightNav
+                          ? 'hover:border-[#DCE5EA] hover:bg-[#E8EEF1]'
+                          : 'hover:border-line-dark hover:bg-white/5',
+                        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+                        isLightNav
+                          ? 'focus-visible:outline-[#078BCB]'
+                          : 'focus-visible:outline-electric-500',
                       )}
                       onClick={onClose}
                     >
-                      <span className="block truncate text-sm font-medium text-brand-950">
+                      <span
+                        className={clsx(
+                          'block truncate text-sm font-medium',
+                          isLightNav
+                            ? 'text-[#172B3A] group-hover:text-[#078BCB]'
+                            : 'text-on-dark group-hover:text-electric-300',
+                        )}
+                      >
                         {item.title}
                       </span>
                       {item.summary ? (
-                        <span className="mt-0.5 block truncate text-xs leading-snug text-ink-muted">
+                        <span
+                          className={clsx(
+                            'mt-0.5 block truncate text-xs leading-snug',
+                            isLightNav
+                              ? 'text-ink-muted'
+                              : 'text-on-dark-muted',
+                          )}
+                        >
                           {item.summary}
                         </span>
                       ) : null}
@@ -113,6 +159,7 @@ type MobileAccordionProps = {
   viewAllHref: string
   items: MegaMenuLink[]
   onNavigate: () => void
+  light?: boolean
 }
 
 export function MobileAccordionSection({
@@ -120,14 +167,28 @@ export function MobileAccordionSection({
   viewAllHref,
   items,
   onNavigate,
+  light = false,
 }: MobileAccordionProps) {
   return (
-    <details className="group border-b border-line-dark py-2">
-      <summary className="cursor-pointer list-none py-3 text-base font-medium text-on-dark marker:content-none [&::-webkit-details-marker]:hidden">
+    <details
+      className={clsx(
+        'group border-b py-2',
+        light ? 'border-[#DCE5EA]' : 'border-line-dark',
+      )}
+    >
+      <summary
+        className={clsx(
+          'cursor-pointer list-none py-3 text-base font-medium marker:content-none [&::-webkit-details-marker]:hidden',
+          light ? 'text-[#172B3A]' : 'text-on-dark',
+        )}
+      >
         <span className="flex items-center justify-between">
           {title}
           <span
-            className="text-on-dark-muted transition-transform group-open:rotate-180"
+            className={clsx(
+              'transition-transform group-open:rotate-180',
+              light ? 'text-[#172B3A]/70' : 'text-on-dark-muted',
+            )}
             aria-hidden
           >
             ▾
@@ -139,7 +200,12 @@ export function MobileAccordionSection({
           <li key={item.href}>
             <Link
               to={item.href}
-              className="block rounded-md py-2.5 text-sm text-on-dark-muted hover:text-on-dark"
+              className={clsx(
+                'block rounded-md py-2.5 text-sm transition-colors duration-200',
+                light
+                  ? 'text-[#172B3A]/80 hover:text-[#078BCB]'
+                  : 'text-on-dark-muted hover:text-on-dark',
+              )}
               onClick={onNavigate}
             >
               {item.title}
@@ -149,7 +215,10 @@ export function MobileAccordionSection({
         <li>
           <Link
             to={viewAllHref}
-            className="mt-2 inline-block text-sm font-medium text-electric-400"
+            className={clsx(
+              'mt-2 inline-block text-sm font-medium transition-colors duration-200',
+              light ? 'text-[#078BCB]' : 'text-electric-400',
+            )}
             onClick={onNavigate}
           >
             View all →
@@ -164,10 +233,12 @@ export function MobileNavDrawer({
   open,
   onClose,
   children,
+  light = false,
 }: {
   open: boolean
   onClose: () => void
   children: ReactNode
+  light?: boolean
 }) {
   const reduceMotion = useReducedMotion()
 
@@ -189,7 +260,12 @@ export function MobileNavDrawer({
 
   return (
     <motion.div
-      className="dark-surface fixed inset-0 z-[120] bg-brand-950 lg:hidden"
+      className={clsx(
+        'fixed inset-0 z-[120] lg:hidden',
+        light
+          ? 'bg-[#F0F4F6] text-[#172B3A] shadow-[0_4px_18px_rgba(7,19,31,0.08)]'
+          : 'dark-surface bg-[#000000]',
+      )}
       initial={reduceMotion ? false : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

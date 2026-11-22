@@ -2,7 +2,7 @@ import { Seo } from '../components/layout/Seo'
 import { company } from '../data'
 import { ApproachTimeline } from '../sections/ApproachTimeline'
 import { FinalCta } from '../sections/FinalCta'
-import { HeroSection } from '../sections/HeroSection'
+import { HomeHeroCurtain } from '../sections/home/HomeHeroCurtain'
 import { InsightsFeature } from '../sections/InsightsFeature'
 import { IntroSection } from '../sections/IntroSection'
 import { CategoryCards } from '../components/category/CategoryCards'
@@ -18,16 +18,17 @@ export default function HomePage() {
         title="Home"
         description={company.mission}
       />
-      <HeroSection />
-      <IntroSection />
-      <CategoryCards />
-      <SoftwareInnovationLinks />
-      <CarevieSpotlight />
-      <WhyZeldapro />
-      <ApproachTimeline />
-      <TechMatrix />
-      <InsightsFeature />
-      <FinalCta />
+      <HomeHeroCurtain>
+        <IntroSection />
+        <CategoryCards />
+        <SoftwareInnovationLinks />
+        <CarevieSpotlight />
+        <WhyZeldapro />
+        <ApproachTimeline />
+        <TechMatrix />
+        <InsightsFeature />
+        <FinalCta />
+      </HomeHeroCurtain>
     </>
   )
 }

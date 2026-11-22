@@ -80,7 +80,11 @@ class FibersErrorBoundary extends Component<
   }
 }
 
-export function HeroFibersLayer() {
+type HeroFibersLayerProps = {
+  paused?: boolean
+}
+
+export function HeroFibersLayer({ paused = false }: HeroFibersLayerProps) {
   const narrow = useNarrowViewport()
   const [webglOk, setWebglOk] = useState(false)
 
@@ -95,7 +99,7 @@ export function HeroFibersLayer() {
   return (
     <FibersErrorBoundary>
       <Suspense fallback={null}>
-        <GhostFibers {...props} />
+        <GhostFibers {...props} paused={paused} />
       </Suspense>
     </FibersErrorBoundary>
   )

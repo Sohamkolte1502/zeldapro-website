@@ -14,7 +14,7 @@ export default function SoftwarePage() {
         description={softwarePage.subtext}
       />
       <div className="dark-surface bg-brand-950">
-        <Container className="relative z-10 pt-24 sm:pt-28">
+        <Container className="relative z-10 pt-6 sm:pt-8">
           <MarketingBreadcrumb current={softwarePage.breadcrumb} />
         </Container>
         <EnterprisePageHero
@@ -32,7 +32,7 @@ export default function SoftwarePage() {
               <li
                 key={item.id}
                 id={item.id}
-                className="scroll-mt-28 rounded-2xl border border-line bg-surface-0 p-6 shadow-sm"
+                className="scroll-mt-nav rounded-2xl border border-line bg-surface-0 p-6 shadow-sm"
               >
                 <div className="flex gap-4">
                   <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-electric-500/10 text-electric-600">

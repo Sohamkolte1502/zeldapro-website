@@ -1,9 +1,9 @@
 import type { Solution } from '../../../data'
-import { industryBySlug, solutions } from '../../../data'
+import { industryBySlug } from '../../../data'
 import { contactSolutionsPath } from '../../../utils/contactPaths'
 import { servicesForSolution } from '../../../utils/relatedContent'
 import { PageCta } from '../PageCta'
-import { DetailHero } from '../detail/DetailHero'
+import { DetailPageCurtain } from '../detail/DetailPageCurtain'
 import { RelatedCarousel } from '../detail/RelatedCarousel'
 import { RelevantServicesOfferingsPanel } from '../detail/RelevantServicesOfferingsPanel'
 import { DetailSection } from '../detail/DetailSection'
@@ -48,11 +48,6 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
     .map((slug) => industryBySlug[slug as keyof typeof industryBySlug])
     .filter(Boolean)
 
-  const solutionDropdown = solutions.map((s) => ({
-    title: s.title,
-    href: `/ai-solutions/${s.slug}`,
-  }))
-
   const sectionNavItems = BASE_SECTIONS.filter((item) =>
     sectionVisible(
       item.id,
@@ -68,22 +63,20 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
   })
 
   return (
-    <>
-      <DetailHero
-        slug={solution.slug}
-        eyebrow="AI Solution"
-        title={solution.title}
-        description={solution.whatItIs}
-        contactHref={contactSolutionsPath()}
-        resolveHeroImage={getSolutionHeroImage}
-        breadcrumb={{
+    <DetailPageCurtain
+      heroProps={{
+        slug: solution.slug,
+        eyebrow: 'AI Solution',
+        title: solution.title,
+        description: solution.whatItIs,
+        resolveHeroImage: getSolutionHeroImage,
+        breadcrumb: {
           parentLabel: 'AI Solutions',
-          parentHref: '/ai-solutions',
-          parentDropdown: solutionDropdown,
           currentLabel: solution.title,
-        }}
-      />
-
+        },
+        contactHref: contactSolutionsPath(),
+      }}
+    >
       {sectionNavItems.length > 0 ? (
         <SectionNav items={sectionNavItems} />
       ) : null}
@@ -136,6 +129,6 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
       ) : null}
 
       <PageCta contactTo={contactSolutionsPath()} />
-    </>
+    </DetailPageCurtain>
   )
 }

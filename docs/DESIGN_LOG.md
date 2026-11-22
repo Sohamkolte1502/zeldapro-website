@@ -1,8 +1,46 @@
-## 2026-11-22 — Homepage hero: React Bits GhostFibers
+## 2026-11-22 — Detail pages: TCS hero, curtain, Let&apos;s talk form
 
-- Registry files `src/components/GhostFibers.jsx` + `.css` (React Bits fetch) with `GhostFibers.d.ts`; lazy-loaded via `HeroFibersLayer` (WebGL2 guard, error boundary, code-split chunk).
-- `HERO_BACKGROUND` in `src/data/hero.ts` defaults to `fibers` on navy `#0B1424`; set to `video` for legacy MP4/poster. Mobile &lt;768px: `threads` 30, `layers` 2, `particles` 0.15, `mouseInteraction` false.
-- No text-only scrim added — headline/taglines remain readable over fibers in browser check.
+- **Services / AI Solutions / Industries** detail: removed `BreadcrumbBar` strip (second nav). Hero is full-bleed image + gradient, breadcrumb trail on hero, headline/summary from data; **Let&apos;s talk** → topic contact routes (same as prior Get in touch / `PageCta`). **`DetailPageCurtain`** + `StickyHero` scroll-over reveal (md+). No inline form under hero.
+
+## 2026-11-22 — Nav `#000000` / expanded `#1E2222`
+
+- Default bar: **`#000000`**, links **`#FFFFFF`**, Contact CTA unchanged. When a mega/dropdown is open, bar + panel switch to **`#1E2222`** (200ms transition). Mobile drawer: `#000000`.
+
+## 2026-11-22 — TCS-style charcoal navbar + mega panels (superseded)
+
+## 2026-11-22 — Approved light corporate navbar palette (superseded)
+
+- Bar/dropdowns/mobile drawer: `#F0F4F6`, border `#DCE5EA`, shadow `0 4px 18px rgba(7,19,31,0.08)`. Links `#172B3A` → hover/active `#078BCB`. CTA `#087FC1` / `#FFFFFF`. Tokens in `src/data/navTheme.ts` (`NAV_LIGHT`).
+
+## 2026-11-22 — Light nav bar `#ECF1F2` (superseded)
+
+- Navbar + desktop mega / simple drop panels: `bg-[#ECF1F2]` (was `#FFFFFF`).
+
+## 2026-11-22 — Curtain reveal fix + page surface `#F6F8F9`
+
+- **White gap / hero scroll-away:** `StickyHero` no longer re-gates `md` (parent only); hero keeps `min-h-[calc(100svh-var(--nav-h))]` in curtain mode so it cannot collapse. Sticky uses `top-0` (pins under fixed nav like TCS). `<main>` uses `overflow-x-clip` so sticky isn’t broken by `overflow-x-hidden`.
+- **`--color-surface-0`** → `#f6f8f9` (matches `surface-50`); navbar / mega-menus stay **`#FFFFFF`**.
+
+## 2026-11-22 — Homepage hero curtain reveal (TCS-style)
+
+- **`StickyHero`** (`src/components/layout/StickyHero.tsx`): `sticky` + `top: var(--nav-h)` + `height: calc(100svh - var(--nav-h))`, `z-0`, md+ only; disabled for `<768px` and `prefers-reduced-motion` (normal scroll).
+- **`HomeHeroCurtain`**: wraps hero + rest of home; post-hero stack is `relative z-10 bg-surface-0` with top edge `shadow-[0_-12px_40px_rgba(11,20,36,0.18)]`. `useScroll` / `useTransform` on hero progress: `translateY` 0→−40px, opacity 1→0.4, scale 1→0.97; GhostFibers `paused` when progress ≥ 0.95 (no remount).
+- **Sticky ancestors:** navbar stays `fixed z-50`; layout `pt-[var(--nav-h)]`. `<main>` keeps `overflow-x-hidden` (document scrollport); no transform on `PageTransition` opacity-only. Hero section `overflow-hidden` is inside the sticky box only.
+
+## 2026-11-22 — Fixed navbar pinning (light bar)
+
+- **Cause:** `position: sticky` on the header inside `MainLayout`’s `overflow-x-hidden` flex wrapper — sticky is confined/broken by the overflow ancestor, so the bar scrolled away.
+- Navbar is now **`fixed inset-x-0 top-0 z-50`**; layout shell uses **`pt-[var(--nav-h)]`** once; horizontal clip moved to `<main>`. Light bar: solid `#FFFFFF`, `#E1E8F2` border; `scrollY > 8` adds `0 4px 24px rgba(11,20,36,0.10)` (200ms). Mega-menus: white + border + shadow under the bar.
+
+## 2026-11-22 — TCS-style solid navbar (earlier)
+
+- `NAV_THEME` (`light`): navy links, `#2878F0` Contact; `--nav-h` 64/76px; logo `logo-new.png.png`; hero offsets and scroll anchors per `--nav-h`.
+
+## 2026-11-22 — Homepage hero: copy, layout, fibers-only
+
+- Hero background is **only** navy `#0B1424` + GhostFibers (`HeroFibersLayer` unchanged); homepage video/poster removed (`public/videos/hero.mp4`, `src/config/heroMedia.ts`, `src/data/hero.ts`).
+- Bondist-style left-aligned block: eyebrow pill, exact headline (`Smarter Enterprise.` in electric blue), senior description, CTAs → `/services` and `/contact`; dual rotating tagline rows per BRIEF (no `docs/reference/index.html` in repo).
+- Contact banner `media` variant now uses bundled `src/assets/hero.png` (no shared video asset).
 
 ## 2026-11-18 — Design tokens & primitives (v0.1)
 

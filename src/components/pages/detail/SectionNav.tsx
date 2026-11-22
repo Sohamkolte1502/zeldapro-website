@@ -41,7 +41,7 @@ export function SectionNav({ items }: SectionNavProps) {
   return (
     <nav
       aria-label="On this page"
-      className="sticky top-[5.25rem] z-40 border-b border-[#E1E8F2] bg-white/95 backdrop-blur-sm sm:top-[6rem]"
+      className="sticky top-[var(--nav-h)] z-40 border-b border-[#DCE5EA] bg-[#F6F8F9]/95 backdrop-blur-sm"
     >
       <div className="mx-auto w-full max-w-content px-5 sm:px-6 lg:px-8">
         <ul className="flex gap-1 overflow-x-auto py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:gap-2 [&::-webkit-scrollbar]:hidden">

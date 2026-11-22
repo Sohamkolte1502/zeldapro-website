@@ -1,25 +1,32 @@
 import clsx from 'clsx'
-import {
-  BreadcrumbBar,
-  type BreadcrumbDropdownItem,
-} from './BreadcrumbBar'
+import { ArrowRight } from 'lucide-react'
+import { motion, type MotionValue } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { getIndustryHeroImage } from './industryHeroImages'
 
 export type ResolveHeroImage = (slug: string) => string | null
 
-type DetailHeroProps = {
+export type DetailHeroBreadcrumb = {
+  parentLabel: string
+  currentLabel: string
+}
+
+export type DetailCurtainMotion = {
+  y: MotionValue<number>
+  opacity: MotionValue<number>
+  scale: MotionValue<number>
+}
+
+export type DetailHeroProps = {
   slug: string
   eyebrow: string
   title: string
   description: string
-  breadcrumb: {
-    parentLabel: string
-    parentHref: string
-    parentDropdown: BreadcrumbDropdownItem[]
-    currentLabel: string
-  }
+  breadcrumb: DetailHeroBreadcrumb
   contactHref: string
   resolveHeroImage?: ResolveHeroImage
+  curtainMotion?: DetailCurtainMotion
+  fillSticky?: boolean
 }
 
 function HeroMedia({
@@ -54,7 +61,7 @@ function HeroMedia({
       >
         <defs>
           <pattern
-            id={`industry-placeholder-grid-${slug}`}
+            id={`detail-placeholder-grid-${slug}`}
             width="40"
             height="40"
             patternUnits="userSpaceOnUse"
@@ -71,7 +78,7 @@ function HeroMedia({
         <rect
           width="100%"
           height="100%"
-          fill={`url(#industry-placeholder-grid-${slug})`}
+          fill={`url(#detail-placeholder-grid-${slug})`}
         />
       </svg>
       {dev ? (
@@ -83,6 +90,71 @@ function HeroMedia({
   )
 }
 
+function HeroContent({
+  eyebrow,
+  title,
+  description,
+  breadcrumb,
+  contactHref,
+  curtainMotion,
+}: {
+  eyebrow: string
+  title: string
+  description: string
+  breadcrumb: DetailHeroBreadcrumb
+  contactHref: string
+  curtainMotion?: DetailCurtainMotion
+}) {
+  const trail = `${breadcrumb.parentLabel.toUpperCase()} / ${breadcrumb.currentLabel.toUpperCase()}`
+
+  const inner = (
+    <>
+      <p className="text-xs font-medium tracking-[0.22em] text-on-dark/85">
+        {trail}
+      </p>
+      <p className="mt-3 text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
+        {eyebrow}
+      </p>
+      <h1 className="mt-4 max-w-3xl font-heading text-3xl leading-[1.1] text-on-dark sm:text-4xl lg:text-5xl">
+        {title}
+      </h1>
+      <p className="mt-5 max-w-2xl text-base leading-relaxed text-on-dark-muted sm:text-lg">
+        {description}
+      </p>
+      <Link
+        to={contactHref}
+        className="group mt-10 inline-flex items-center gap-4 text-on-dark transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric-400"
+      >
+        <span className="font-heading text-xl font-medium sm:text-2xl">
+          Let&apos;s talk
+        </span>
+        <span
+          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/35 bg-white/5 transition-colors group-hover:border-white/55 group-hover:bg-white/10"
+          aria-hidden
+        >
+          <ArrowRight size={22} />
+        </span>
+      </Link>
+    </>
+  )
+
+  if (curtainMotion) {
+    return (
+      <motion.div
+        style={{
+          y: curtainMotion.y,
+          opacity: curtainMotion.opacity,
+          scale: curtainMotion.scale,
+        }}
+      >
+        {inner}
+      </motion.div>
+    )
+  }
+
+  return <div>{inner}</div>
+}
+
 export function DetailHero({
   slug,
   eyebrow,
@@ -91,57 +163,42 @@ export function DetailHero({
   breadcrumb,
   contactHref,
   resolveHeroImage = getIndustryHeroImage,
+  curtainMotion,
+  fillSticky = false,
 }: DetailHeroProps) {
+  const heightClass = fillSticky
+    ? 'h-full min-h-[calc(100svh-var(--nav-h))]'
+    : 'min-h-[calc(100svh-var(--nav-h))]'
+
   return (
-    <header className="dark-surface relative overflow-hidden bg-brand-950 text-on-dark">
-      {/* Full-bleed media from top of main (under fixed navbar) */}
-      <div className="relative min-h-[22rem] sm:min-h-[22.5rem] lg:min-h-[30rem]">
+    <header
+      className={clsx(
+        'dark-surface relative flex flex-col overflow-hidden bg-brand-950 text-on-dark',
+        heightClass,
+      )}
+    >
+      <div className="relative min-h-0 flex-1">
         <HeroMedia slug={slug} resolveHeroImage={resolveHeroImage} />
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-b from-brand-950/75 via-brand-950/45 to-brand-950/65"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/55 to-brand-950/35"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-brand-950/95 via-brand-950/70 to-transparent sm:h-40"
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-brand-950/25"
           aria-hidden
         />
 
-        {/* Breadcrumb row sits just below navbar (Capgemini-style) */}
-        <div className="absolute inset-x-0 top-[5.25rem] z-20 sm:top-[6rem]">
-          <BreadcrumbBar
-            parentLabel={breadcrumb.parentLabel}
-            parentHref={breadcrumb.parentHref}
-            parentDropdown={breadcrumb.parentDropdown}
-            currentLabel={breadcrumb.currentLabel}
+        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-content px-5 pb-10 sm:px-6 sm:pb-12 lg:px-8 lg:pb-16">
+          <HeroContent
+            eyebrow={eyebrow}
+            title={title}
+            description={description}
+            breadcrumb={breadcrumb}
             contactHref={contactHref}
+            curtainMotion={curtainMotion}
           />
         </div>
       </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-content px-5 pb-0 sm:px-6 lg:px-8">
-        <div
-          className={clsx(
-            'rounded-2xl px-6 py-8 text-on-dark sm:px-8 sm:py-10',
-            'lg:relative lg:-mt-24 lg:mb-20 lg:w-[55%] lg:max-w-2xl',
-            '-mt-6 lg:shadow-lg',
-          )}
-          style={{
-            background:
-              'linear-gradient(135deg, #081d29 0%, #0a3d6e 55%, #2878F0 100%)',
-          }}
-        >
-          <p className="text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
-            {eyebrow}
-          </p>
-          <h1 className="mt-2 font-heading text-3xl leading-tight sm:text-4xl lg:text-[2.5rem]">
-            {title}
-          </h1>
-          <p className="mt-4 max-w-xl text-sm leading-relaxed text-on-dark-muted sm:text-base">
-            {description}
-          </p>
-        </div>
-      </div>
-      <div className="hidden h-20 lg:block" aria-hidden />
     </header>
   )
 }

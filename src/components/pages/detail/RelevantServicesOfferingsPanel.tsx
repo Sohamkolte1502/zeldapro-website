@@ -91,7 +91,7 @@ export function RelevantServicesOfferingsPanel({
   return (
     <section
       id={sectionId}
-      className="scroll-mt-32 border-t border-[#E1E8F2] py-14 sm:py-16 lg:scroll-mt-36"
+      className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
       style={{ backgroundColor: bandTone === 'muted' ? '#F5F7FA' : '#ffffff' }}
     >
       <Container>

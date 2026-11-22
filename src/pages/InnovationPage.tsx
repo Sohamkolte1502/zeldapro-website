@@ -16,7 +16,7 @@ export default function InnovationPage() {
     <>
       <Seo title="Innovation & R&D" description={innovationPage.subtext} />
       <div className="dark-surface bg-brand-950">
-        <Container className="relative z-10 pt-24 sm:pt-28">
+        <Container className="relative z-10 pt-6 sm:pt-8">
           <MarketingBreadcrumb current={innovationPage.breadcrumb} />
         </Container>
         <EnterprisePageHero

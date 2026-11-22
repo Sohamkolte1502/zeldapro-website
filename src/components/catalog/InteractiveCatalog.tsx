@@ -139,7 +139,7 @@ export function InteractiveCatalog({
     <motion.div className="dark-surface relative bg-brand-950 text-on-dark" initial={false}>
       <CatalogBackground id={bgId} />
 
-      <div className="relative pt-24 pb-6 sm:pt-28 lg:pt-32">
+      <div className="relative pb-6 pt-6 sm:pt-8">
         <Container>
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
             {eyebrow}
@@ -207,7 +207,7 @@ export function InteractiveCatalog({
             })}
           </ol>
 
-          <div className="sticky top-28 min-h-[28rem] self-start">
+          <div className="sticky top-[calc(var(--nav-h)+1rem)] min-h-[28rem] self-start">
             <AnimatePresence mode="wait">
               {active ? (
                 <PreviewPanel

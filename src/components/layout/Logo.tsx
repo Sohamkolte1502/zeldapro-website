@@ -1,33 +1,30 @@
 import clsx from 'clsx'
-import wordmark from '../../assets/logo/zeldapro-wordmark.jpg'
+import logoNew from '../../assets/logo/logo-new.png.png'
 
 export type LogoVariant = 'light' | 'dark'
 export type LogoSize = 'default' | 'compact'
 
 type LogoProps = {
   className?: string
-  /** Kept for call sites; wordmark carries its own background. */
+  /** Reserved for call sites; single asset used for all surfaces. */
   variant?: LogoVariant
   size?: LogoSize
 }
 
-export function Logo({
-  className,
-  size = 'default',
-}: LogoProps) {
-  const compact = size === 'compact'
+export function Logo({ className, size = 'default' }: LogoProps) {
+  const height = size === 'compact' ? 'h-9' : 'h-10'
 
   return (
     <span className={clsx('inline-flex max-w-full items-center', className)}>
       <img
-        src={wordmark}
+        src={logoNew}
         alt="Zeldapro"
-        width={640}
-        height={160}
+        width={160}
+        height={40}
         decoding="async"
         className={clsx(
-          'w-auto max-w-[min(100%,11rem)] object-contain object-left sm:max-w-[12.5rem]',
-          compact ? 'h-8 sm:h-9' : 'h-9 sm:h-10',
+          'w-auto max-w-[min(100%,10rem)] object-contain object-left sm:max-w-[11rem]',
+          height,
         )}
       />
     </span>

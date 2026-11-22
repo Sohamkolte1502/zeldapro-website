@@ -9,6 +9,7 @@ import {
   softwarePage,
   solutions,
 } from '../../data'
+import { NAV_THEME } from '../../data/navTheme'
 import { Container } from '../ui'
 import { Logo } from './Logo'
 import {
@@ -21,6 +22,8 @@ import { SimpleDropPanel } from './SimpleDropPanel'
 
 type MegaMenuKey = 'services' | 'solutions' | 'industries'
 type OpenMenuKey = MegaMenuKey | 'softwareInnovation'
+
+const isLightNav = NAV_THEME === 'light'
 
 const softwareInnovationLinks: MegaMenuLink[] = [
   {
@@ -89,19 +92,38 @@ const megaMenus: Record<
   },
 }
 
+const lightLinkBase =
+  'transition-[color,border-color] duration-200 ease-out'
+
 function navLinkClass({ isActive }: { isActive: boolean }) {
   return clsx(
-    'inline-flex whitespace-nowrap border-b-2 border-transparent px-1.5 py-1.5 text-[12px] font-medium text-on-dark/95 transition-colors lg:px-2 lg:text-[13px] xl:px-2.5 xl:text-sm',
-    'hover:border-electric-400 hover:text-on-dark',
-    isActive && 'border-electric-400 text-on-dark',
+    'inline-flex whitespace-nowrap border-b-2 border-transparent px-2 py-2 text-[15px] font-medium lg:text-base',
+    isLightNav
+      ? clsx(
+          lightLinkBase,
+          'text-[#172B3A] hover:border-[#078BCB] hover:text-[#078BCB]',
+        )
+      : 'text-white transition-colors duration-200 hover:border-[#078BCB] hover:text-white',
+    isActive &&
+      (isLightNav
+        ? 'border-[#078BCB] text-[#078BCB]'
+        : 'border-[#078BCB] text-white'),
   )
 }
 
 function megaTriggerClass(isOpen: boolean, sectionActive: boolean) {
   return clsx(
-    'inline-flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1.5 text-[12px] font-medium text-on-dark/95 transition-colors lg:px-2 lg:text-[13px] xl:px-2.5 xl:text-sm',
-    'hover:border-electric-400 hover:text-on-dark',
-    (isOpen || sectionActive) && 'border-electric-400 text-on-dark',
+    'inline-flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent px-2 py-2 text-[15px] font-medium lg:text-base',
+    isLightNav
+      ? clsx(
+          lightLinkBase,
+          'text-[#172B3A] hover:border-[#078BCB] hover:text-[#078BCB]',
+        )
+      : 'text-white transition-colors duration-200 hover:border-[#078BCB] hover:text-white',
+    (isOpen || sectionActive) &&
+      (isLightNav
+        ? 'border-[#078BCB] text-[#078BCB]'
+        : 'border-[#078BCB] text-white'),
   )
 }
 
@@ -138,18 +160,34 @@ export function Navbar() {
 
   const activeMega =
     openMenu && openMenu !== 'softwareInnovation' ? megaMenus[openMenu] : null
+  const menuExpanded = openMenu !== null
 
   return (
-    <header className="fixed inset-x-0 top-0 z-[100] border-b border-white/10 bg-brand-950/90 shadow-[0_4px_24px_rgb(8_29_41/0.35)] backdrop-blur-md">
+    <header
+      className={clsx(
+        'fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-200',
+        isLightNav
+          ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_4px_18px_rgba(7,19,31,0.08)]'
+          : clsx(
+              'border-white/[0.08] text-[#FFFFFF]',
+              menuExpanded ? 'bg-[#1E2222]' : 'bg-[#000000]',
+            ),
+      )}
+    >
       <div className="relative" onMouseLeave={closeMega}>
         <Container className="bg-transparent">
           <nav
             aria-label="Primary"
-            className="flex w-full items-center justify-between gap-2 py-2 lg:py-2.5"
+            className="flex h-[var(--nav-h)] w-full items-center justify-between gap-3"
           >
             <Link
               to="/"
-              className="shrink-0 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-400"
+              className={clsx(
+                'shrink-0 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+                isLightNav
+                  ? 'focus-visible:outline-[#078BCB]'
+                  : 'focus-visible:outline-electric-400',
+              )}
             >
               <Logo />
             </Link>
@@ -227,17 +265,19 @@ export function Navbar() {
               <Link
                 to="/contact"
                 onClick={closeMega}
-                className={clsx(
-                  'hidden items-center justify-center rounded-full bg-electric-600 px-3.5 py-1.5 text-[13px] font-semibold tracking-tight text-white transition-colors lg:inline-flex xl:px-4 xl:text-sm',
-                  'hover:bg-electric-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-400',
-                )}
+                className="hidden items-center justify-center rounded-full bg-[#087FC1] px-4 py-2 text-[15px] font-semibold tracking-tight text-white transition-colors duration-200 hover:bg-[#076CAA] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078BCB] lg:inline-flex lg:text-base"
               >
                 Contact Us
               </Link>
 
               <button
                 type="button"
-                className="inline-flex items-center justify-center rounded-full p-2 text-on-dark hover:bg-white/10 lg:hidden"
+                className={clsx(
+                  'inline-flex items-center justify-center rounded-md p-2 lg:hidden',
+                  isLightNav
+                    ? 'text-[#172B3A] transition-colors duration-200 hover:bg-[#DCE5EA]/60'
+                    : 'text-white hover:bg-white/10',
+                )}
                 aria-expanded={mobileOpen}
                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                 onClick={() => setMobileOpen((v) => !v)}
@@ -270,12 +310,21 @@ export function Navbar() {
         />
       </div>
 
-      <MobileNavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)}>
+      <MobileNavDrawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        light={isLightNav}
+      >
         <div className="mb-6 flex items-center justify-between">
           <Logo />
           <button
             type="button"
-            className="rounded-md p-2 text-on-dark hover:bg-white/10"
+            className={clsx(
+              'rounded-md p-2 transition-colors duration-200',
+              isLightNav
+                ? 'text-[#172B3A] hover:bg-[#DCE5EA]/60'
+                : 'text-on-dark hover:bg-white/10',
+            )}
             aria-label="Close menu"
             onClick={() => setMobileOpen(false)}
           >
@@ -283,7 +332,12 @@ export function Navbar() {
           </button>
         </div>
         <nav aria-label="Mobile primary">
-          <ul className="space-y-1 border-b border-line-dark pb-4">
+          <ul
+            className={clsx(
+              'space-y-1 border-b pb-4',
+              isLightNav ? 'border-[#DCE5EA]' : 'border-line-dark',
+            )}
+          >
             {[
               { to: '/', label: 'Home', end: true },
               { to: '/about', label: 'About Us' },
@@ -295,10 +349,14 @@ export function Navbar() {
                   end={item.end}
                   className={({ isActive }) =>
                     clsx(
-                      'block rounded-md border-l-2 py-3 pl-3 text-base font-medium',
-                      isActive
-                        ? 'border-electric-400 text-on-dark'
-                        : 'border-transparent text-on-dark-muted hover:text-on-dark',
+                      'block rounded-md border-l-2 py-3 pl-3 text-base font-medium transition-colors duration-200',
+                      isLightNav
+                        ? isActive
+                          ? 'border-[#078BCB] text-[#078BCB]'
+                          : 'border-transparent text-[#172B3A] hover:text-[#078BCB]'
+                        : isActive
+                          ? 'border-electric-400 text-on-dark'
+                          : 'border-transparent text-on-dark-muted hover:text-on-dark',
                     )
                   }
                   onClick={() => setMobileOpen(false)}
@@ -313,28 +371,32 @@ export function Navbar() {
             viewAllHref="/services"
             items={serviceLinks}
             onNavigate={() => setMobileOpen(false)}
+            light={isLightNav}
           />
           <MobileAccordionSection
             title="AI Solutions"
             viewAllHref="/ai-solutions"
             items={solutionLinks}
             onNavigate={() => setMobileOpen(false)}
+            light={isLightNav}
           />
           <MobileAccordionSection
             title="Industries"
             viewAllHref="/industries"
             items={industryLinks}
             onNavigate={() => setMobileOpen(false)}
+            light={isLightNav}
           />
           <MobileAccordionSection
             title="Software & Innovation"
             viewAllHref="/software"
             items={softwareInnovationLinks}
             onNavigate={() => setMobileOpen(false)}
+            light={isLightNav}
           />
           <Link
             to="/contact"
-            className="mt-6 flex w-full items-center justify-center rounded-md bg-on-dark px-5 py-3 text-sm font-semibold text-brand-950"
+            className="mt-6 flex w-full items-center justify-center rounded-md bg-[#087FC1] px-5 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:bg-[#076CAA]"
             onClick={() => setMobileOpen(false)}
           >
             Contact Us

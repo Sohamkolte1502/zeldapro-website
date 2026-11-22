@@ -1,11 +1,10 @@
 import type { Service } from '../../../data'
-import { services } from '../../../data'
 import { contactServicesPath } from '../../../utils/contactPaths'
 import { solutionsForService } from '../../../utils/relatedContent'
 import { PageCta } from '../PageCta'
 import { ChallengeList } from '../detail/ChallengeList'
 import { ChipList } from '../detail/ChipList'
-import { DetailHero } from '../detail/DetailHero'
+import { DetailPageCurtain } from '../detail/DetailPageCurtain'
 import { RelatedCarousel } from '../detail/RelatedCarousel'
 import { DetailSection } from '../detail/DetailSection'
 import { IconCardGrid } from '../detail/IconCardGrid'
@@ -47,10 +46,6 @@ function sectionVisible(
 
 export function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
   const relatedSolutions = solutionsForService(service)
-  const serviceDropdown = services.map((s) => ({
-    title: s.title,
-    href: `/services/${s.slug}`,
-  }))
 
   const sectionNavItems = BASE_SECTIONS.filter((item) =>
     sectionVisible(item.id, service, relatedSolutions.length),
@@ -62,22 +57,20 @@ export function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
   })
 
   return (
-    <>
-      <DetailHero
-        slug={service.slug}
-        eyebrow="Service"
-        title={service.title}
-        description={service.summary}
-        contactHref={contactServicesPath(service.slug)}
-        resolveHeroImage={getServiceHeroImage}
-        breadcrumb={{
+    <DetailPageCurtain
+      heroProps={{
+        slug: service.slug,
+        eyebrow: 'Service',
+        title: service.title,
+        description: service.summary,
+        resolveHeroImage: getServiceHeroImage,
+        breadcrumb: {
           parentLabel: 'Services',
-          parentHref: '/services',
-          parentDropdown: serviceDropdown,
           currentLabel: service.title,
-        }}
-      />
-
+        },
+        contactHref: contactServicesPath(service.slug),
+      }}
+    >
       {sectionNavItems.length > 0 ? (
         <SectionNav items={sectionNavItems} />
       ) : null}
@@ -140,6 +133,6 @@ export function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
       ) : null}
 
       <PageCta contactTo={contactServicesPath(service.slug)} />
-    </>
+    </DetailPageCurtain>
   )
 }

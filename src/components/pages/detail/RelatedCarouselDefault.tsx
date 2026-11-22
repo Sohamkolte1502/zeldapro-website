@@ -213,7 +213,7 @@ export function RelatedCarouselDefault({
   return (
     <section
       id={sectionId}
-      className="scroll-mt-32 border-t border-[#E1E8F2] bg-white py-14 sm:py-16 lg:scroll-mt-36"
+      className="scroll-mt-nav border-t border-[#E1E8F2] bg-white py-14 sm:py-16"
       aria-labelledby={`${regionId}-heading`}
     >
       <Container className="overflow-x-hidden">

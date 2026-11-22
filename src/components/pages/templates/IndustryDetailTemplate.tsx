@@ -10,7 +10,6 @@ import {
 } from 'lucide-react'
 import type { ReactNode } from 'react'
 import type { Industry } from '../../../data'
-import { industries } from '../../../data'
 import {
   servicesForIndustry,
   solutionsForIndustry,
@@ -19,7 +18,7 @@ import { contactIndustryPath } from '../../../utils/contactPaths'
 import { Badge } from '../../ui'
 import { Container } from '../../ui'
 import { PageCta } from '../PageCta'
-import { DetailHero } from '../detail/DetailHero'
+import { DetailPageCurtain } from '../detail/DetailPageCurtain'
 import { DetailLinkTiles } from '../detail/DetailLinkTiles'
 import { RelevantServicesOfferingsPanel } from '../detail/RelevantServicesOfferingsPanel'
 import { SectionNav } from '../detail/SectionNav'
@@ -62,8 +61,10 @@ function DetailSection({
   return (
     <section
       id={id}
-      className="scroll-mt-32 border-t border-[#E1E8F2] py-14 sm:py-16 lg:scroll-mt-36"
-      style={{ backgroundColor: tone === 'muted' ? '#F5F7FA' : '#ffffff' }}
+      className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
+      style={{
+        backgroundColor: tone === 'muted' ? '#E8EEF1' : '#f6f8f9',
+      }}
     >
       <Container>
         <h2 className="font-heading text-2xl text-brand-950 sm:text-3xl">{title}</h2>
@@ -129,11 +130,6 @@ export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps
   const relatedSolutions = solutionsForIndustry(industry)
   const heroDescription = industry.howAiHelps[0]
 
-  const industryDropdown = industries.map((i) => ({
-    title: i.title,
-    href: `/industries/${i.slug}`,
-  }))
-
   const sectionNavItems = SECTION_NAV.filter((item) => {
     if (item.id === 'relevant-services') return relatedServices.length > 0
     if (item.id === 'relevant-solutions') return relatedSolutions.length > 0
@@ -141,21 +137,19 @@ export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps
   })
 
   return (
-    <>
-      <DetailHero
-        slug={industry.slug}
-        eyebrow="Industry"
-        title={industry.title}
-        description={heroDescription}
-        contactHref={contactIndustryPath()}
-        breadcrumb={{
+    <DetailPageCurtain
+      heroProps={{
+        slug: industry.slug,
+        eyebrow: 'Industry',
+        title: industry.title,
+        description: heroDescription,
+        breadcrumb: {
           parentLabel: 'Industries',
-          parentHref: '/industries',
-          parentDropdown: industryDropdown,
           currentLabel: industry.title,
-        }}
-      />
-
+        },
+        contactHref: contactIndustryPath(),
+      }}
+    >
       <SectionNav items={[...sectionNavItems]} />
 
       <DetailSection id="industry-challenges" title="Industry challenges">
@@ -226,6 +220,6 @@ export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps
       </DetailSection>
 
       <PageCta contactTo={contactIndustryPath()} />
-    </>
+    </DetailPageCurtain>
   )
 }

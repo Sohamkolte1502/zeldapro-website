@@ -1,7 +1,11 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { useEffect, useId } from 'react'
 import { Link } from 'react-router-dom'
+import clsx from 'clsx'
+import { NAV_THEME } from '../../data/navTheme'
 import { Container } from '../ui'
+
+const isLightNav = NAV_THEME === 'light'
 import type { MegaMenuLink } from './MegaMenuPanel'
 
 type SimpleDropPanelProps = {
@@ -42,7 +46,12 @@ export function SimpleDropPanel({
           animate={{ opacity: 1, y: 0 }}
           exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
           transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
-          className="absolute inset-x-0 top-full z-[90] border-t border-line bg-surface-0 shadow-lg"
+          className={clsx(
+            'absolute inset-x-0 top-full z-40 border border-t',
+            isLightNav
+              ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_8px_24px_rgba(7,19,31,0.1)]'
+              : 'border-white/[0.08] border-t bg-[#1E2222] shadow-[0_16px_40px_rgba(0,0,0,0.35)]',
+          )}
         >
           <Container className="py-6">
             <p id={headingId} className="sr-only">
@@ -53,14 +62,33 @@ export function SimpleDropPanel({
                 <li key={item.href}>
                   <Link
                     to={item.href}
-                    className="block rounded-lg border border-line px-4 py-3 transition-colors hover:border-electric-500/40 hover:bg-surface-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-600"
+                    className={clsx(
+                      'block rounded-lg border px-4 py-3 transition-colors duration-200',
+                      isLightNav
+                        ? 'border-[#DCE5EA] hover:border-[#078BCB]/35 hover:bg-[#E8EEF1]'
+                        : 'border-line-dark hover:border-electric-500/40 hover:bg-white/5',
+                      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+                      isLightNav
+                        ? 'focus-visible:outline-[#078BCB]'
+                        : 'focus-visible:outline-electric-600',
+                    )}
                     onClick={onClose}
                   >
-                    <span className="font-heading text-base text-brand-950">
+                    <span
+                      className={clsx(
+                        'font-heading text-base',
+                        isLightNav ? 'text-[#172B3A]' : 'text-on-dark',
+                      )}
+                    >
                       {item.title}
                     </span>
                     {item.summary ? (
-                      <span className="mt-1 block text-sm text-ink-muted">
+                      <span
+                        className={clsx(
+                          'mt-1 block text-sm',
+                          isLightNav ? 'text-ink-muted' : 'text-on-dark-muted',
+                        )}
+                      >
                         {item.summary}
                       </span>
                     ) : null}

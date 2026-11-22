@@ -82,7 +82,7 @@ export function PageHeaderBand({
   return (
     <section className="dark-surface relative h-[280px] bg-brand-950 text-on-dark">
       <BandBackground id={bgId} backgroundImage={backgroundImage} />
-      <Container className="relative z-10 flex h-full flex-col justify-end pb-10 pt-24 sm:pb-12">
+      <Container className="relative z-10 flex h-full flex-col justify-end pb-10 sm:pb-12">
         <p className="text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
           {eyebrow}
         </p>
