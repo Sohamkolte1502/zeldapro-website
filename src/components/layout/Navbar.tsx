@@ -1,0 +1,346 @@
+import clsx from 'clsx'
+import { Menu, X } from 'lucide-react'
+import { useCallback, useEffect, useId, useState } from 'react'
+import { Link, NavLink, useLocation } from 'react-router-dom'
+import {
+  industries,
+  innovationPage,
+  services,
+  softwarePage,
+  solutions,
+} from '../../data'
+import { Container } from '../ui'
+import { Logo } from './Logo'
+import {
+  MegaMenuPanel,
+  MobileAccordionSection,
+  MobileNavDrawer,
+  type MegaMenuLink,
+} from './MegaMenuPanel'
+import { SimpleDropPanel } from './SimpleDropPanel'
+
+type MegaMenuKey = 'services' | 'solutions' | 'industries'
+type OpenMenuKey = MegaMenuKey | 'softwareInnovation'
+
+const softwareInnovationLinks: MegaMenuLink[] = [
+  {
+    title: 'Software',
+    href: '/software',
+    summary: softwarePage.subtext,
+  },
+  {
+    title: 'Innovation',
+    href: '/innovation',
+    summary: innovationPage.subtext,
+  },
+]
+
+const serviceLinks: MegaMenuLink[] = services.map((s) => ({
+  title: s.title,
+  href: `/services/${s.slug}`,
+  summary: s.summary,
+}))
+
+const solutionLinks: MegaMenuLink[] = solutions.map((s) => ({
+  title: s.title,
+  href: `/ai-solutions/${s.slug}`,
+  summary: s.whatItIs,
+}))
+
+const industryLinks: MegaMenuLink[] = industries.map((i) => ({
+  title: i.title,
+  href: `/industries/${i.slug}`,
+  summary: i.challenges[0],
+}))
+
+const megaMenus: Record<
+  MegaMenuKey,
+  {
+    label: string
+    title: string
+    intro: string
+    viewAllHref: string
+    items: MegaMenuLink[]
+  }
+> = {
+  services: {
+    label: 'Services',
+    title: 'AI & Technology Services',
+    intro:
+      'Advisory, engineering, and transformation services designed around measurable business outcomes.',
+    viewAllHref: '/services',
+    items: serviceLinks,
+  },
+  solutions: {
+    label: 'AI Solutions',
+    title: 'AI Solutions',
+    intro:
+      'Adaptable intelligence patterns shaped to your data, workflows, and controls.',
+    viewAllHref: '/ai-solutions',
+    items: solutionLinks,
+  },
+  industries: {
+    label: 'Industries',
+    title: 'Industries',
+    intro:
+      'Domain-aware engineering for complex, data-rich operating environments.',
+    viewAllHref: '/industries',
+    items: industryLinks,
+  },
+}
+
+function navLinkClass({ isActive }: { isActive: boolean }) {
+  return clsx(
+    'inline-flex whitespace-nowrap border-b-2 border-transparent px-1.5 py-1.5 text-[12px] font-medium text-on-dark/95 transition-colors lg:px-2 lg:text-[13px] xl:px-2.5 xl:text-sm',
+    'hover:border-electric-400 hover:text-on-dark',
+    isActive && 'border-electric-400 text-on-dark',
+  )
+}
+
+function megaTriggerClass(isOpen: boolean, sectionActive: boolean) {
+  return clsx(
+    'inline-flex items-center gap-1 whitespace-nowrap border-b-2 border-transparent px-1.5 py-1.5 text-[12px] font-medium text-on-dark/95 transition-colors lg:px-2 lg:text-[13px] xl:px-2.5 xl:text-sm',
+    'hover:border-electric-400 hover:text-on-dark',
+    (isOpen || sectionActive) && 'border-electric-400 text-on-dark',
+  )
+}
+
+export function Navbar() {
+  const location = useLocation()
+  const path = location.pathname
+  const servicesActive =
+    path === '/services' || path.startsWith('/services/')
+  const solutionsActive =
+    path === '/ai-solutions' || path.startsWith('/ai-solutions/')
+  const industriesActive =
+    path === '/industries' || path.startsWith('/industries/')
+  const softwareInnovationActive =
+    path === '/software' || path === '/innovation'
+  const [openMenu, setOpenMenu] = useState<OpenMenuKey | null>(null)
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const servicesMenuId = useId()
+  const solutionsMenuId = useId()
+  const industriesMenuId = useId()
+  const softwareInnovationMenuId = useId()
+
+  useEffect(() => {
+    setOpenMenu(null)
+    setMobileOpen(false)
+  }, [location.pathname])
+
+  const closeMega = useCallback(() => setOpenMenu(null), [])
+
+  const menuIds: Record<MegaMenuKey, string> = {
+    services: servicesMenuId,
+    solutions: solutionsMenuId,
+    industries: industriesMenuId,
+  }
+
+  const activeMega =
+    openMenu && openMenu !== 'softwareInnovation' ? megaMenus[openMenu] : null
+
+  return (
+    <header className="fixed inset-x-0 top-0 z-[100] border-b border-white/10 bg-brand-950/90 shadow-[0_4px_24px_rgb(8_29_41/0.35)] backdrop-blur-md">
+      <div className="relative" onMouseLeave={closeMega}>
+        <Container className="bg-transparent">
+          <nav
+            aria-label="Primary"
+            className="flex w-full items-center justify-between gap-2 py-2 lg:py-2.5"
+          >
+            <Link
+              to="/"
+              className="shrink-0 rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-400"
+            >
+              <Logo />
+            </Link>
+
+            <ul className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex">
+              <li>
+                <NavLink to="/" end className={navLinkClass}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/about" className={navLinkClass}>
+                  About Us
+                </NavLink>
+              </li>
+              {(Object.keys(megaMenus) as MegaMenuKey[]).map((key) => {
+                const menu = megaMenus[key]
+                const isOpen = openMenu === key
+                const sectionActive =
+                  key === 'services'
+                    ? servicesActive
+                    : key === 'solutions'
+                      ? solutionsActive
+                      : industriesActive
+                return (
+                  <li key={key} onMouseEnter={() => setOpenMenu(key)}>
+                    <button
+                      type="button"
+                      className={megaTriggerClass(isOpen, sectionActive)}
+                      aria-expanded={isOpen}
+                      aria-current={sectionActive ? 'page' : undefined}
+                      aria-controls={menuIds[key]}
+                      onClick={() => setOpenMenu(key)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Escape') closeMega()
+                      }}
+                    >
+                      {menu.label}
+                      <span aria-hidden className="text-[10px] opacity-80">
+                        ▾
+                      </span>
+                    </button>
+                  </li>
+                )
+              })}
+              <li onMouseEnter={() => setOpenMenu('softwareInnovation')}>
+                <button
+                  type="button"
+                  className={megaTriggerClass(
+                    openMenu === 'softwareInnovation',
+                    softwareInnovationActive,
+                  )}
+                  aria-expanded={openMenu === 'softwareInnovation'}
+                  aria-current={softwareInnovationActive ? 'page' : undefined}
+                  aria-controls={softwareInnovationMenuId}
+                  onClick={() => setOpenMenu('softwareInnovation')}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Escape') closeMega()
+                  }}
+                >
+                  {'Software & Innovation'}
+                  <span aria-hidden className="text-[10px] opacity-80">
+                    ▾
+                  </span>
+                </button>
+              </li>
+              <li>
+                <NavLink to="/insights" className={navLinkClass}>
+                  Insights
+                </NavLink>
+              </li>
+            </ul>
+
+            <div className="flex shrink-0 items-center gap-2">
+              <Link
+                to="/contact"
+                onClick={closeMega}
+                className={clsx(
+                  'hidden items-center justify-center rounded-full bg-electric-600 px-3.5 py-1.5 text-[13px] font-semibold tracking-tight text-white transition-colors lg:inline-flex xl:px-4 xl:text-sm',
+                  'hover:bg-electric-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-400',
+                )}
+              >
+                Contact Us
+              </Link>
+
+              <button
+                type="button"
+                className="inline-flex items-center justify-center rounded-full p-2 text-on-dark hover:bg-white/10 lg:hidden"
+                aria-expanded={mobileOpen}
+                aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                onClick={() => setMobileOpen((v) => !v)}
+              >
+                {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+              </button>
+            </div>
+          </nav>
+        </Container>
+
+        {activeMega && openMenu && openMenu !== 'softwareInnovation' ? (
+          <MegaMenuPanel
+            id={menuIds[openMenu]}
+            open
+            title={activeMega.title}
+            intro={activeMega.intro}
+            viewAllHref={activeMega.viewAllHref}
+            viewAllLabel={`View all ${activeMega.label.toLowerCase()}`}
+            items={activeMega.items}
+            onClose={closeMega}
+          />
+        ) : null}
+
+        <SimpleDropPanel
+          id={softwareInnovationMenuId}
+          open={openMenu === 'softwareInnovation'}
+          title="Software & Innovation"
+          items={softwareInnovationLinks}
+          onClose={closeMega}
+        />
+      </div>
+
+      <MobileNavDrawer open={mobileOpen} onClose={() => setMobileOpen(false)}>
+        <div className="mb-6 flex items-center justify-between">
+          <Logo />
+          <button
+            type="button"
+            className="rounded-md p-2 text-on-dark hover:bg-white/10"
+            aria-label="Close menu"
+            onClick={() => setMobileOpen(false)}
+          >
+            <X size={24} />
+          </button>
+        </div>
+        <nav aria-label="Mobile primary">
+          <ul className="space-y-1 border-b border-line-dark pb-4">
+            {[
+              { to: '/', label: 'Home', end: true },
+              { to: '/about', label: 'About Us' },
+              { to: '/insights', label: 'Insights' },
+            ].map((item) => (
+              <li key={item.to}>
+                <NavLink
+                  to={item.to}
+                  end={item.end}
+                  className={({ isActive }) =>
+                    clsx(
+                      'block rounded-md border-l-2 py-3 pl-3 text-base font-medium',
+                      isActive
+                        ? 'border-electric-400 text-on-dark'
+                        : 'border-transparent text-on-dark-muted hover:text-on-dark',
+                    )
+                  }
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <MobileAccordionSection
+            title="Services"
+            viewAllHref="/services"
+            items={serviceLinks}
+            onNavigate={() => setMobileOpen(false)}
+          />
+          <MobileAccordionSection
+            title="AI Solutions"
+            viewAllHref="/ai-solutions"
+            items={solutionLinks}
+            onNavigate={() => setMobileOpen(false)}
+          />
+          <MobileAccordionSection
+            title="Industries"
+            viewAllHref="/industries"
+            items={industryLinks}
+            onNavigate={() => setMobileOpen(false)}
+          />
+          <MobileAccordionSection
+            title="Software & Innovation"
+            viewAllHref="/software"
+            items={softwareInnovationLinks}
+            onNavigate={() => setMobileOpen(false)}
+          />
+          <Link
+            to="/contact"
+            className="mt-6 flex w-full items-center justify-center rounded-md bg-on-dark px-5 py-3 text-sm font-semibold text-brand-950"
+            onClick={() => setMobileOpen(false)}
+          >
+            Contact Us
+          </Link>
+        </nav>
+      </MobileNavDrawer>
+    </header>
+  )
+}

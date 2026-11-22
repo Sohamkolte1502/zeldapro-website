@@ -1,0 +1,66 @@
+---
+description: Zeldapro corporate website — stack, structure, content, and delivery rules
+alwaysApply: true
+---
+
+# Zeldapro project rules
+
+## Source of truth
+
+- **Company copy, services (9), AI solutions (6), industries (8), pages, and homepage sections:** `docs/BRIEF.md`
+- **Design tokens, layout decisions, and visual iteration notes:** `docs/DESIGN_LOG.md` (append as work progresses; do not overwrite history)
+
+Read the brief before implementing or changing user-facing content.
+
+## Stack (do not downgrade)
+
+- Vite + React + TypeScript (existing root project only—**no nested apps**)
+- Tailwind CSS **v4** via `@tailwindcss/vite` and `@import 'tailwindcss'` in global CSS
+- `react-router-dom` for routing
+- `framer-motion` for motion
+- `lucide-react` for icons
+- `react-helmet-async` for document title/meta
+- `clsx` for conditional classes
+
+Preserve existing Vite and TypeScript configuration unless a task explicitly requires a minimal, justified change.
+
+## Folder conventions
+
+| Path | Use |
+|------|-----|
+| `src/components/ui` | Reusable primitives (buttons, inputs, cards) |
+| `src/components/layout` | Header, footer, nav, topbar |
+| `src/sections` | Composable page sections (especially homepage) |
+| `src/pages` | Route-level page components |
+| `src/layouts` | App shells and shared layouts |
+| `src/data` | Static content arrays/objects sourced from the brief |
+| `src/hooks` | Custom React hooks |
+| `src/styles` | Global styles and Tailwind-related CSS when split from legacy files |
+| `src/assets/images` | Marketing and UI imagery |
+| `src/assets/logo` | Approved brand logos |
+
+Prefer data-driven UI: define copy in `src/data`, render in sections/pages.
+
+## Implementation standards
+
+- Match enterprise tone and claims in `docs/BRIEF.md`; no invented clients, metrics, or logos.
+- Validate **Carevie** and product claims against approved product facts before publishing.
+- Contact / lead forms must POST to `import.meta.env.VITE_FORM_ENDPOINT` (see `.env.example`).
+- Use semantic HTML, accessible labels, and keyboard-friendly navigation.
+- Brand theme color reference: `#081d29`.
+- Keep diffs focused; do not refactor unrelated template code in the same change.
+
+## Environment
+
+- Document required env vars in `.env.example`; never commit secrets.
+- Local development uses `.env` (gitignored) mirroring `.env.example`.
+
+## Scope discipline
+
+- Follow the user’s request: setup vs. page build vs. content migration are separate phases.
+- When asked only for project setup or configuration, do not implement full pages or marketing UI unless explicitly requested.
+
+## Quality
+
+- Run `npm run lint` after substantive TS/TSX edits.
+- Ensure `npm run build` passes before considering a feature complete (when building is in scope).

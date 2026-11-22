@@ -1,0 +1,33 @@
+import { Seo } from '../components/layout/Seo'
+import { company } from '../data'
+import { ApproachTimeline } from '../sections/ApproachTimeline'
+import { FinalCta } from '../sections/FinalCta'
+import { HeroSection } from '../sections/HeroSection'
+import { InsightsFeature } from '../sections/InsightsFeature'
+import { IntroSection } from '../sections/IntroSection'
+import { CategoryCards } from '../components/category/CategoryCards'
+import { SoftwareInnovationLinks } from '../sections/SoftwareInnovationLinks'
+import { CarevieSpotlight } from '../sections/CarevieSpotlight'
+import { TechMatrix } from '../sections/TechMatrix'
+import { WhyZeldapro } from '../sections/WhyZeldapro'
+
+export default function HomePage() {
+  return (
+    <>
+      <Seo
+        title="Home"
+        description={company.mission}
+      />
+      <HeroSection />
+      <IntroSection />
+      <CategoryCards />
+      <SoftwareInnovationLinks />
+      <CarevieSpotlight />
+      <WhyZeldapro />
+      <ApproachTimeline />
+      <TechMatrix />
+      <InsightsFeature />
+      <FinalCta />
+    </>
+  )
+}

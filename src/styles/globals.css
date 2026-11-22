@@ -1,0 +1,107 @@
+@import 'tailwindcss';
+@import './fonts.css';
+
+@theme {
+  --font-heading:
+    'Sora Variable', 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --font-body:
+    'Inter Variable', 'Inter', ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-950: #081d29;
+  --color-brand-900: #0a2433;
+  --color-brand-800: #0f3346;
+  --color-brand-700: #144158;
+  --color-brand-600: #1a5572;
+
+  --color-accent-600: #2c6e6b;
+  --color-accent-500: #3a8581;
+  --color-accent-400: #4f9e99;
+
+  --color-electric-600: #0284c7;
+  --color-electric-500: #0ea5e9;
+  --color-electric-400: #38bdf8;
+
+  --color-surface-0: #ffffff;
+  --color-surface-50: #f6f8f9;
+  --color-surface-100: #eef1f3;
+  --color-surface-200: #e2e7ea;
+  --color-surface-800: #152028;
+  --color-surface-900: #0c1218;
+
+  --color-ink: #0f1920;
+  --color-ink-muted: #4f5c64;
+  --color-ink-subtle: #7a868e;
+
+  --color-on-dark: #ecf1f2;
+  --color-on-dark-muted: #a3b0b5;
+  --color-on-dark-subtle: #738088;
+
+  --color-line: #dde3e7;
+  --color-line-dark: #1f2d38;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+
+  --shadow-sm: 0 1px 2px rgb(8 29 41 / 0.05);
+  --shadow-md: 0 4px 16px rgb(8 29 41 / 0.07);
+  --shadow-lg: 0 12px 40px rgb(8 29 41 / 0.09);
+
+  --width-narrow: 40rem;
+  --width-content: 72rem;
+  --width-wide: 80rem;
+
+  --spacing-section-y: clamp(4rem, 8vw, 6rem);
+  --spacing-block: clamp(1.25rem, 2.5vw, 2rem);
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+  }
+
+  body {
+    @apply bg-surface-50 font-body text-base leading-relaxed text-ink;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading font-medium tracking-tight;
+    color: inherit;
+  }
+}
+
+.dark-surface {
+  color: var(--color-on-dark);
+}
+
+.dark-surface :is(h1, h2, h3, h4) {
+  color: var(--color-on-dark);
+}
+
+.link-underline {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 0 1px;
+  transition: background-size 0.25s ease;
+}
+
+.link-underline:hover {
+  background-size: 100% 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link-underline {
+    transition: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
