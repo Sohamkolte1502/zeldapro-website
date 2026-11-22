@@ -153,11 +153,11 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
         <span className="inline-flex rounded-full border border-white/15 bg-white/5 px-3.5 py-1.5 text-xs font-medium uppercase tracking-[0.14em] text-on-dark/90 backdrop-blur-sm">
           {HERO_EYEBROW}
         </span>
-        <h1 className="mt-6 max-w-4xl text-left text-4xl leading-[1.08] text-on-dark sm:text-5xl lg:text-6xl">
+        <h1 className="hero-primary-text mt-6 max-w-4xl text-left text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
           {HERO_HEADLINE_LEAD}
           <span className="text-electric-400">{HERO_HEADLINE_ACCENT}</span>
         </h1>
-        <p className="mt-5 max-w-2xl text-left text-base leading-relaxed text-on-dark-muted sm:text-lg">
+        <p className="hero-primary-text mt-5 max-w-2xl text-left text-base leading-relaxed sm:text-lg">
           {HERO_DESCRIPTION}
         </p>
         {ctas}
@@ -179,13 +179,13 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
         </span>
       </motion.div>
       <motion.div variants={heroFadeIn} className="w-full">
-        <h1 className="mt-6 max-w-4xl text-left text-4xl leading-[1.08] text-on-dark sm:text-5xl lg:text-6xl">
+        <h1 className="hero-primary-text mt-6 max-w-4xl text-left text-4xl leading-[1.08] sm:text-5xl lg:text-6xl">
           {HERO_HEADLINE_LEAD}
           <span className="text-electric-400">{HERO_HEADLINE_ACCENT}</span>
         </h1>
       </motion.div>
       <motion.div variants={heroFadeIn} className="w-full">
-        <p className="mt-5 max-w-2xl text-left text-base leading-relaxed text-on-dark-muted sm:text-lg">
+        <p className="hero-primary-text mt-5 max-w-2xl text-left text-base leading-relaxed sm:text-lg">
           {HERO_DESCRIPTION}
         </p>
       </motion.div>
@@ -218,8 +218,8 @@ export function HeroSection({
   const inStickyCurtain = Boolean(curtainMotion)
 
   const sectionClass = inStickyCurtain
-    ? 'dark-surface relative flex h-full min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
-    : 'dark-surface relative flex min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
+    ? 'hero-section-overlay dark-surface relative flex h-full min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
+    : 'hero-section-overlay dark-surface relative flex min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
 
   const inner = (
     <>

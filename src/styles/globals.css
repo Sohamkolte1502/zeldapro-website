@@ -93,6 +93,29 @@
   }
 }
 
+.hero-section-overlay {
+  position: relative;
+}
+
+.hero-section-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.45) 50%,
+    rgba(0, 0, 0, 0.1) 100%
+  );
+}
+
+.hero-primary-text {
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
 .dark-surface {
   color: var(--color-on-dark);
 }

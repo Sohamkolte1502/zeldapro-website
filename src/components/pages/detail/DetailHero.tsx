@@ -115,10 +115,10 @@ function HeroContent({
       <p className="mt-3 text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
         {eyebrow}
       </p>
-      <h1 className="mt-4 max-w-3xl font-heading text-3xl leading-[1.1] text-on-dark sm:text-4xl lg:text-5xl">
+      <h1 className="hero-primary-text mt-4 max-w-3xl font-heading text-3xl leading-[1.1] sm:text-4xl lg:text-5xl">
         {title}
       </h1>
-      <p className="mt-5 max-w-2xl text-base leading-relaxed text-on-dark-muted sm:text-lg">
+      <p className="hero-primary-text mt-5 max-w-2xl text-base leading-relaxed sm:text-lg">
         {description}
       </p>
       <Link
@@ -177,16 +177,8 @@ export function DetailHero({
         heightClass,
       )}
     >
-      <div className="relative min-h-0 flex-1">
+      <div className="hero-section-overlay relative min-h-0 flex-1">
         <HeroMedia slug={slug} resolveHeroImage={resolveHeroImage} />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-r from-brand-950/90 via-brand-950/55 to-brand-950/35"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-brand-950/25"
-          aria-hidden
-        />
 
         <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-content px-5 pb-10 sm:px-6 sm:pb-12 lg:px-8 lg:pb-16">
           <HeroContent

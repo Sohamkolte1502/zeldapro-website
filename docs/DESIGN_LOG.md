@@ -181,3 +181,9 @@
 
 - Extracted `PageHeaderBand` (`backgroundImage`); `CategoryIndexBand` wraps it for `/services` unchanged.
 - `/ai-solutions` and `/industries` mirror services layout: header images under `src/assets/headers/`, 3+3 and 4+4 `CategoryPanelList`, links to detail slugs; row previews use `whatItIs` / first challenge from data.
+
+## 2026-11-23 — Industry hero assets + hero overlay
+
+- `industryHeroImages.ts`: multi-format glob (`jpg` / `jpeg` / `png` / `webp` / `avif`), slug resolution with format preference (jpeg → png → webp → avif); tolerant parse for misnamed `slug.jpg.<ext>` uploads until renamed to `slug.<ext>`.
+- Legacy `.webp` for slugs with new JPEG assets moved to `old-assets/industries-backup/` (not deleted).
+- Global `hero-section-overlay` (`::before` horizontal dark gradient) on `DetailHero`, `EnterprisePageHero`, `HeroSection`; `hero-primary-text` (white + text-shadow) on hero headlines and supporting copy for photo legibility.
