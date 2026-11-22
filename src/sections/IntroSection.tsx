@@ -33,7 +33,7 @@ export function IntroSection() {
             to="/about"
             className="link-underline mt-6 inline-block text-sm font-semibold text-brand-950"
           >
-            About Zeldapro
+            
           </Link>
         </Reveal>
         <ul className="space-y-6">

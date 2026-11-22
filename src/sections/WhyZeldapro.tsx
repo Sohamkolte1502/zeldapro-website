@@ -63,7 +63,6 @@ export function WhyZeldapro() {
               to="/about"
               className="link-underline mt-8 inline-block text-sm font-semibold text-electric-600"
             >
-              How we work
             </Link>
           </Reveal>
 
