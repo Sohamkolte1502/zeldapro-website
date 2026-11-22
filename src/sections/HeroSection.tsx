@@ -1,11 +1,5 @@
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import {
-  AnimatePresence,
-  motion,
-  useReducedMotion,
-  type MotionValue,
-} from 'framer-motion'
+import { motion, useReducedMotion, type MotionValue } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { Container } from '../components/ui'
 import { HeroFibersLayer } from './HeroFibersLayer'
@@ -17,20 +11,6 @@ const HERO_DESCRIPTION =
   'We help enterprises harness AI, modern software engineering and connected technologies to transform operations, unlock new possibilities and build lasting advantage.'
 const EXPLORE_CTA = { label: 'Explore our capabilities', to: '/services' }
 const TALK_CTA = { label: 'Talk to our experts', to: '/contact' }
-
-const CAPABILITY_TAGLINES = [
-  'AI Consulting',
-  'Technology Services',
-  'Software Products',
-] as const
-
-const ENGINEERING_TAGLINES = [
-  'Generative AI',
-  'Data Intelligence',
-  'Enterprise Engineering',
-] as const
-
-const LOOP_MS = 3200
 
 const heroStagger = {
   hidden: {},
@@ -46,73 +26,6 @@ const heroFadeIn = {
     y: 0,
     transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] as const },
   },
-}
-
-const loopFade = {
-  initial: { opacity: 0, y: 14 },
-  animate: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] as const },
-  },
-  exit: {
-    opacity: 0,
-    y: -10,
-    transition: { duration: 0.4, ease: [0.4, 0, 0.6, 1] as const },
-  },
-}
-
-function RotatingTaglineGroup({
-  items,
-  reduceMotion,
-  className,
-}: {
-  items: readonly string[]
-  reduceMotion: boolean | null
-  className?: string
-}) {
-  const [index, setIndex] = useState(0)
-  const line = items[index] ?? items[0]
-
-  useEffect(() => {
-    if (reduceMotion) return
-    const timer = window.setInterval(() => {
-      setIndex((prev) => (prev + 1) % items.length)
-    }, LOOP_MS)
-    return () => window.clearInterval(timer)
-  }, [reduceMotion, items.length])
-
-  const lineClass =
-    'text-sm font-medium tracking-wide text-electric-400 sm:text-base md:text-lg'
-
-  if (reduceMotion) {
-    return (
-      <p className={`${lineClass} ${className ?? ''}`} aria-live="polite">
-        {items[0]}
-      </p>
-    )
-  }
-
-  return (
-    <div
-      className={`relative flex min-h-[1.75rem] w-full max-w-full items-center sm:min-h-[2rem] ${className ?? ''}`}
-      aria-live="polite"
-      aria-atomic
-    >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.p
-          key={line}
-          className={`absolute inset-x-0 ${lineClass}`}
-          variants={loopFade}
-          initial="initial"
-          animate="animate"
-          exit="exit"
-        >
-          {line}
-        </motion.p>
-      </AnimatePresence>
-    </div>
-  )
 }
 
 function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
@@ -134,19 +47,6 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
     </div>
   )
 
-  const taglines = (
-    <div className="mt-10 w-full max-w-2xl space-y-2 border-t border-white/10 pt-8">
-      <RotatingTaglineGroup
-        items={CAPABILITY_TAGLINES}
-        reduceMotion={reduceMotion}
-      />
-      <RotatingTaglineGroup
-        items={ENGINEERING_TAGLINES}
-        reduceMotion={reduceMotion}
-      />
-    </div>
-  )
-
   if (reduceMotion) {
     return (
       <div className="flex w-full max-w-3xl flex-col items-start text-left">
@@ -161,7 +61,6 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
           {HERO_DESCRIPTION}
         </p>
         {ctas}
-        {taglines}
       </div>
     )
   }
@@ -191,9 +90,6 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
       </motion.div>
       <motion.div variants={heroFadeIn} className="w-full">
         {ctas}
-      </motion.div>
-      <motion.div variants={heroFadeIn} className="w-full">
-        {taglines}
       </motion.div>
     </motion.div>
   )
