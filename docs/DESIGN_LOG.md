@@ -186,4 +186,24 @@
 
 - `industryHeroImages.ts`: multi-format glob (`jpg` / `jpeg` / `png` / `webp` / `avif`), slug resolution with format preference (jpeg → png → webp → avif); tolerant parse for misnamed `slug.jpg.<ext>` uploads until renamed to `slug.<ext>`.
 - Legacy `.webp` for slugs with new JPEG assets moved to `old-assets/industries-backup/` (not deleted).
-- Global `hero-section-overlay` (`::before` horizontal dark gradient) on `DetailHero`, `EnterprisePageHero`, `HeroSection`; `hero-primary-text` (white + text-shadow) on hero headlines and supporting copy for photo legibility.
+- Global `hero-section-overlay` (`::before` horizontal dark gradient) on `DetailHero` and `EnterprisePageHero` (not homepage `HeroSection`); `hero-primary-text` (white + text-shadow) on hero headlines and supporting copy for photo legibility.
+
+## 2026-11-23 — AI solution hero assets (multi-format loader)
+
+- `solutionHeroImages.ts`: same pattern as industries—glob `src/assets/ai-solutions/*.{jpg,jpeg,png,webp,avif}`, format priority, tolerant `slug.jpg.<ext>` parsing; missing files return `null` (no build break).
+- Fix: hero files were under `src/assets/AI Solutions/` (not globs); copies placed in `src/assets/ai-solutions/`. `import.meta.glob` paths must be string literals (no `flatMap`).
+
+## 2026-11-23 — Footer simplification
+
+- Footer trimmed to brand column + **Company** (About, Insights, Contact), **Capabilities** (hub links to services / AI solutions / industries), and **Connect** (email, phone, site, social). Long per-item service/solution/industry lists removed; primary CTA **Talk to our experts**.
+
+## 2026-11-23 — Nav trim, contact form contrast, homepage sections
+
+- Navbar: removed **Home** and **Software & Innovation** (desktop + mobile); `/software` and `/innovation` routes unchanged.
+- Homepage: removed **Why Zeldapro** block; Carevie spotlight drops secondary “AI-enabled products” link.
+- Contact topic forms: white card + bordered fields on `bg-surface-100` for clearer separation from page background.
+- **Technology capabilities** (`TechMatrix`): 4-column capability cards with icons, numbered labels, gradient accents, hover lift, and soft ambient background.
+
+## 2026-11-23 — Service hero assets (multi-format loader)
+
+- `serviceHeroImages.ts`: same pattern as industries and AI solutions—glob `src/assets/services/*.{jpg,jpeg,png,webp,avif}`, format priority, tolerant `slug.jpg.<ext>` parsing; missing files return `null` (no build break).

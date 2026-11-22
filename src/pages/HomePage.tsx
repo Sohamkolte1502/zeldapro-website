@@ -9,7 +9,6 @@ import { CategoryCards } from '../components/category/CategoryCards'
 import { SoftwareInnovationLinks } from '../sections/SoftwareInnovationLinks'
 import { CarevieSpotlight } from '../sections/CarevieSpotlight'
 import { TechMatrix } from '../sections/TechMatrix'
-import { WhyZeldapro } from '../sections/WhyZeldapro'
 
 export default function HomePage() {
   return (
@@ -23,7 +22,6 @@ export default function HomePage() {
         <CategoryCards />
         <SoftwareInnovationLinks />
         <CarevieSpotlight />
-        <WhyZeldapro />
         <ApproachTimeline />
         <TechMatrix />
         <InsightsFeature />

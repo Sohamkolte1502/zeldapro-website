@@ -127,7 +127,7 @@ function FieldShell({
 }
 
 const fieldClass =
-  'w-full rounded-xl border border-transparent bg-surface-100 px-4 pb-3 pt-8 text-sm text-ink shadow-inner shadow-brand-950/[0.03] transition-[box-shadow,border-color] focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/35'
+  'w-full rounded-xl border border-line bg-white px-4 pb-3 pt-8 text-sm text-ink shadow-sm transition-[box-shadow,border-color] placeholder:text-ink-subtle focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/35'
 
 export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
   const formId = useId()
@@ -260,7 +260,7 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
 
   return (
     <form
-      className="max-w-3xl"
+      className="max-w-3xl rounded-2xl border border-line bg-white p-6 shadow-md sm:p-8 sm:shadow-lg"
       onSubmit={handleSubmit}
       noValidate
       aria-describedby={submitError ? statusId : undefined}

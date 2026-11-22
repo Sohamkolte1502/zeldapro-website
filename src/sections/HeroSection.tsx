@@ -114,8 +114,8 @@ export function HeroSection({
   const inStickyCurtain = Boolean(curtainMotion)
 
   const sectionClass = inStickyCurtain
-    ? 'hero-section-overlay dark-surface relative flex h-full min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
-    : 'hero-section-overlay dark-surface relative flex min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
+    ? 'dark-surface relative flex h-full min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
+    : 'dark-surface relative flex min-h-[calc(100svh-var(--nav-h))] flex-col overflow-hidden bg-[#0B1424] text-on-dark'
 
   const inner = (
     <>

@@ -2,13 +2,7 @@ import clsx from 'clsx'
 import { Menu, X } from 'lucide-react'
 import { useCallback, useEffect, useId, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import {
-  industries,
-  innovationPage,
-  services,
-  softwarePage,
-  solutions,
-} from '../../data'
+import { industries, services, solutions } from '../../data'
 import { NAV_THEME } from '../../data/navTheme'
 import { Container } from '../ui'
 import { Logo } from './Logo'
@@ -18,25 +12,10 @@ import {
   MobileNavDrawer,
   type MegaMenuLink,
 } from './MegaMenuPanel'
-import { SimpleDropPanel } from './SimpleDropPanel'
-
 type MegaMenuKey = 'services' | 'solutions' | 'industries'
-type OpenMenuKey = MegaMenuKey | 'softwareInnovation'
+type OpenMenuKey = MegaMenuKey
 
 const isLightNav = NAV_THEME === 'light'
-
-const softwareInnovationLinks: MegaMenuLink[] = [
-  {
-    title: 'Software',
-    href: '/software',
-    summary: softwarePage.subtext,
-  },
-  {
-    title: 'Innovation',
-    href: '/innovation',
-    summary: innovationPage.subtext,
-  },
-]
 
 const serviceLinks: MegaMenuLink[] = services.map((s) => ({
   title: s.title,
@@ -136,15 +115,11 @@ export function Navbar() {
     path === '/ai-solutions' || path.startsWith('/ai-solutions/')
   const industriesActive =
     path === '/industries' || path.startsWith('/industries/')
-  const softwareInnovationActive =
-    path === '/software' || path === '/innovation'
   const [openMenu, setOpenMenu] = useState<OpenMenuKey | null>(null)
   const [mobileOpen, setMobileOpen] = useState(false)
   const servicesMenuId = useId()
   const solutionsMenuId = useId()
   const industriesMenuId = useId()
-  const softwareInnovationMenuId = useId()
-
   useEffect(() => {
     setOpenMenu(null)
     setMobileOpen(false)
@@ -158,8 +133,7 @@ export function Navbar() {
     industries: industriesMenuId,
   }
 
-  const activeMega =
-    openMenu && openMenu !== 'softwareInnovation' ? megaMenus[openMenu] : null
+  const activeMega = openMenu ? megaMenus[openMenu] : null
   const menuExpanded = openMenu !== null
 
   return (
@@ -193,11 +167,6 @@ export function Navbar() {
             </Link>
 
             <ul className="hidden min-w-0 flex-1 items-center justify-center gap-0 lg:flex">
-              <li>
-                <NavLink to="/" end className={navLinkClass}>
-                  Home
-                </NavLink>
-              </li>
               <li>
                 <NavLink to="/about" className={navLinkClass}>
                   About Us
@@ -233,27 +202,6 @@ export function Navbar() {
                   </li>
                 )
               })}
-              <li onMouseEnter={() => setOpenMenu('softwareInnovation')}>
-                <button
-                  type="button"
-                  className={megaTriggerClass(
-                    openMenu === 'softwareInnovation',
-                    softwareInnovationActive,
-                  )}
-                  aria-expanded={openMenu === 'softwareInnovation'}
-                  aria-current={softwareInnovationActive ? 'page' : undefined}
-                  aria-controls={softwareInnovationMenuId}
-                  onClick={() => setOpenMenu('softwareInnovation')}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Escape') closeMega()
-                  }}
-                >
-                  {'Software & Innovation'}
-                  <span aria-hidden className="text-[10px] opacity-80">
-                    ▾
-                  </span>
-                </button>
-              </li>
               <li>
                 <NavLink to="/insights" className={navLinkClass}>
                   Insights
@@ -288,7 +236,7 @@ export function Navbar() {
           </nav>
         </Container>
 
-        {activeMega && openMenu && openMenu !== 'softwareInnovation' ? (
+        {activeMega && openMenu ? (
           <MegaMenuPanel
             id={menuIds[openMenu]}
             open
@@ -300,14 +248,6 @@ export function Navbar() {
             onClose={closeMega}
           />
         ) : null}
-
-        <SimpleDropPanel
-          id={softwareInnovationMenuId}
-          open={openMenu === 'softwareInnovation'}
-          title="Software & Innovation"
-          items={softwareInnovationLinks}
-          onClose={closeMega}
-        />
       </div>
 
       <MobileNavDrawer
@@ -339,14 +279,12 @@ export function Navbar() {
             )}
           >
             {[
-              { to: '/', label: 'Home', end: true },
               { to: '/about', label: 'About Us' },
               { to: '/insights', label: 'Insights' },
             ].map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
-                  end={item.end}
                   className={({ isActive }) =>
                     clsx(
                       'block rounded-md border-l-2 py-3 pl-3 text-base font-medium transition-colors duration-200',
@@ -384,13 +322,6 @@ export function Navbar() {
             title="Industries"
             viewAllHref="/industries"
             items={industryLinks}
-            onNavigate={() => setMobileOpen(false)}
-            light={isLightNav}
-          />
-          <MobileAccordionSection
-            title="Software & Innovation"
-            viewAllHref="/software"
-            items={softwareInnovationLinks}
             onNavigate={() => setMobileOpen(false)}
             light={isLightNav}
           />

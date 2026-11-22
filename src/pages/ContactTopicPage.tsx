@@ -32,7 +32,7 @@ export default function ContactTopicPage() {
         }
       />
 
-      <section className="bg-surface-0 py-12 sm:py-16">
+      <section className="bg-surface-100 py-12 sm:py-16">
         <Container>
           <header className="max-w-3xl">
             <h2 className="font-heading text-2xl text-brand-950 sm:text-3xl lg:text-4xl">

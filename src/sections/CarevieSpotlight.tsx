@@ -56,18 +56,12 @@ export function CarevieSpotlight() {
                 </li>
               ))}
             </ul>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8">
               <Link
                 to="/carevie"
                 className="inline-flex items-center justify-center rounded-md bg-brand-950 px-5 py-2.5 text-sm font-semibold text-on-dark transition-colors hover:bg-brand-900"
               >
                 Explore Carevie
-              </Link>
-              <Link
-                to="/ai-solutions/ai-enabled-digital-products"
-                className="link-underline text-sm font-semibold text-electric-600"
-              >
-                AI-enabled products
               </Link>
             </div>
           </Reveal>
