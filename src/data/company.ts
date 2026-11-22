@@ -60,7 +60,7 @@ export const company: CompanyProfile = {
   vision:
     'A world where enterprises adopt AI and modern engineering with clarity—improving decisions, operations, and experiences without sacrificing trust or accountability.',
   mission:
-    '',
+    'We partner with ambitious enterprises to turn AI opportunity into practical advantage—through strategy, secure engineering, and products teams can adopt with confidence.',
   values: [
     {
       title: 'Business-led thinking',

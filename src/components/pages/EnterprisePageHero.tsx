@@ -9,6 +9,8 @@ type EnterprisePageHeroProps = {
   backgroundImage?: string
   /** Full viewport height below fixed nav (homepage-style hero). */
   fullViewport?: boolean
+  /** CSS object-position for background photograph. */
+  imagePosition?: string
 }
 
 export function EnterprisePageHero({
@@ -17,6 +19,7 @@ export function EnterprisePageHero({
   description,
   backgroundImage,
   fullViewport = false,
+  imagePosition = '68% center',
 }: EnterprisePageHeroProps) {
   const patternId = useId().replace(/:/g, '')
 
@@ -34,7 +37,8 @@ export function EnterprisePageHero({
             <img
               src={backgroundImage}
               alt=""
-              className="absolute inset-0 h-full w-full object-cover object-[68%_center]"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: imagePosition }}
               width={1024}
               height={426}
               decoding="async"

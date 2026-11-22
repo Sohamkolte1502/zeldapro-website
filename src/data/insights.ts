@@ -62,6 +62,54 @@ export const insights: InsightArticle[] = [
     publishedAt: null,
     author: 'Zeldapro editorial (draft)',
   },
+  {
+    slug: 'draft-rag-patterns-for-regulated-enterprises',
+    title: 'RAG patterns for regulated enterprises',
+    summary:
+      'Grounding, citation, retention, and escalation design when assistants touch policy-heavy content.',
+    category: 'Responsible AI',
+    readMinutes: 9,
+    status: 'draft',
+    statusLabel: 'DRAFT',
+    publishedAt: null,
+    author: 'Zeldapro editorial (draft)',
+  },
+  {
+    slug: 'draft-agentic-workflows-with-approval-gates',
+    title: 'Agentic workflows with approval gates',
+    summary:
+      'Where autonomous steps help—and where explicit human checkpoints must stay non-negotiable.',
+    category: 'Engineering',
+    readMinutes: 8,
+    status: 'draft',
+    statusLabel: 'DRAFT',
+    publishedAt: null,
+    author: 'Zeldapro editorial (draft)',
+  },
+  {
+    slug: 'draft-health-data-platforms-and-consent',
+    title: 'Health data platforms and consent by design',
+    summary:
+      'Lessons from building governed personal health records—with patient control at the centre.',
+    category: 'Digital health',
+    readMinutes: 7,
+    status: 'draft',
+    statusLabel: 'DRAFT',
+    publishedAt: null,
+    author: 'Zeldapro editorial (draft)',
+  },
+  {
+    slug: 'draft-cloud-cost-and-reliability-for-ml',
+    title: 'Cloud cost and reliability for ML workloads',
+    summary:
+      'Right-sizing inference, batch vs. realtime paths, and operability trade-offs finance teams ask about.',
+    category: 'Cloud & platform',
+    readMinutes: 6,
+    status: 'draft',
+    statusLabel: 'DRAFT',
+    publishedAt: null,
+    author: 'Zeldapro editorial (draft)',
+  },
 ]
 
 export const insightBySlug = Object.fromEntries(
