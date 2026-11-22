@@ -124,3 +124,29 @@
     scroll-behavior: auto;
   }
 }
+
+@media print {
+  @page {
+    margin: 1.2cm;
+  }
+
+  body {
+    background: #fff !important;
+    color: #0f1920 !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  #privacy-policy-printable a {
+    color: #0284c7 !important;
+    text-decoration: underline;
+  }
+
+  #privacy-policy-printable article {
+    break-inside: avoid-page;
+  }
+
+  #privacy-policy-printable table {
+    break-inside: avoid;
+  }
+}

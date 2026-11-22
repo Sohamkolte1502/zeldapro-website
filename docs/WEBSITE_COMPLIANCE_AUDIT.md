@@ -46,7 +46,7 @@ The site **publicly displays unresolved placeholder organizational data** (legal
 | 3 | Company registration number | Not present | **NEEDS ORGANIZATION CONFIRMATION** |
 | 4 | Registered office address | `[Registered address — pending confirmation]` in data only | **NEEDS ORGANIZATION CONFIRMATION** — **not displayed on any page** |
 | 5 | Operating address | Not present | **NEEDS ORGANIZATION CONFIRMATION** |
-| 6 | Official email | `[enquiries@zeldapro.com — pending confirmation]` in footer as plain text (not `mailto:`) | **NEEDS ORGANIZATION CONFIRMATION** |
+| 6 | Official email | `enquiries@zeldapro.com — pending confirmation` in footer as plain text (not `mailto:`) | **NEEDS ORGANIZATION CONFIRMATION** |
 | 7 | Telephone | `[Published phone — optional, pending confirmation]` in footer | **NEEDS ORGANIZATION CONFIRMATION** |
 | 8 | Ownership / corporate identity | About page has vision/values only; no leadership, registration, or parent entity | **Incomplete** |
 | 9 | What the organization does | Clear enterprise AI/consulting positioning via `BRIEF.md` and service/solution pages | **Adequate for marketing** |

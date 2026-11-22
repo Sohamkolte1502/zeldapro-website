@@ -165,7 +165,7 @@ export function Navbar() {
   return (
     <header
       className={clsx(
-        'fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-200',
+        'fixed inset-x-0 top-0 z-50 w-full border-b transition-colors duration-200 print:hidden',
         isLightNav
           ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_4px_18px_rgba(7,19,31,0.08)]'
           : clsx(

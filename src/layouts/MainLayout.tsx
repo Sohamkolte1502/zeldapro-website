@@ -7,7 +7,7 @@ import { SkipToContent } from '../components/layout/SkipToContent'
 
 export function MainLayout() {
   return (
-    <div className="flex min-h-svh flex-col pt-[var(--nav-h)]">
+    <div className="flex min-h-svh flex-col pt-[var(--nav-h)] print:pt-0">
       <SkipToContent />
       <ScrollToTop />
       <Navbar />

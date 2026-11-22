@@ -9,20 +9,40 @@ export type ApproachStep = {
   summary: string
 }
 
+/** Footer / legal contact line — link when `href` is set */
+export type ContactHref = {
+  label: string
+  href: string | null
+}
+
+export type SocialContactHref = ContactHref & {
+  label: 'LinkedIn' | 'X' | 'YouTube'
+}
+
 export type ContactPlaceholders = {
   /** Replace with registered legal name before production — see BRIEF §10 */
   legalName: string
   /** Replace with verified address before production */
   registeredAddress: string
-  /** Replace with approved general enquiries inbox */
-  email: string
-  /** Replace with approved phone line, if published */
-  phone: string
+  /** Approved general enquiries inbox — enable mailto when confirmed */
+  email: ContactHref
+  /** Published phone line — enable tel: when confirmed */
+  phone: ContactHref
   /** Primary public website */
-  website: string
+  website: ContactHref
+  /** Org social profiles — replace placeholder hrefs when URLs are approved */
+  social: SocialContactHref[]
   /** Short line for form and footer context */
   enquiriesNote: string
 }
+
+/** Industries shown under footer “Industries & contact” (before full directory link). */
+export const footerIndustrySlugs = [
+  'healthcare-life-sciences',
+  'banking-financial-services',
+  'manufacturing-industrial',
+  'logistics-supply-chain',
+] as const
 
 export type CompanyProfile = {
   tagline: string
@@ -93,9 +113,35 @@ export const company: CompanyProfile = {
   contact: {
     legalName: '[Legal entity name — pending confirmation]',
     registeredAddress: '[Registered address — pending confirmation]',
-    email: '[enquiries@zeldapro.com — pending confirmation]',
-    phone: '[Published phone — optional, pending confirmation]',
-    website: 'https://www.zeldapro.com',
+    email: {
+      label: 'enquiries@zeldapro.com',
+      href: 'mailto:enquiries@zeldapro.com',
+    },
+    phone: {
+      label: '+91 7506 000 000',
+      href: 'tel:+917506000000',
+    },
+    website: {
+      label: 'https://www.zeldapro.com',
+      href: 'https://www.zeldapro.com',
+    },
+    social: [
+      {
+        label: 'LinkedIn',
+        // TODO: Add org-approved LinkedIn company URL (e.g. https://www.linkedin.com/company/…).
+        href: null,
+      },
+      {
+        label: 'X',
+        // TODO: Add org-approved X profile URL when ready.
+        href: null,
+      },
+      {
+        label: 'YouTube',
+        // TODO: Add org-approved YouTube channel URL (e.g. https://www.youtube.com/@…).
+        href: null,
+      },
+    ],
     enquiriesNote:
       'For enterprise AI, technology, and software enquiries worldwide.',
   },

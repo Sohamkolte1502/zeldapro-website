@@ -1,6 +1,16 @@
 # Zeldapro website
 
-Enterprise marketing site (React + TypeScript + Vite). Contact form submissions use `VITE_FORM_ENDPOINT` — copy `.env.example` to `.env` and set the endpoint before enabling the contact form in production.
+Enterprise marketing site (React + TypeScript + Vite). Contact forms (including **General Enquiry** at `/contact/general-enquiry`) POST JSON to `VITE_FORM_ENDPOINT`. A small Node API in `server/` sends submissions via Nodemailer using SMTP settings from `.env`.
+
+### Local contact form + email
+
+1. Copy `.env.example` to `.env` and fill in SMTP values (`SMTP_HOST`, `SMTP_EMAIL`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO`). For Gmail, use your address as `SMTP_EMAIL` and an [App Password](https://support.google.com/accounts/answer/185833) as `SMTP_PASS`.
+2. Keep `VITE_FORM_ENDPOINT=/api/contact` so Vite proxies to the API (see `vite.config.ts`).
+3. In one terminal: `npm run server`
+4. In another: `npm run dev`
+5. Submit a form; the API emails `MAIL_TO` with `replyTo` set to the visitor’s business email.
+
+Production: deploy the static site and run the contact API separately (or behind your reverse proxy at the same `/api/contact` path). Set `VITE_FORM_ENDPOINT` to the public API URL at build time.
 
 ---
 

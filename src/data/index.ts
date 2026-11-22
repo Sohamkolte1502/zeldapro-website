@@ -1,6 +1,15 @@
 export { aiDomains, type AiDomain } from './aiDomains'
 export { carevie, type CarevieFeature, type CarevieFeatureStatus } from './carevie'
-export { company, type CompanyProfile, type ApproachStep, type CompanyValue, type ContactPlaceholders } from './company'
+export {
+  company,
+  footerIndustrySlugs,
+  type CompanyProfile,
+  type ApproachStep,
+  type CompanyValue,
+  type ContactHref,
+  type ContactPlaceholders,
+  type SocialContactHref,
+} from './company'
 export { contactTopics, contactTopicBySlug, type ContactTopic } from './contactTopics'
 export {
   softwarePage,

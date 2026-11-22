@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { MainLayout } from './layouts/MainLayout'
 import AboutPage from './pages/AboutPage'
 import CareviePage from './pages/CareviePage'
@@ -42,6 +42,10 @@ function App() {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/contact/:topic" element={<ContactTopicPage />} />
           <Route path="/privacy" element={<PrivacyPage />} />
+          <Route
+            path="/privacy-policy"
+            element={<Navigate to="/privacy" replace />}
+          />
           <Route path="/terms" element={<TermsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
