@@ -1,10 +1,15 @@
 import clsx from 'clsx'
 import { ArrowRight, Loader2 } from 'lucide-react'
-import { type FormEvent, type ReactNode, useId, useMemo, useState } from 'react'
+import { type FormEvent, useId, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { services } from '../../data'
 import type { ContactTopic } from '../../data/contactTopics'
 import { contactTopicPath } from '../../utils/contactPaths'
+import {
+  contactFieldClass,
+  ContactFieldShell,
+  ContactToggleSwitch,
+} from './contactFormShared'
 
 type ContactFormProps = {
   topic: ContactTopic
@@ -35,99 +40,6 @@ function resolveInitialService(slug?: string): string {
   const valid = services.some((s) => s.slug === slug)
   return valid ? slug : SERVICE_OTHER
 }
-
-function ToggleSwitch({
-  id,
-  checked,
-  onChange,
-  label,
-  required,
-}: {
-  id: string
-  checked: boolean
-  onChange: (next: boolean) => void
-  label: ReactNode
-  required?: boolean
-}) {
-  return (
-    <div className="flex items-start gap-3">
-      <button
-        type="button"
-        role="switch"
-        id={id}
-        aria-checked={checked}
-        aria-required={required}
-        onClick={() => onChange(!checked)}
-        className={clsx(
-          'relative mt-0.5 h-7 w-12 shrink-0 rounded-full border transition-colors',
-          'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-600',
-          checked
-            ? 'border-electric-600 bg-electric-600'
-            : 'border-line bg-surface-200',
-        )}
-      >
-        <span
-          className={clsx(
-            'absolute top-0.5 left-0.5 h-5 w-5 rounded-full bg-white shadow-sm transition-transform',
-            checked && 'translate-x-5',
-          )}
-          aria-hidden
-        />
-      </button>
-      <span className="text-sm leading-relaxed text-ink-muted">
-        {label}
-        {required ? (
-          <span className="text-brand-950">
-            {' '}
-            <span aria-hidden>*</span>
-            <span className="sr-only"> (required)</span>
-          </span>
-        ) : null}
-      </span>
-    </div>
-  )
-}
-
-function FieldShell({
-  id,
-  label,
-  required,
-  error,
-  children,
-}: {
-  id: string
-  label: string
-  required?: boolean
-  error?: string
-  children: ReactNode
-}) {
-  const errorId = `${id}-error`
-  return (
-    <div className="relative">
-      <label
-        htmlFor={id}
-        className="pointer-events-none absolute left-4 top-3 z-10 text-xs font-medium text-ink-subtle"
-      >
-        {label}
-        {required ? (
-          <>
-            <span aria-hidden>*</span>
-            <span className="sr-only"> (required)</span>
-          </>
-        ) : null}
-      </label>
-      {children}
-      {error ? (
-        <p id={errorId} className="mt-1.5 text-xs text-red-700" role="alert">
-          {error}
-        </p>
-      ) : null}
-    </div>
-  )
-}
-
-const fieldClass =
-  'w-full rounded-xl border border-line bg-white px-4 pb-3 pt-8 text-sm text-ink shadow-sm transition-[box-shadow,border-color] placeholder:text-ink-subtle focus:border-electric-500 focus:outline-none focus:ring-2 focus:ring-electric-500/35'
 
 export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
   const formId = useId()
@@ -268,7 +180,7 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
       <HoneypotField value={honeypot} onChange={setHoneypot} />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <FieldShell
+        <ContactFieldShell
           id={`${formId}-name`}
           label="Name"
           required
@@ -282,15 +194,15 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             required
             value={values.name}
             onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
-            className={fieldClass}
+            className={contactFieldClass}
             aria-invalid={touched && !!errors.name}
             aria-describedby={
               touched && errors.name ? `${formId}-name-error` : undefined
             }
           />
-        </FieldShell>
+        </ContactFieldShell>
 
-        <FieldShell
+        <ContactFieldShell
           id={`${formId}-company`}
           label="Company"
           required
@@ -306,15 +218,15 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             onChange={(e) =>
               setValues((v) => ({ ...v, company: e.target.value }))
             }
-            className={fieldClass}
+            className={contactFieldClass}
             aria-invalid={touched && !!errors.company}
             aria-describedby={
               touched && errors.company ? `${formId}-company-error` : undefined
             }
           />
-        </FieldShell>
+        </ContactFieldShell>
 
-        <FieldShell
+        <ContactFieldShell
           id={`${formId}-email`}
           label="Business email"
           required
@@ -328,15 +240,15 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             required
             value={values.email}
             onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
-            className={fieldClass}
+            className={contactFieldClass}
             aria-invalid={touched && !!errors.email}
             aria-describedby={
               touched && errors.email ? `${formId}-email-error` : undefined
             }
           />
-        </FieldShell>
+        </ContactFieldShell>
 
-        <FieldShell id={`${formId}-phone`} label="Phone">
+        <ContactFieldShell id={`${formId}-phone`} label="Phone">
           <input
             id={`${formId}-phone`}
             name="phone"
@@ -344,13 +256,13 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             autoComplete="tel"
             value={values.phone}
             onChange={(e) => setValues((v) => ({ ...v, phone: e.target.value }))}
-            className={fieldClass}
+            className={contactFieldClass}
           />
-        </FieldShell>
+        </ContactFieldShell>
       </div>
 
       <div className="mt-5">
-        <FieldShell
+        <ContactFieldShell
           id={`${formId}-service`}
           label="Service of interest"
           required
@@ -364,7 +276,7 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             onChange={(e) =>
               setValues((v) => ({ ...v, service: e.target.value }))
             }
-            className={clsx(fieldClass, 'appearance-none pr-10')}
+            className={clsx(contactFieldClass, 'appearance-none pr-10')}
             aria-invalid={touched && !!errors.service}
             aria-describedby={
               touched && errors.service ? `${formId}-service-error` : undefined
@@ -379,11 +291,11 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
               </option>
             ))}
           </select>
-        </FieldShell>
+        </ContactFieldShell>
       </div>
 
       <div className="mt-5">
-        <FieldShell
+        <ContactFieldShell
           id={`${formId}-message`}
           label="Message"
           required
@@ -398,17 +310,17 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
             onChange={(e) =>
               setValues((v) => ({ ...v, message: e.target.value }))
             }
-            className={clsx(fieldClass, 'resize-y min-h-[8rem]')}
+            className={clsx(contactFieldClass, 'resize-y min-h-[8rem]')}
             aria-invalid={touched && !!errors.message}
             aria-describedby={
               touched && errors.message ? `${formId}-message-error` : undefined
             }
           />
-        </FieldShell>
+        </ContactFieldShell>
       </div>
 
       <div className="mt-8 space-y-5">
-        <ToggleSwitch
+        <ContactToggleSwitch
           id={`${formId}-marketing`}
           checked={values.marketingOptIn}
           onChange={(marketingOptIn) =>
@@ -416,7 +328,7 @@ export function ContactForm({ topic, initialServiceSlug }: ContactFormProps) {
           }
           label="Opt in for marketing communication"
         />
-        <ToggleSwitch
+        <ContactToggleSwitch
           id={`${formId}-privacy`}
           required
           checked={values.privacyAgreed}

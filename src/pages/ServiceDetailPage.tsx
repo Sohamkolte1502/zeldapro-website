@@ -12,7 +12,10 @@ export default function ServiceDetailPage() {
 
   return (
     <>
-      <Seo title={service.title} description={service.summary} />
+      <Seo
+        title={service.title}
+        description={service.overview.paragraphs[0]}
+      />
       <ServiceDetailTemplate service={service} />
     </>
   )

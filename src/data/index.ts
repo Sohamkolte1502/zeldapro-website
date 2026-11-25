@@ -24,7 +24,23 @@ export {
   type InnovationFocus,
   type InnovationPathStep,
 } from './innovation'
-export { industries, industryBySlug, type IllustrativeScenario, type Industry } from './industries'
+export {
+  industries,
+  industryBySlug,
+  type IllustrativeScenario,
+  type Industry,
+  type IndustryOverview,
+} from './industries'
 export { insights, insightBySlug, type InsightArticle, type InsightStatus } from './insights'
-export { services, serviceBySlug, type Service } from './services'
+export {
+  services,
+  serviceBySlug,
+  type Service,
+  type ServiceOverview,
+} from './services'
 export { solutions, solutionBySlug, type Solution } from './solutions'
+export {
+  detailHeroCopyBySlug,
+  getDetailHeroCopy,
+  type DetailHeroCopy,
+} from './detailHeroCopy'

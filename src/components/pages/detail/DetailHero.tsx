@@ -2,6 +2,7 @@ import clsx from 'clsx'
 import { ArrowRight } from 'lucide-react'
 import { motion, type MotionValue } from 'framer-motion'
 import { Link } from 'react-router-dom'
+import { Container } from '../../ui'
 import { getIndustryHeroImage } from './industryHeroImages'
 
 export type ResolveHeroImage = (slug: string) => string | null
@@ -19,11 +20,10 @@ export type DetailCurtainMotion = {
 
 export type DetailHeroProps = {
   slug: string
-  eyebrow: string
-  title: string
+  headline: string
   description: string
   breadcrumb: DetailHeroBreadcrumb
-  contactHref: string
+  contactHref?: string
   resolveHeroImage?: ResolveHeroImage
   curtainMotion?: DetailCurtainMotion
   fillSticky?: boolean
@@ -53,7 +53,7 @@ function HeroMedia({
   }
 
   return (
-    <div className="absolute inset-0 bg-brand-950">
+    <div className="absolute inset-0 bg-[#0B1424]">
       <svg
         className="absolute inset-0 h-full w-full opacity-30"
         xmlns="http://www.w3.org/2000/svg"
@@ -91,51 +91,53 @@ function HeroMedia({
 }
 
 function HeroContent({
-  eyebrow,
-  title,
+  headline,
   description,
   breadcrumb,
-  contactHref,
+  contactHref = '/contact',
   curtainMotion,
 }: {
-  eyebrow: string
-  title: string
+  headline: string
   description: string
   breadcrumb: DetailHeroBreadcrumb
-  contactHref: string
+  contactHref?: string
   curtainMotion?: DetailCurtainMotion
 }) {
-  const trail = `${breadcrumb.parentLabel.toUpperCase()} / ${breadcrumb.currentLabel.toUpperCase()}`
+  const categoryLabel = breadcrumb.parentLabel.toUpperCase()
+  const nameLabel = breadcrumb.currentLabel.toUpperCase()
 
   const inner = (
-    <>
-      <p className="text-xs font-medium tracking-[0.22em] text-on-dark/85">
-        {trail}
-      </p>
-      <p className="mt-3 text-xs font-medium uppercase tracking-[0.18em] text-electric-400">
-        {eyebrow}
-      </p>
-      <h1 className="hero-primary-text mt-4 max-w-3xl font-heading text-3xl leading-[1.1] sm:text-4xl lg:text-5xl">
-        {title}
+    <div className="detail-hero-copy w-full max-w-[min(100%,36rem)] text-left sm:max-w-xl lg:max-w-2xl xl:max-w-[44rem]">
+      <nav aria-label="Breadcrumb">
+        <p className="text-[0.6875rem] font-normal tracking-[0.26em] text-white/95 sm:text-xs">
+          {categoryLabel} / {nameLabel}
+        </p>
+      </nav>
+      <div
+        className="detail-hero-divider mt-3 sm:mt-3.5"
+        aria-hidden
+      />
+      <h1 className="detail-hero-headline hero-primary-text mt-9 sm:mt-10 lg:mt-12">
+        {headline}
       </h1>
-      <p className="hero-primary-text mt-5 max-w-2xl text-base leading-relaxed sm:text-lg">
+      <p className="detail-hero-description mt-6 max-w-[60ch] sm:mt-7 lg:mt-8">
         {description}
       </p>
       <Link
         to={contactHref}
-        className="group mt-10 inline-flex items-center gap-4 text-on-dark transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric-400"
+        className="group mt-10 inline-flex items-center gap-4 text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric-400 sm:mt-12 lg:mt-14"
       >
-        <span className="font-heading text-xl font-medium sm:text-2xl">
+        <span className="font-heading text-xl font-medium tracking-tight sm:text-2xl">
           Let&apos;s talk
         </span>
         <span
-          className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/35 bg-white/5 transition-colors group-hover:border-white/55 group-hover:bg-white/10"
+          className="inline-flex h-[3.25rem] w-[3.25rem] shrink-0 items-center justify-center rounded-full bg-white text-brand-950 shadow-lg shadow-black/30 transition-opacity group-hover:opacity-90 sm:h-14 sm:w-14"
           aria-hidden
         >
-          <ArrowRight size={22} />
+          <ArrowRight size={23} strokeWidth={2.25} />
         </span>
       </Link>
-    </>
+    </div>
   )
 
   if (curtainMotion) {
@@ -152,16 +154,15 @@ function HeroContent({
     )
   }
 
-  return <div>{inner}</div>
+  return inner
 }
 
 export function DetailHero({
   slug,
-  eyebrow,
-  title,
+  headline,
   description,
   breadcrumb,
-  contactHref,
+  contactHref = '/contact',
   resolveHeroImage = getIndustryHeroImage,
   curtainMotion,
   fillSticky = false,
@@ -173,22 +174,23 @@ export function DetailHero({
   return (
     <header
       className={clsx(
-        'dark-surface relative flex flex-col overflow-hidden bg-brand-950 text-on-dark',
+        'dark-surface relative flex flex-col overflow-hidden bg-[#0B1424] text-on-dark',
         heightClass,
       )}
     >
-      <div className="hero-section-overlay relative min-h-0 flex-1">
+      <div className="detail-hero-overlay hero-section-overlay relative flex min-h-0 flex-1 flex-col">
         <HeroMedia slug={slug} resolveHeroImage={resolveHeroImage} />
 
-        <div className="absolute inset-x-0 bottom-0 z-10 mx-auto w-full max-w-content px-5 pb-10 sm:px-6 sm:pb-12 lg:px-8 lg:pb-16">
-          <HeroContent
-            eyebrow={eyebrow}
-            title={title}
-            description={description}
-            breadcrumb={breadcrumb}
-            contactHref={contactHref}
-            curtainMotion={curtainMotion}
-          />
+        <div className="absolute inset-0 z-10 flex items-center">
+          <Container className="w-full py-10 sm:py-12 lg:py-14">
+            <HeroContent
+              headline={headline}
+              description={description}
+              breadcrumb={breadcrumb}
+              contactHref={contactHref}
+              curtainMotion={curtainMotion}
+            />
+          </Container>
         </div>
       </div>
     </header>

@@ -1,3 +1,5 @@
+export const CAREVIE_URL = 'https://carevie.in/landing-page'
+
 export type CarevieFeatureStatus = 'available' | 'coming-soon'
 
 export type CarevieFeature = {

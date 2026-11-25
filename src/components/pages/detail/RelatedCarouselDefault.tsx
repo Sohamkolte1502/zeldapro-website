@@ -4,6 +4,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import {
   createElement,
   type KeyboardEvent as ReactKeyboardEvent,
+  type ReactNode,
   useCallback,
   useId,
   useRef,
@@ -16,6 +17,10 @@ import { getSolutionHeroImage } from './solutionHeroImages'
 import type { RelatedCarouselDefaultProps, RelatedCarouselItem } from './relatedCarouselTypes'
 
 const SWIPE_THRESHOLD_PX = 48
+
+function CarouselSurface({ children }: { children: ReactNode }) {
+  return <>{children}</>
+}
 
 function CarouselMedia({
   slug,
@@ -83,14 +88,20 @@ function CarouselMedia({
   )
 }
 
+const FLAT_CARD_BORDER = 'border border-[#F4F3F9]'
+const FLAT_CARD_SHADOW =
+  'shadow-[0_8px_30px_rgba(11,20,36,0.08)] hover:shadow-[0_12px_36px_rgba(11,20,36,0.1)]'
+
 function CarouselCard({
   item,
   index,
   total,
+  onWhiteSurface = false,
 }: {
   item: RelatedCarouselItem
   index: number
   total: number
+  onWhiteSurface?: boolean
 }) {
   const imageUrl = item.image ?? getSolutionHeroImage(item.slug)
 
@@ -100,8 +111,9 @@ function CarouselCard({
       aria-label={`${item.title}. Slide ${index + 1} of ${total}.`}
       className={clsx(
         'group relative flex flex-col overflow-hidden rounded-[20px] bg-white',
-        'shadow-[0_16px_48px_-8px_rgb(8_29_41/0.16),0_4px_16px_rgb(8_29_41/0.06)]',
-        'transition-shadow hover:shadow-[0_22px_56px_-10px_rgb(8_29_41/0.2)]',
+        onWhiteSurface
+          ? clsx(FLAT_CARD_BORDER, FLAT_CARD_SHADOW, 'transition-shadow')
+          : 'shadow-[0_16px_48px_-8px_rgb(8_29_41/0.16),0_4px_16px_rgb(8_29_41/0.06)] transition-shadow hover:shadow-[0_22px_56px_-10px_rgb(8_29_41/0.2)]',
         'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2878F0]',
         'lg:flex-row lg:items-stretch',
       )}
@@ -151,7 +163,10 @@ export function RelatedCarouselDefault({
   viewAllLabel,
   items,
   sectionId = 'related-carousel',
+  sectionBackground = '#ffffff',
+  surface = 'boxed',
 }: RelatedCarouselDefaultProps) {
+  const isFlat = surface === 'flat'
   const reduceMotion = useReducedMotion()
   const regionId = useId()
   const [index, setIndex] = useState(0)
@@ -213,14 +228,12 @@ export function RelatedCarouselDefault({
   return (
     <section
       id={sectionId}
-      className="scroll-mt-nav border-t border-[#E1E8F2] bg-white py-14 sm:py-16"
+      className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
+      style={{ backgroundColor: sectionBackground }}
       aria-labelledby={`${regionId}-heading`}
     >
       <Container className="overflow-x-hidden">
-        <div
-          className="rounded-3xl bg-[#E4EAF2] px-5 py-8 sm:px-7 sm:py-10 lg:px-10 lg:py-12"
-          style={{ backgroundColor: '#E4EAF2' }}
-        >
+        <CarouselSurface>
           <div
             role="region"
             aria-roledescription="carousel"
@@ -281,12 +294,23 @@ export function RelatedCarouselDefault({
               onTouchStart={onTouchStart}
               onTouchEnd={onTouchEnd}
             >
+              {multiple && isFlat ? (
+                <div
+                  className={clsx(
+                    'pointer-events-none absolute inset-x-3 top-2 bottom-0 z-0 rounded-[20px] bg-white',
+                    FLAT_CARD_BORDER,
+                    'shadow-[0_8px_30px_rgba(11,20,36,0.08)]',
+                  )}
+                  aria-hidden
+                />
+              ) : null}
               <div className="relative z-10">
                 {reduceMotion ? (
                   <CarouselCard
                     item={current}
                     index={index}
                     total={items.length}
+                    onWhiteSurface={isFlat}
                   />
                 ) : (
                   <AnimatePresence mode="wait" custom={direction}>
@@ -306,6 +330,7 @@ export function RelatedCarouselDefault({
                         item={current}
                         index={index}
                         total={items.length}
+                        onWhiteSurface={isFlat}
                       />
                     </motion.div>
                   </AnimatePresence>
@@ -313,7 +338,7 @@ export function RelatedCarouselDefault({
               </div>
             </div>
           </div>
-        </div>
+        </CarouselSurface>
       </Container>
     </section>
   )

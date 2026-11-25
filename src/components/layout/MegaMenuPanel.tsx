@@ -1,5 +1,6 @@
 import clsx from 'clsx'
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
+import { X } from 'lucide-react'
 import { useEffect, useId, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { NAV_THEME } from '../../data/navTheme'
@@ -53,100 +54,108 @@ export function MegaMenuPanel({
           id={id}
           role="region"
           aria-labelledby={headingId}
-          initial={reduceMotion ? false : { opacity: 0, y: -10 }}
+          initial={reduceMotion ? false : { opacity: 0, y: -8 }}
           animate={{ opacity: 1, y: 0 }}
-          exit={reduceMotion ? undefined : { opacity: 0, y: -10 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: -8 }}
           transition={{ duration: reduceMotion ? 0 : 0.22, ease: [0.22, 1, 0.36, 1] }}
           className={clsx(
-            'absolute inset-x-0 top-full z-40 border border-t',
+            'absolute inset-x-0 top-full z-40 border-t',
             isLightNav
-              ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_8px_24px_rgba(7,19,31,0.1)]'
-              : 'border-white/[0.08] border-t bg-[#1E2222] shadow-[0_16px_40px_rgba(0,0,0,0.35)]',
+              ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_12px_32px_rgba(7,19,31,0.12)]'
+              : 'border-white/[0.08] bg-brand-950 shadow-[0_20px_48px_rgba(0,0,0,0.45)]',
           )}
         >
-          <Container className="py-8">
-            <div className="grid gap-8 lg:grid-cols-[minmax(12rem,16rem)_1fr] lg:gap-12">
-              <div
-                className={clsx(
-                  'border-b pb-6 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-8',
-                  isLightNav ? 'border-line' : 'border-white/10',
-                )}
-              >
-                <p
+          <Container className="py-8 sm:py-10">
+            <div className="flex items-start justify-between gap-6">
+              <div className="min-w-0 max-w-2xl">
+                <h2
                   id={headingId}
                   className={clsx(
-                    'font-heading text-xl',
+                    'font-heading text-2xl sm:text-[1.75rem]',
                     isLightNav ? 'text-[#172B3A]' : 'text-on-dark',
                   )}
                 >
                   {title}
-                </p>
+                </h2>
                 <p
                   className={clsx(
-                    'mt-3 text-sm leading-relaxed',
+                    'mt-2 text-sm leading-relaxed sm:text-base',
                     isLightNav ? 'text-ink-muted' : 'text-on-dark-muted',
                   )}
                 >
                   {intro}
                 </p>
-                <Link
-                  to={viewAllHref}
-                  className={clsx(
-                    'mt-5 inline-flex text-sm font-semibold transition-colors duration-200',
-                    isLightNav
-                      ? 'text-[#078BCB] hover:text-[#087FC1]'
-                      : 'text-[#078BCB] hover:text-electric-300',
-                  )}
-                  onClick={onClose}
-                >
-                  {viewAllLabel} →
-                </Link>
               </div>
-              <ul className="grid min-w-0 gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                {items.map((item) => (
-                  <li key={item.href} className="min-w-0">
-                    <Link
-                      to={item.href}
+              <button
+                type="button"
+                onClick={onClose}
+                className={clsx(
+                  'inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors duration-200',
+                  isLightNav
+                    ? 'border-[#DCE5EA] text-[#172B3A] hover:border-[#078BCB] hover:text-[#078BCB]'
+                    : 'border-white/20 text-on-dark hover:border-electric-400 hover:text-electric-400',
+                  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#078BCB]',
+                )}
+                aria-label="Close menu"
+              >
+                <X size={20} aria-hidden />
+              </button>
+            </div>
+
+            <ul className="mt-8 grid min-w-0 gap-x-10 gap-y-1 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
+              {items.map((item) => (
+                <li key={item.href} className="min-w-0">
+                  <Link
+                    to={item.href}
+                    className={clsx(
+                      'group block min-w-0 rounded-md px-1 py-2.5 transition-colors duration-200',
+                      isLightNav
+                        ? 'hover:bg-[#E8EEF1]/80'
+                        : 'hover:bg-white/[0.06]',
+                      'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
+                      isLightNav
+                        ? 'focus-visible:outline-[#078BCB]'
+                        : 'focus-visible:outline-electric-500',
+                    )}
+                    onClick={onClose}
+                  >
+                    <span
                       className={clsx(
-                        'group',
-                        'block min-w-0 rounded-lg border border-transparent px-3 py-2.5 transition-colors duration-200',
+                        'block text-sm font-medium leading-snug sm:text-[0.95rem]',
                         isLightNav
-                          ? 'hover:border-[#DCE5EA] hover:bg-[#E8EEF1]'
-                          : 'hover:border-line-dark hover:bg-white/5',
-                        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2',
-                        isLightNav
-                          ? 'focus-visible:outline-[#078BCB]'
-                          : 'focus-visible:outline-electric-500',
+                          ? 'text-[#172B3A] group-hover:text-[#078BCB]'
+                          : 'text-on-dark group-hover:text-electric-300',
                       )}
-                      onClick={onClose}
                     >
+                      {item.title}
+                    </span>
+                    {item.summary ? (
                       <span
                         className={clsx(
-                          'block truncate text-sm font-medium',
-                          isLightNav
-                            ? 'text-[#172B3A] group-hover:text-[#078BCB]'
-                            : 'text-on-dark group-hover:text-electric-300',
+                          'mt-1 line-clamp-2 hidden text-xs leading-snug lg:block',
+                          isLightNav ? 'text-ink-muted' : 'text-on-dark-muted',
                         )}
                       >
-                        {item.title}
+                        {item.summary}
                       </span>
-                      {item.summary ? (
-                        <span
-                          className={clsx(
-                            'mt-0.5 block truncate text-xs leading-snug',
-                            isLightNav
-                              ? 'text-ink-muted'
-                              : 'text-on-dark-muted',
-                          )}
-                        >
-                          {item.summary}
-                        </span>
-                      ) : null}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+                    ) : null}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              to={viewAllHref}
+              className={clsx(
+                'mt-8 inline-flex text-sm font-semibold transition-colors duration-200',
+                isLightNav
+                  ? 'text-[#078BCB] hover:text-[#087FC1]'
+                  : 'text-[#078BCB] hover:text-electric-300',
+              )}
+              onClick={onClose}
+            >
+              {viewAllLabel} →
+            </Link>
           </Container>
         </motion.div>
       ) : null}

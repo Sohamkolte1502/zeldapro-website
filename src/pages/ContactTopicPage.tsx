@@ -5,6 +5,7 @@ import { ContactForm } from '../components/contact/ContactForm'
 import { Seo } from '../components/layout/Seo'
 import { Container } from '../components/ui'
 import { contactTopicBySlug } from '../data/contactTopics'
+import { CareersTopicLayout } from '../sections/contact/CareersTopicLayout'
 import NotFoundPage from './NotFoundPage'
 
 export default function ContactTopicPage() {
@@ -17,6 +18,17 @@ export default function ContactTopicPage() {
 
   if (!topic) return <NotFoundPage />
 
+  const isCareers = topic.slug === 'careers'
+
+  if (isCareers) {
+    return (
+      <>
+        <Seo title="Careers" description={topic.intro} />
+        <CareersTopicLayout topic={topic} />
+      </>
+    )
+  }
+
   return (
     <>
       <Seo
@@ -25,9 +37,10 @@ export default function ContactTopicPage() {
       />
       <ContactBanner
         variant="gradient"
+        breadcrumbCurrent={topic.title}
         heading={
           <h1 className="font-heading text-3xl text-on-dark sm:text-4xl lg:text-5xl">
-            Contact Us
+            {topic.title}
           </h1>
         }
       />

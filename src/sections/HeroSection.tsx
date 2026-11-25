@@ -127,6 +127,10 @@ export function HeroSection({
         <div className="absolute inset-0">
           <HeroFibersLayer paused={fibersPaused} />
         </div>
+        <div
+          className="pointer-events-none absolute bottom-0 left-1/2 z-[1] h-[min(42vh,380px)] w-[min(100%,920px)] -translate-x-1/2 bg-[radial-gradient(ellipse_80%_55%_at_50%_100%,rgba(47,143,70,0.28),rgba(255,255,255,0.04)_42%,transparent_72%)]"
+          aria-hidden
+        />
       </div>
 
       <Container className="relative z-10 flex min-h-0 flex-1 flex-col items-start justify-center px-5 py-10 pb-14 text-left sm:py-12">

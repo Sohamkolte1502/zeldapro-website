@@ -8,31 +8,35 @@ import {
   Sparkles,
   Workflow,
 } from 'lucide-react'
+import clsx from 'clsx'
+import { motion, useReducedMotion } from 'framer-motion'
 import type { ReactNode } from 'react'
 import type { Industry } from '../../../data'
 import {
   servicesForIndustry,
   solutionsForIndustry,
 } from '../../../utils/relatedContent'
+import { getDetailHeroCopy } from '../../../data/detailHeroCopy'
 import { contactIndustryPath } from '../../../utils/contactPaths'
-import { Badge } from '../../ui'
-import { Container } from '../../ui'
+import { Container, Reveal } from '../../ui'
 import { PageCta } from '../PageCta'
 import { DetailPageCurtain } from '../detail/DetailPageCurtain'
-import { DetailLinkTiles } from '../detail/DetailLinkTiles'
+import { RelatedCarousel } from '../detail/RelatedCarousel'
 import { RelevantServicesOfferingsPanel } from '../detail/RelevantServicesOfferingsPanel'
 import { SectionNav } from '../detail/SectionNav'
+
+const BG_WHITE = '#ffffff'
+const BG_LAVENDER = '#F4F3F9'
 
 type IndustryDetailTemplateProps = {
   industry: Industry
 }
 
 const SECTION_NAV = [
-  { id: 'industry-challenges', label: 'Challenges' },
+  { id: 'industry-overview', label: 'Overview' },
+  { id: 'relevant-solutions', label: 'AI solutions' },
   { id: 'how-ai-helps', label: 'How AI helps' },
   { id: 'relevant-services', label: 'Services' },
-  { id: 'relevant-solutions', label: 'AI solutions' },
-  { id: 'example-applications', label: 'Example applications' },
 ] as const
 
 const HELP_ICONS: LucideIcon[] = [
@@ -45,79 +49,104 @@ const HELP_ICONS: LucideIcon[] = [
   BarChart3,
 ]
 
-function DetailSection({
+function IndustryBandSection({
   id,
-  title,
-  description,
-  tone = 'light',
+  backgroundColor,
   children,
+  className,
 }: {
   id: string
-  title: string
-  description?: string
-  tone?: 'light' | 'muted'
+  backgroundColor: string
   children: ReactNode
+  className?: string
 }) {
   return (
     <section
       id={id}
-      className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
-      style={{
-        backgroundColor: tone === 'muted' ? '#E8EEF1' : '#f6f8f9',
-      }}
+      className={clsx(
+        'scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16',
+        className,
+      )}
+      style={{ backgroundColor }}
     >
-      <Container>
-        <h2 className="font-heading text-2xl text-brand-950 sm:text-3xl">{title}</h2>
-        {description ? (
-          <p className="mt-3 max-w-3xl text-sm text-ink-muted sm:text-base">
-            {description}
-          </p>
-        ) : null}
-        <div className="mt-8">{children}</div>
-      </Container>
+      {children}
     </section>
   )
 }
 
-function ChallengeList({ items }: { items: string[] }) {
+function IndustryOverview({ industry }: { industry: Industry }) {
+  const { headline, paragraphs } = industry.overview
+
   return (
-    <ul className="grid gap-5 sm:grid-cols-2 sm:gap-6">
-      {items.map((item) => (
-        <li
-          key={item}
-          className="flex gap-3 text-sm leading-relaxed text-ink-muted sm:text-base"
-        >
-          <span
-            className="mt-2 h-2 w-2 shrink-0 rounded-full"
-            style={{ backgroundColor: '#2878F0' }}
-            aria-hidden
-          />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
+    <IndustryBandSection id="industry-overview" backgroundColor={BG_WHITE}>
+      <Container>
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-600">
+            {industry.title}
+          </p>
+          <h2 className="mt-4 max-w-4xl font-heading text-xl font-medium uppercase leading-snug tracking-wide text-brand-950 sm:text-2xl lg:text-[1.65rem]">
+            {headline}
+          </h2>
+          <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-ink-muted sm:text-[1.05rem]">
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            ))}
+          </div>
+        </Reveal>
+      </Container>
+    </IndustryBandSection>
   )
 }
 
-function HowAiHelpsCards({ items }: { items: string[] }) {
+function HowAiHelpsGrid({ items }: { items: string[] }) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <ul className="grid gap-4 sm:grid-cols-2">
+    <ul className="grid gap-5 sm:grid-cols-2 lg:gap-6">
       {items.map((item, index) => {
         const Icon = HELP_ICONS[index % HELP_ICONS.length] ?? Sparkles
-        return (
-          <li
-            key={item}
-            className="rounded-xl border border-[#E1E8F2] bg-white p-5 sm:p-6"
+        const card = (
+          <div
+            className={clsx(
+              'group relative h-full overflow-hidden rounded-2xl border border-line bg-white p-6 shadow-sm',
+              'transition-[transform,box-shadow,border-color] duration-300',
+              'hover:border-electric-500/35 hover:shadow-lg',
+            )}
           >
+            <div
+              className="pointer-events-none absolute -right-8 -top-8 h-24 w-24 rounded-full bg-electric-500/10 blur-2xl transition-opacity group-hover:opacity-100"
+              aria-hidden
+            />
             <span
-              className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#E1E8F2] bg-[#F5F7FA] text-[#2878F0]"
+              className="relative inline-flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-electric-600 to-brand-800 text-white shadow-md"
               aria-hidden
             >
-              <Icon size={20} />
+              <Icon size={22} strokeWidth={2} />
             </span>
-            <p className="mt-4 text-sm leading-relaxed text-ink-muted sm:text-base">
+            <p className="relative mt-5 text-sm font-medium tabular-nums text-electric-600">
+              {String(index + 1).padStart(2, '0')}
+            </p>
+            <p className="relative mt-2 text-sm leading-relaxed text-ink sm:text-base">
               {item}
             </p>
+          </div>
+        )
+
+        return (
+          <li key={item} className="list-none">
+            <Reveal delay={index * 0.06} className="h-full">
+              {reduceMotion ? (
+                card
+              ) : (
+                <motion.div
+                  className="h-full"
+                  whileHover={{ y: -4 }}
+                  transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                >
+                  {card}
+                </motion.div>
+              )}
+            </Reveal>
           </li>
         )
       })}
@@ -128,7 +157,7 @@ function HowAiHelpsCards({ items }: { items: string[] }) {
 export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps) {
   const relatedServices = servicesForIndustry(industry)
   const relatedSolutions = solutionsForIndustry(industry)
-  const heroDescription = industry.howAiHelps[0]
+  const heroCopy = getDetailHeroCopy(industry.slug)
 
   const sectionNavItems = SECTION_NAV.filter((item) => {
     if (item.id === 'relevant-services') return relatedServices.length > 0
@@ -140,25 +169,53 @@ export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps
     <DetailPageCurtain
       heroProps={{
         slug: industry.slug,
-        eyebrow: 'Industry',
-        title: industry.title,
-        description: heroDescription,
+        headline: heroCopy.headline,
+        description: heroCopy.description,
         breadcrumb: {
           parentLabel: 'Industries',
           currentLabel: industry.title,
         },
-        contactHref: contactIndustryPath(),
       }}
     >
       <SectionNav items={[...sectionNavItems]} />
 
-      <DetailSection id="industry-challenges" title="Industry challenges">
-        <ChallengeList items={industry.challenges} />
-      </DetailSection>
+      <IndustryOverview industry={industry} />
 
-      <DetailSection id="how-ai-helps" title="How AI helps" tone="muted">
-        <HowAiHelpsCards items={industry.howAiHelps} />
-      </DetailSection>
+      {relatedSolutions.length > 0 ? (
+        <RelatedCarousel
+          sectionId="relevant-solutions"
+          surface="flat"
+          heading="Relevant AI solutions"
+          description="Solution patterns often shaped for this industry context."
+          viewAllHref="/ai-solutions"
+          viewAllLabel="View all AI solutions"
+          sectionBackground={BG_LAVENDER}
+          items={relatedSolutions.map((s) => ({
+            slug: s.slug,
+            title: s.title,
+            description: s.whatItIs,
+            href: `/ai-solutions/${s.slug}`,
+            badge: 'AI Solution',
+          }))}
+        />
+      ) : null}
+
+      <IndustryBandSection id="how-ai-helps" backgroundColor={BG_WHITE}>
+        <Container>
+          <Reveal className="max-w-2xl">
+            <h2 className="font-heading text-2xl text-brand-950 sm:text-3xl">
+              How AI helps
+            </h2>
+            <p className="mt-3 text-sm text-ink-muted sm:text-base">
+              Practical applications we design for {industry.title.toLowerCase()}—with
+              governance and human oversight built in.
+            </p>
+          </Reveal>
+          <div className="mt-10">
+            <HowAiHelpsGrid items={industry.howAiHelps} />
+          </div>
+        </Container>
+      </IndustryBandSection>
 
       {relatedServices.length > 0 ? (
         <RelevantServicesOfferingsPanel
@@ -169,55 +226,6 @@ export function IndustryDetailTemplate({ industry }: IndustryDetailTemplateProps
           bandTone="light"
         />
       ) : null}
-
-      {relatedSolutions.length > 0 ? (
-        <DetailSection
-          id="relevant-solutions"
-          title="Relevant AI solutions"
-          tone="muted"
-        >
-          <DetailLinkTiles
-            items={relatedSolutions.map((s) => ({
-              title: s.title,
-              href: `/ai-solutions/${s.slug}`,
-              summary: s.whatItIs,
-            }))}
-          />
-        </DetailSection>
-      ) : null}
-
-      <DetailSection
-        id="example-applications"
-        title="Example applications"
-        description="Illustrative scenarios for discussion—not delivered client work."
-        tone={
-          relatedServices.length > 0 && relatedSolutions.length > 0
-            ? 'light'
-            : relatedServices.length > 0
-              ? 'muted'
-              : 'light'
-        }
-      >
-        <p className="mb-6 text-xs font-semibold uppercase tracking-[0.14em] text-ink-muted">
-          Illustrative scenarios
-        </p>
-        <ul className="space-y-4">
-          {industry.exampleScenarios.map((scenario) => (
-            <li
-              key={scenario.title}
-              className="rounded-xl border border-[#E1E8F2] bg-white p-5 sm:p-6"
-            >
-              <div className="flex flex-wrap items-center gap-2">
-                <Badge tone="light">Illustrative</Badge>
-              </div>
-              <h3 className="mt-2 font-medium text-brand-950">{scenario.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-ink-muted">
-                {scenario.description}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </DetailSection>
 
       <PageCta contactTo={contactIndustryPath()} />
     </DetailPageCurtain>

@@ -11,6 +11,7 @@ export function CategoryCards() {
   const [hoveredKey, setHoveredKey] = useState<CategoryKey | null>(null)
   const [openKey, setOpenKey] = useState<CategoryKey | null>(null)
   const [canHover, setCanHover] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
   const triggerRefs = useRef<Record<CategoryKey, HTMLButtonElement | null>>({
     services: null,
     solutions: null,
@@ -38,12 +39,16 @@ export function CategoryCards() {
     }
   }, [openKey])
 
-  const openOverlay = useCallback((key: CategoryKey) => {
+  const openOverlay = (key: CategoryKey) => {
+    sectionRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     setOpenKey(key)
-  }, [])
+  }
 
   return (
-    <section className="bg-surface-50 py-[var(--spacing-section-y)] text-ink">
+    <section
+      ref={sectionRef}
+      className="scroll-mt-nav bg-surface-50 py-[var(--spacing-section-y)] text-ink"
+    >
       <Container>
         <Reveal>
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-electric-600">
@@ -76,7 +81,7 @@ export function CategoryCards() {
               >
                 <CategoryCard
                   category={category}
-                  dimmed={dimmed}
+                  dimmed={dimmed || (openKey !== null && openKey !== key)}
                   elevated={elevated}
                   onOpen={() => openOverlay(key)}
                   setTriggerRef={(el) => {

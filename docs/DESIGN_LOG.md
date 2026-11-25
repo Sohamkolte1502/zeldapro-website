@@ -74,9 +74,15 @@
 - Hero is a full-bleed `/videos/hero.mp4` with navy overlay and white type. Reduced motion or a failed video shows `/videos/hero-poster.jpg` only. The node SVG is gone.
 - Services are nine equal cards (icon, summary, detail link). Solutions keep alternating rows, each with a distinct line illustration and the first practical use case from `src/data`.
 
+## 2026-11-23 — Homepage intro (post-hero)
+
+- **`IntroSection`**: `#F5F7FA`, `z-10` opaque over sticky hero; 42/58 two-column layout with sticky left rail; three principle cards (01–03, Lucide icons, hover/focus shift); concentric ring SVG decor; facts strip from `services` / `solutions` / `industries` / `company.approachSteps` counts with scroll count-up; Framer Motion + `prefers-reduced-motion`. Copy and `/about` CTA unchanged.
+
 ## 2026-11-18 — Homepage v2 (Carevie, industries, why)
 
 - **Carevie** spotlight follows AI Solutions; `/carevie` page uses `src/data/carevie.ts`, marketing image `carevie.png`, and labelled UI placeholders. Non-live features use **Coming soon** badges.
+- **Homepage Carevie** (`CarevieSpotlight`): `CAREVIE_URL` → `https://carevie.in/landing-page` (new-tab CTA); assets in `src/assets/carevie/` (`overview.*`, screen slugs via glob); conditional placeholder caption; hero renamed `overview.png`.
+- Carevie spotlight screen thumbnails: **6:5** aspect (`1200×1000`), `object-cover` + `object-top`; single column on mobile, three columns `sm+`.
 - **Industries** bento grid: featured wide tiles, dot texture, hover lift, sector gradients, arrow CTA.
 - **Why Zeldapro** pairs company values with a numbered expectation panel and About link.
 - Verified on dev (`/` section order, `/carevie`); `npm run lint` + `npm run build` pass. No `src/assets/carevie/` screenshots yet—spotlight and product page use labelled UI placeholders.
@@ -193,6 +199,39 @@
 - `solutionHeroImages.ts`: same pattern as industries—glob `src/assets/ai-solutions/*.{jpg,jpeg,png,webp,avif}`, format priority, tolerant `slug.jpg.<ext>` parsing; missing files return `null` (no build break).
 - Fix: hero files were under `src/assets/AI Solutions/` (not globs); copies placed in `src/assets/ai-solutions/`. `import.meta.glob` paths must be string literals (no `flatMap`).
 
+## 2026-11-23 — Service detail layout (overview-first)
+
+- `/services/:slug`: removed **Business challenges**, **Relevant technologies**, **Practical applications** from template; TCS-style **Overview** (`overview` in `services.ts`) → **Related AI solutions** (`#F4F3F9` flat carousel) → **Key capabilities**; nav tabs match. Legacy arrays retained in data for index/nav previews.
+- **Key capabilities** (`IconCardGrid`): white section band; capability cards `#F5F7FA`; numbered gradient-icon cards, hover lift/shadow, scroll reveal.
+- Detail related carousels + **Relevant services** panels: section bands `#ffffff`; removed `#E4EAF2` trays; industry **Relevant AI solutions** uses `surface="flat"` like services.
+- Industry **Relevant AI solutions** section band restored to lavender `#F4F3F9` (flat cards, no grey tray).
+- Service **Related AI solutions** section band lavender `#F4F3F9` (matches industry).
+- Homepage category cards: **detached light popup** over the page (portal, gap below nav—not merged with navbar mega); navbar unchanged when cards open.
+
+## 2026-11-23 — Service detail: flat Related AI solutions carousel
+
+- `/services/:slug` **Related AI solutions** uses `RelatedCarousel` `surface="flat"`: white full-width band (no `#E4EAF2` tray), same `Container` rhythm as `DetailSection`; slide cards get `1px #F4F3F9` border + `0 8px 30px rgba(11,20,36,0.08)`; stacked peek strip matches border. Industry/solution default carousel remains `surface="boxed"`.
+
+## 2026-11-23 — Solution detail flow + tray backgrounds
+
+- `/ai-solutions/:slug`: section order **What it is** (expanded with pressures/outcomes from data) → **Relevant industries** → **How it works** (animated step cards) → **Related services**; nav tabs match.
+- Industry carousel/service trays: outer band `#F4F3F9` only on section; inner curved tray stays `#E4EAF2` (no lavender inset on the box).
+
+## 2026-11-23 — Industry detail layout (TCS-style overview)
+
+- Removed **Industry challenges** from detail template; each industry has `overview` (headline + two paragraphs) in `industries.ts`.
+- Section order: **Overview** (white) → **AI solutions** carousel (`#F4F3F9`) → **How AI helps** (white, animated cards) → **Relevant services** (`#F4F3F9`).
+- `RelatedCarousel` supports `sectionBackground`; services panel `bandTone: lavender`.
+
+## 2026-11-23 — Industry detail: solutions carousel
+
+- `/industries/:slug`: **Relevant AI solutions** uses the same `RelatedCarousel` stack as service detail (replaces link tiles); **Example applications** section removed from template and section nav.
+
+## 2026-11-23 — Insights block + footer legal bar
+
+- Homepage **Insights**: black featured card (navbar-aligned), gradient accents, supporting cards with hover motion, intro copy, pill CTA to `/insights`.
+- Footer: **`bg-black`** to match navbar; © + Privacy row above bottom hairline; Terms and legal-name placeholder removed from bar.
+
 ## 2026-11-23 — Footer simplification
 
 - Footer trimmed to brand column + **Company** (About, Insights, Contact), **Capabilities** (hub links to services / AI solutions / industries), and **Connect** (email, phone, site, social). Long per-item service/solution/industry lists removed; primary CTA **Talk to our experts**.
@@ -207,3 +246,27 @@
 ## 2026-11-23 — Service hero assets (multi-format loader)
 
 - `serviceHeroImages.ts`: same pattern as industries and AI solutions—glob `src/assets/services/*.{jpg,jpeg,png,webp,avif}`, format priority, tolerant `slug.jpg.<ext>` parsing; missing files return `null` (no build break).
+
+## 2026-11-24 — Contact careers topic
+
+- `/contact/careers`: hero uses **photo banner** (`about-collaboration.jpg`) with title **Careers** (not “Contact Us”); breadcrumb shows hub → Careers.
+- Dedicated **`CareersContactForm`**: full name, email, phone, location, area of interest, profile/résumé link, about you; no company/service/marketing fields.
+- Server `contactPayload` + mail templates accept careers fields (`roleArea`, `linkedinUrl`, `location`).
+
+## 2026-11-24 — Careers page experience (UX pass)
+
+- **`CareersTopicLayout`**: immersive split hero (copy + layered imagery), values grid from `company.values`, hire-area pills, sticky apply rail + **elevated** form card (`border-t-electric`); hiring-process grid and apply bullet list removed per feedback.
+- **Careers apply image**: placeholder below “What’s your story”; spec `careersApplyImageSpec` **960×720** (4:3), file `src/assets/images/careers-apply.{jpg,png,webp}`.
+- **Careers “Build with us”**: replaces former How we work / values / hire pills block; copy in `careersBuildWithUs`, layout `CareersBuildWithUsSection` (list + sticky teal card).
+- Copy in `src/data/careersPage.ts`; no invented headcount or open-role listings (BRIEF placeholder).
+
+## 2026-11-25 — Detail hero center + Let&apos;s talk arrow
+
+- `DetailHero`: breadcrumb, headline, description, and CTA vertically centered in the hero (services / AI solutions / industries detail pages).
+- **Let&apos;s talk** arrow: solid white circle, dark arrow icon (replaces translucent bordered control).
+
+## 2026-11-25 — TCS detail hero copy + layout
+
+- Shared hero: semantic breadcrumb, divider, clamp headline (`.detail-hero-headline`), 60ch description, CTA → `/contact`; background `#0B1424`.
+- Copy for all 23 detail slugs in `src/data/detailHeroCopy.ts`; page `title` drives breadcrumb name.
+- Detail hero copy block centered in viewport (TCS-style); headline up to `4rem` at wide breakpoints.

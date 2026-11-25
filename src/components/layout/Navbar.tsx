@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { industries, services, solutions } from '../../data'
 import { NAV_THEME } from '../../data/navTheme'
+import { contactTopicPath } from '../../utils/contactPaths'
 import { Container } from '../ui'
 import { Logo } from './Logo'
 import {
@@ -144,7 +145,7 @@ export function Navbar() {
           ? 'border-[#DCE5EA] bg-[#F0F4F6] shadow-[0_4px_18px_rgba(7,19,31,0.08)]'
           : clsx(
               'border-white/[0.08] text-[#FFFFFF]',
-              menuExpanded ? 'bg-[#1E2222]' : 'bg-[#000000]',
+              menuExpanded ? 'bg-brand-950' : 'bg-[#000000]',
             ),
       )}
     >
@@ -182,14 +183,19 @@ export function Navbar() {
                       ? solutionsActive
                       : industriesActive
                 return (
-                  <li key={key} onMouseEnter={() => setOpenMenu(key)}>
+                  <li key={key}>
                     <button
                       type="button"
-                      className={megaTriggerClass(isOpen, sectionActive)}
+                      className={megaTriggerClass(
+                        isOpen,
+                        sectionActive,
+                      )}
                       aria-expanded={isOpen}
                       aria-current={sectionActive ? 'page' : undefined}
                       aria-controls={menuIds[key]}
-                      onClick={() => setOpenMenu(key)}
+                      onClick={() =>
+                        setOpenMenu((prev) => (prev === key ? null : key))
+                      }
                       onKeyDown={(e) => {
                         if (e.key === 'Escape') closeMega()
                       }}
@@ -205,6 +211,11 @@ export function Navbar() {
               <li>
                 <NavLink to="/insights" className={navLinkClass}>
                   Insights
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to={contactTopicPath('careers')} className={navLinkClass}>
+                  Careers
                 </NavLink>
               </li>
             </ul>
@@ -281,6 +292,7 @@ export function Navbar() {
             {[
               { to: '/about', label: 'About Us' },
               { to: '/insights', label: 'Insights' },
+              { to: contactTopicPath('careers'), label: 'Careers' },
             ].map((item) => (
               <li key={item.to}>
                 <NavLink

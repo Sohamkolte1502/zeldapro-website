@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Seo } from '../components/layout/Seo'
-import carevieHero from '../assets/carevie.png'
+import overviewHero from '../assets/carevie/overview.png'
 import { carevie } from '../data/carevie'
 import { Badge, Card, Container } from '../components/ui'
 
@@ -47,7 +47,7 @@ export default function CareviePage() {
             </Link>
           </div>
           <img
-            src={carevieHero}
+            src={overviewHero}
             alt="Carevie product marketing preview"
             className="rounded-xl border border-line-dark shadow-lg"
             loading="eager"

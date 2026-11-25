@@ -1,7 +1,7 @@
 /** Global primary navigation chrome — TCS-style charcoal bar + mega panels. */
-export type NavTheme = 'dark' | 'light'
+export type Nav_Theme = 'dark' | 'light'
 
-export const NAV_THEME: NavTheme = 'dark'
+export const NAV_THEME: Nav_Theme = 'light'
 
 /** TCS-inspired nav chrome (bar and dropdown share the same surface). */
 export const NAV_DARK = {

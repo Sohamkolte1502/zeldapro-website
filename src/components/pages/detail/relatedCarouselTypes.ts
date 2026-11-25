@@ -16,6 +16,9 @@ export type RelatedCarouselDefaultProps = {
   viewAllLabel: string
   items: RelatedCarouselItem[]
   sectionId?: string
+  sectionBackground?: string
+  /** `boxed` = grey rounded tray (industry). `flat` = white band like other detail sections (service). */
+  surface?: 'boxed' | 'flat'
 }
 
 export type RelatedCarouselPeekProps = {

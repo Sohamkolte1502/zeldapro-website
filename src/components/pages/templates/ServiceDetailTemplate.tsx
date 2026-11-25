@@ -1,9 +1,11 @@
+import clsx from 'clsx'
+import type { ReactNode } from 'react'
 import type { Service } from '../../../data'
+import { getDetailHeroCopy } from '../../../data/detailHeroCopy'
 import { contactServicesPath } from '../../../utils/contactPaths'
 import { solutionsForService } from '../../../utils/relatedContent'
+import { Container, Reveal } from '../../ui'
 import { PageCta } from '../PageCta'
-import { ChallengeList } from '../detail/ChallengeList'
-import { ChipList } from '../detail/ChipList'
 import { DetailPageCurtain } from '../detail/DetailPageCurtain'
 import { RelatedCarousel } from '../detail/RelatedCarousel'
 import { DetailSection } from '../detail/DetailSection'
@@ -11,16 +13,16 @@ import { IconCardGrid } from '../detail/IconCardGrid'
 import { getServiceHeroImage } from '../detail/serviceHeroImages'
 import { SectionNav, type SectionNavItem } from '../detail/SectionNav'
 
+const BG_LAVENDER = '#F4F3F9'
+
 type ServiceDetailTemplateProps = {
   service: Service
 }
 
 const BASE_SECTIONS: SectionNavItem[] = [
-  { id: 'business-challenges', label: 'Business challenges' },
-  { id: 'key-capabilities', label: 'Key capabilities' },
-  { id: 'relevant-technologies', label: 'Relevant technologies' },
-  { id: 'practical-applications', label: 'Practical applications' },
+  { id: 'service-overview', label: 'Overview' },
   { id: 'related-ai-solutions', label: 'Related AI solutions' },
+  { id: 'key-capabilities', label: 'Key capabilities' },
 ]
 
 function sectionVisible(
@@ -29,14 +31,10 @@ function sectionVisible(
   relatedSolutionsCount: number,
 ): boolean {
   switch (id) {
-    case 'business-challenges':
-      return service.challenges.length > 0
+    case 'service-overview':
+      return Boolean(service.overview.headline.trim())
     case 'key-capabilities':
       return service.capabilities.length > 0
-    case 'relevant-technologies':
-      return service.technologies.length > 0
-    case 'practical-applications':
-      return service.applications.length > 0
     case 'related-ai-solutions':
       return relatedSolutionsCount > 0
     default:
@@ -44,80 +42,87 @@ function sectionVisible(
   }
 }
 
+function ServiceBandSection({
+  id,
+  backgroundColor,
+  children,
+}: {
+  id: string
+  backgroundColor: string
+  children: ReactNode
+}) {
+  return (
+    <section
+      id={id}
+      className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
+      style={{ backgroundColor }}
+    >
+      {children}
+    </section>
+  )
+}
+
+function ServiceOverview({ service }: { service: Service }) {
+  const { headline, paragraphs } = service.overview
+
+  return (
+    <ServiceBandSection id="service-overview" backgroundColor="#ffffff">
+      <Container>
+        <Reveal>
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-electric-600">
+            {service.title}
+          </p>
+          <h2
+            className={clsx(
+              'mt-4 max-w-4xl font-heading text-xl font-medium uppercase',
+              'leading-snug tracking-wide text-brand-950 sm:text-2xl lg:text-[1.65rem]',
+            )}
+          >
+            {headline}
+          </h2>
+          <div className="mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-ink-muted sm:text-[1.05rem]">
+            {paragraphs.map((paragraph) => (
+              <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+            ))}
+          </div>
+        </Reveal>
+      </Container>
+    </ServiceBandSection>
+  )
+}
+
 export function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
   const relatedSolutions = solutionsForService(service)
+  const heroCopy = getDetailHeroCopy(service.slug)
 
   const sectionNavItems = BASE_SECTIONS.filter((item) =>
     sectionVisible(item.id, service, relatedSolutions.length),
   )
 
-  const tones: Record<string, 'light' | 'muted'> = {}
-  sectionNavItems.forEach((item, index) => {
-    tones[item.id] = index % 2 === 0 ? 'light' : 'muted'
-  })
-
   return (
     <DetailPageCurtain
       heroProps={{
         slug: service.slug,
-        eyebrow: 'Service',
-        title: service.title,
-        description: service.summary,
+        headline: heroCopy.headline,
+        description: heroCopy.description,
         resolveHeroImage: getServiceHeroImage,
         breadcrumb: {
           parentLabel: 'Services',
           currentLabel: service.title,
         },
-        contactHref: contactServicesPath(service.slug),
       }}
     >
       {sectionNavItems.length > 0 ? (
         <SectionNav items={sectionNavItems} />
       ) : null}
 
-      {service.challenges.length > 0 ? (
-        <DetailSection
-          id="business-challenges"
-          title="Business challenges"
-          tone={tones['business-challenges']}
-        >
-          <ChallengeList items={service.challenges} />
-        </DetailSection>
-      ) : null}
-
-      {service.capabilities.length > 0 ? (
-        <DetailSection
-          id="key-capabilities"
-          title="Key capabilities"
-          tone={tones['key-capabilities']}
-        >
-          <IconCardGrid items={service.capabilities} />
-        </DetailSection>
-      ) : null}
-
-      {service.technologies.length > 0 ? (
-        <DetailSection
-          id="relevant-technologies"
-          title="Relevant technologies"
-          tone={tones['relevant-technologies']}
-        >
-          <ChipList items={service.technologies} />
-        </DetailSection>
-      ) : null}
-
-      {service.applications.length > 0 ? (
-        <DetailSection
-          id="practical-applications"
-          title="Practical applications"
-          tone={tones['practical-applications']}
-        >
-          <ChallengeList items={service.applications} />
-        </DetailSection>
-      ) : null}
+      <ServiceOverview service={service} />
 
       {relatedSolutions.length > 0 ? (
         <RelatedCarousel
           sectionId="related-ai-solutions"
+          surface="flat"
+          sectionBackground={BG_LAVENDER}
           heading="Related AI solutions"
           description="Solution patterns often delivered alongside this service."
           viewAllHref="/ai-solutions"
@@ -130,6 +135,17 @@ export function ServiceDetailTemplate({ service }: ServiceDetailTemplateProps) {
             badge: 'AI Solution',
           }))}
         />
+      ) : null}
+
+      {service.capabilities.length > 0 ? (
+        <DetailSection
+          id="key-capabilities"
+          title="Key capabilities"
+          description="What we bring to programmes like this—from discovery through delivery."
+          tone="light"
+        >
+          <IconCardGrid items={service.capabilities} />
+        </DetailSection>
       ) : null}
 
       <PageCta contactTo={contactServicesPath(service.slug)} />

@@ -102,7 +102,7 @@ export function CategoryPanelList({
   return (
     <div
       ref={setBoundary}
-      className="relative max-w-full overflow-hidden rounded-[28px] bg-white px-6 py-10 shadow-sm sm:px-10 sm:py-12"
+      className="relative max-w-full mt-10 overflow-hidden rounded-[28px] bg-white px-6 py-10 shadow-sm sm:px-10 sm:py-12"
       aria-labelledby={titleId}
     >
       <h2

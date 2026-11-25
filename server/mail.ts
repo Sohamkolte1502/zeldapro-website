@@ -47,20 +47,34 @@ function escapeHtml(text: string): string {
 }
 
 function buildPlainText(data: ContactSubmission): string {
+  const isCareers = data.topic === 'careers'
   const lines = [
     `New ${data.topicTitle} submission`,
     '',
     `Topic slug: ${data.topic}`,
     `Name: ${data.name}`,
-    `Company: ${data.company}`,
+    isCareers
+      ? data.location
+        ? `Location: ${data.location}`
+        : null
+      : `Company: ${data.company}`,
     `Email: ${data.email}`,
     data.phone ? `Phone: ${data.phone}` : null,
-    `Service of interest: ${data.serviceOfInterest}`,
-    data.serviceSlug ? `Service slug: ${data.serviceSlug}` : null,
-    `Marketing opt-in: ${data.marketingOptIn ? 'Yes' : 'No'}`,
+    isCareers
+      ? `Area of interest: ${data.roleArea ?? data.serviceOfInterest}`
+      : `Service of interest: ${data.serviceOfInterest}`,
+    !isCareers && data.serviceSlug
+      ? `Service slug: ${data.serviceSlug}`
+      : null,
+    isCareers && data.linkedinUrl
+      ? `Profile / résumé link: ${data.linkedinUrl}`
+      : null,
+    !isCareers
+      ? `Marketing opt-in: ${data.marketingOptIn ? 'Yes' : 'No'}`
+      : null,
     data.sourcePath ? `Source path: ${data.sourcePath}` : null,
     '',
-    'Message:',
+    isCareers ? 'About the candidate:' : 'Message:',
     data.message,
   ].filter((line): line is string => line !== null)
 
@@ -68,19 +82,31 @@ function buildPlainText(data: ContactSubmission): string {
 }
 
 function buildHtml(data: ContactSubmission): string {
+  const isCareers = data.topic === 'careers'
   const rows: Array<[string, string]> = [
     ['Enquiry type', data.topicTitle],
     ['Name', data.name],
-    ['Company', data.company],
+    ...(isCareers
+      ? data.location
+        ? ([['Location', data.location]] as Array<[string, string]>)
+        : []
+      : ([['Company', data.company]] as Array<[string, string]>)),
     ['Email', data.email],
   ]
   if (data.phone) rows.push(['Phone', data.phone])
-  rows.push(['Service of interest', data.serviceOfInterest])
-  if (data.serviceSlug) rows.push(['Service slug', data.serviceSlug])
   rows.push([
-    'Marketing opt-in',
-    data.marketingOptIn ? 'Yes' : 'No',
+    isCareers ? 'Area of interest' : 'Service of interest',
+    data.roleArea ?? data.serviceOfInterest,
   ])
+  if (!isCareers && data.serviceSlug) {
+    rows.push(['Service slug', data.serviceSlug])
+  }
+  if (isCareers && data.linkedinUrl) {
+    rows.push(['Profile / résumé link', data.linkedinUrl])
+  }
+  if (!isCareers) {
+    rows.push(['Marketing opt-in', data.marketingOptIn ? 'Yes' : 'No'])
+  }
   if (data.sourcePath) rows.push(['Submitted from', data.sourcePath])
 
   const tableRows = rows

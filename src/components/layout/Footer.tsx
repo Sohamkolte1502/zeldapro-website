@@ -93,7 +93,7 @@ const capabilityLinks = [
 
 export function Footer() {
   return (
-    <footer className="dark-surface border-t border-line-dark bg-brand-950 text-on-dark-muted print:hidden">
+    <footer className="dark-surface border-t border-white/[0.08] bg-black text-on-dark-muted print:hidden">
       <Container className="py-14 lg:py-16">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
@@ -163,20 +163,17 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-line-dark/80 pt-8 text-xs text-on-dark-subtle sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            © {DISPLAY_YEAR} {company.contact.legalName}. All rights reserved.
-          </p>
-          <nav aria-label="Legal" className="flex gap-6">
-            <Link to="/privacy" className={`${footerLink} text-xs`}>
-              Privacy
-            </Link>
-            <Link to="/terms" className={`${footerLink} text-xs`}>
-              Terms
-            </Link>
-          </nav>
+        <div className="mt-14 flex flex-col gap-3 text-xs text-on-dark-subtle sm:flex-row sm:items-center sm:justify-between">
+          <p>© {DISPLAY_YEAR} Zeldapro. All rights reserved.</p>
+          <Link
+            to="/privacy"
+            className={`${footerLink} text-xs text-on-dark-muted`}
+          >
+            Privacy
+          </Link>
         </div>
       </Container>
+      <div className="border-t border-white/[0.08]" aria-hidden />
     </footer>
   )
 }

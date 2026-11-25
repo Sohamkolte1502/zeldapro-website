@@ -14,7 +14,7 @@ export default function IndustryDetailPage() {
     <>
       <Seo
         title={industry.title}
-        description={industry.challenges[0]}
+        description={industry.overview.paragraphs[0]}
       />
       <IndustryDetailTemplate industry={industry} />
     </>

@@ -1,5 +1,6 @@
 import type { Solution } from '../../../data'
 import { industryBySlug } from '../../../data'
+import { getDetailHeroCopy } from '../../../data/detailHeroCopy'
 import { contactSolutionsPath } from '../../../utils/contactPaths'
 import { servicesForSolution } from '../../../utils/relatedContent'
 import { PageCta } from '../PageCta'
@@ -8,6 +9,7 @@ import { RelatedCarousel } from '../detail/RelatedCarousel'
 import { RelevantServicesOfferingsPanel } from '../detail/RelevantServicesOfferingsPanel'
 import { DetailSection } from '../detail/DetailSection'
 import { HowItWorksFlow } from '../detail/HowItWorksFlow'
+import { SolutionWhatItIs } from '../detail/SolutionWhatItIs'
 import { getSolutionHeroImage } from '../detail/solutionHeroImages'
 import { SectionNav, type SectionNavItem } from '../detail/SectionNav'
 
@@ -17,8 +19,8 @@ type SolutionDetailTemplateProps = {
 
 const BASE_SECTIONS: SectionNavItem[] = [
   { id: 'what-it-is', label: 'What it is' },
-  { id: 'how-it-works', label: 'How it works' },
   { id: 'relevant-industries', label: 'Relevant industries' },
+  { id: 'how-it-works', label: 'How it works' },
   { id: 'related-services', label: 'Related services' },
 ]
 
@@ -43,6 +45,7 @@ function sectionVisible(
 }
 
 export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps) {
+  const heroCopy = getDetailHeroCopy(solution.slug)
   const relatedServices = servicesForSolution(solution)
   const relatedIndustries = solution.industries
     .map((slug) => industryBySlug[slug as keyof typeof industryBySlug])
@@ -66,15 +69,13 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
     <DetailPageCurtain
       heroProps={{
         slug: solution.slug,
-        eyebrow: 'AI Solution',
-        title: solution.title,
-        description: solution.whatItIs,
+        headline: heroCopy.headline,
+        description: heroCopy.description,
         resolveHeroImage: getSolutionHeroImage,
         breadcrumb: {
           parentLabel: 'AI Solutions',
           currentLabel: solution.title,
         },
-        contactHref: contactSolutionsPath(),
       }}
     >
       {sectionNavItems.length > 0 ? (
@@ -85,21 +86,10 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
         <DetailSection
           id="what-it-is"
           title="What it is"
+          description="What this solution pattern delivers—and the pressures it is designed to relieve."
           tone={tones['what-it-is']}
         >
-          <p className="max-w-3xl text-sm leading-relaxed text-ink-muted sm:text-base">
-            {solution.whatItIs}
-          </p>
-        </DetailSection>
-      ) : null}
-
-      {solution.howItWorks.trim() ? (
-        <DetailSection
-          id="how-it-works"
-          title="How it works"
-          tone={tones['how-it-works']}
-        >
-          <HowItWorksFlow text={solution.howItWorks} />
+          <SolutionWhatItIs solution={solution} />
         </DetailSection>
       ) : null}
 
@@ -118,13 +108,24 @@ export function SolutionDetailTemplate({ solution }: SolutionDetailTemplateProps
         />
       ) : null}
 
+      {solution.howItWorks.trim() ? (
+        <DetailSection
+          id="how-it-works"
+          title="How it works"
+          description="How we shape delivery—from data and controls to the teams who operate it."
+          tone={tones['how-it-works']}
+        >
+          <HowItWorksFlow text={solution.howItWorks} />
+        </DetailSection>
+      ) : null}
+
       {relatedServices.length > 0 ? (
         <RelevantServicesOfferingsPanel
           sectionId="related-services"
           heading="Related services"
           description="Explore the delivery services most often paired with this solution—then tell us about your context."
           services={relatedServices}
-          bandTone={tones['related-services'] === 'muted' ? 'muted' : 'light'}
+          bandTone="light"
         />
       ) : null}
 

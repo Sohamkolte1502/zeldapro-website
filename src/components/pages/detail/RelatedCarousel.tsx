@@ -23,6 +23,8 @@ export function RelatedCarousel(props: RelatedCarouselProps) {
       viewAllLabel={props.viewAllLabel}
       items={props.items}
       sectionId={props.sectionId}
+      sectionBackground={props.sectionBackground}
+      surface={props.surface}
     />
   )
 }

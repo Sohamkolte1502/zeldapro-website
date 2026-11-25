@@ -15,7 +15,7 @@ type RelevantServicesOfferingsPanelProps = {
   description: string
   services: Service[]
   /** Background band behind the tray (`light` = white page, `muted` = #F5F7FA). */
-  bandTone?: 'light' | 'muted'
+  bandTone?: 'light' | 'muted' | 'lavender'
 }
 
 function ServiceHeroVisual({ service }: { service: Service }) {
@@ -92,14 +92,17 @@ export function RelevantServicesOfferingsPanel({
     <section
       id={sectionId}
       className="scroll-mt-nav border-t border-[#E1E8F2] py-14 sm:py-16"
-      style={{ backgroundColor: bandTone === 'muted' ? '#F5F7FA' : '#ffffff' }}
+      style={{
+        backgroundColor:
+          bandTone === 'lavender'
+            ? '#F4F3F9'
+            : bandTone === 'muted'
+              ? '#F5F7FA'
+              : '#ffffff',
+      }}
     >
       <Container>
-        <div
-          className="overflow-hidden rounded-3xl px-5 py-8 sm:px-7 sm:py-10 lg:px-10 lg:py-12"
-          style={{ backgroundColor: '#E4EAF2' }}
-        >
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:gap-10 xl:grid-cols-[minmax(0,20rem)_1fr]">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,17.5rem)_1fr] lg:gap-10 xl:grid-cols-[minmax(0,20rem)_1fr]">
             <div>
               <h2 className="font-heading text-2xl text-brand-950 sm:text-3xl">
                 {heading}
@@ -216,7 +219,6 @@ export function RelevantServicesOfferingsPanel({
                 </div>
               </div>
             </div>
-          </div>
         </div>
       </Container>
     </section>

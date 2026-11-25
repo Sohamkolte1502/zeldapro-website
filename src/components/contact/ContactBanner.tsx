@@ -8,6 +8,8 @@ type ContactBannerProps = {
   variant: 'media' | 'gradient'
   heading: ReactNode
   breadcrumbLinkHub?: boolean
+  breadcrumbCurrent?: string
+  backgroundSrc?: string
   className?: string
 }
 
@@ -15,8 +17,11 @@ export function ContactBanner({
   variant,
   heading,
   breadcrumbLinkHub = true,
+  breadcrumbCurrent,
+  backgroundSrc,
   className,
 }: ContactBannerProps) {
+  const mediaSrc = backgroundSrc ?? heroBg
   return (
     <section
       className={clsx(
@@ -34,7 +39,7 @@ export function ContactBanner({
           {variant === 'media' ? (
             <div className="absolute inset-0" aria-hidden>
               <img
-                src={heroBg}
+                src={mediaSrc}
                 alt=""
                 className="absolute inset-0 h-full w-full object-cover object-center"
               />
@@ -49,7 +54,10 @@ export function ContactBanner({
           )}
 
           <div className="relative flex h-full min-h-[inherit] flex-col justify-between p-6 sm:p-10 lg:p-12">
-            <ContactBreadcrumb linkHub={breadcrumbLinkHub} />
+            <ContactBreadcrumb
+              linkHub={breadcrumbLinkHub}
+              current={breadcrumbCurrent}
+            />
             <div className="flex flex-1 flex-col items-center justify-center py-8 text-center sm:py-10">
               {heading}
             </div>

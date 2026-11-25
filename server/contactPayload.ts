@@ -9,6 +9,9 @@ export type ContactSubmission = {
   phone?: string
   serviceOfInterest: string
   serviceSlug?: string
+  linkedinUrl?: string
+  location?: string
+  roleArea?: string
   message: string
   marketingOptIn: boolean
   privacyAgreed: boolean
@@ -49,6 +52,9 @@ export function parseContactBody(
   const phone = asOptionalString(raw.phone)
   const serviceOfInterest = asString(raw.serviceOfInterest)
   const serviceSlug = asOptionalString(raw.serviceSlug)
+  const linkedinUrl = asOptionalString(raw.linkedinUrl)
+  const location = asOptionalString(raw.location)
+  const roleArea = asOptionalString(raw.roleArea)
   const message = asString(raw.message)
   const marketingOptIn = asBool(raw.marketingOptIn)
   const privacyAgreed = asBool(raw.privacyAgreed)
@@ -57,17 +63,30 @@ export function parseContactBody(
   if (!topic || !topicTitle) {
     return { ok: false, message: 'Missing enquiry type.' }
   }
+  const isCareers = topic === 'careers'
+
   if (!name) return { ok: false, message: 'Name is required.' }
-  if (!company) return { ok: false, message: 'Company is required.' }
+  if (!isCareers && !company) {
+    return { ok: false, message: 'Company is required.' }
+  }
   if (!email) return { ok: false, message: 'Email is required.' }
   if (!EMAIL_PATTERN.test(email)) {
     return { ok: false, message: 'Enter a valid email address.' }
   }
   if (!serviceOfInterest) {
-    return { ok: false, message: 'Service of interest is required.' }
+    return {
+      ok: false,
+      message: isCareers
+        ? 'Area of interest is required.'
+        : 'Service of interest is required.',
+    }
   }
-  if (!message || message.length < 10) {
-    return { ok: false, message: 'Message must be at least 10 characters.' }
+  const minMessage = isCareers ? 20 : 10
+  if (!message || message.length < minMessage) {
+    return {
+      ok: false,
+      message: `Message must be at least ${minMessage} characters.`,
+    }
   }
   if (!privacyAgreed) {
     return { ok: false, message: 'Privacy Policy agreement is required.' }
@@ -79,11 +98,14 @@ export function parseContactBody(
       topic,
       topicTitle,
       name,
-      company,
+      company: company || location || 'Not provided',
       email,
       phone,
       serviceOfInterest,
       serviceSlug,
+      linkedinUrl,
+      location,
+      roleArea: roleArea || serviceOfInterest,
       message,
       marketingOptIn,
       privacyAgreed,

@@ -8,9 +8,16 @@ export type IllustrativeScenario = {
   illustrative: true
 }
 
+export type IndustryOverview = {
+  /** Editorial headline for industry detail (displayed uppercase in UI). */
+  headline: string
+  paragraphs: [string, string]
+}
+
 export type Industry = {
   slug: string
   title: string
+  overview: IndustryOverview
   challenges: string[]
   howAiHelps: string[]
   relatedServiceSlugs: Service['slug'][]
@@ -22,6 +29,13 @@ export const industries: Industry[] = [
   {
     slug: 'healthcare-life-sciences',
     title: 'Healthcare & Life Sciences',
+    overview: {
+      headline: 'Intelligence that respects clinical context',
+      paragraphs: [
+        'Healthcare and life sciences organisations coordinate care across fragmented clinical, operational, and patient-facing systems. Leaders are expected to improve access and throughput while privacy regimes, audit expectations, and validation discipline stay non-negotiable.',
+        'Zeldapro helps teams apply AI to summarisation, coordination, and digital health experiences—always with access control, human oversight, and clear boundaries on what software may recommend versus what licensed staff must decide.',
+      ],
+    },
     challenges: [
       'Clinical and operational data spread across EHR, labs, and ancillary systems',
       'Documentation burden reducing time for patient-facing work',
@@ -63,6 +77,13 @@ export const industries: Industry[] = [
   {
     slug: 'banking-financial-services',
     title: 'Banking & Financial Services',
+    overview: {
+      headline: 'Modern service without weakening control',
+      paragraphs: [
+        'Banks and financial institutions run on document-heavy processes, legacy cores, and model-risk frameworks that must keep pace with customer expectations. Every automation candidate competes with explainability, compliance checkpoints, and the reputational cost of error.',
+        'We partner on governed extraction, servicing assistance, and workflow automation—grounded in approved policies, routed through approval gates, and designed so risk and operations teams retain clear accountability.',
+      ],
+    },
     challenges: [
       'High volumes of document-heavy processes with compliance checkpoints',
       'Customer expectations for faster service without weakening controls',
@@ -104,6 +125,13 @@ export const industries: Industry[] = [
   {
     slug: 'manufacturing-industrial',
     title: 'Manufacturing & Industrial',
+    overview: {
+      headline: 'From plant data to earlier, safer decisions',
+      paragraphs: [
+        'Manufacturers balance uptime, quality, and multi-site standardisation while OT and IT environments mature at different speeds. Shop-floor expertise remains essential—technology must amplify supervisors and engineers instead of bypassing them.',
+        'Our work connects historians, MES, and sensor data to practical signals for maintenance, quality, and operations—supporting vision inspection and digital twins with human override and security-aware integration patterns.',
+      ],
+    },
     challenges: [
       'Unplanned downtime affecting schedules and customer commitments',
       'Quality escapes discovered late in the process',
@@ -145,6 +173,13 @@ export const industries: Industry[] = [
   {
     slug: 'logistics-supply-chain',
     title: 'Logistics & Supply Chain',
+    overview: {
+      headline: 'Visibility and foresight across volatile networks',
+      paragraphs: [
+        'Logistics and supply-chain operators navigate demand shocks, lane disruption, and exception management workflows that still rely on coordinated people as much as systems. Investment must show margin-aware value—not speculative dashboards.',
+        'We help teams integrate TMS, WMS, and planning data for forecasting, exception surfacing, and customer-facing status—transparent about constraints and designed for planner adjustment, not black-box rerouting.',
+      ],
+    },
     challenges: [
       'Volatile demand and disruption across lanes and suppliers',
       'Limited end-to-end visibility once goods leave the warehouse',
@@ -186,6 +221,13 @@ export const industries: Industry[] = [
   {
     slug: 'retail-consumer',
     title: 'Retail & Consumer',
+    overview: {
+      headline: 'Consistent experiences across every channel',
+      paragraphs: [
+        'Retailers and consumer brands unify ecommerce, stores, and loyalty while margins and privacy preferences shape how far personalisation can go. Support and merchandising teams need shared truth—not another siloed pilot.',
+        'We build AI-assisted service, recommendation, and analytics on entitlements and inventory reality—grounded in current product and policy content so customers get accurate answers and merchants retain control.',
+      ],
+    },
     challenges: [
       'Fragmented customer data across ecommerce, stores, and loyalty',
       'Support costs rising with channel proliferation',
@@ -227,6 +269,13 @@ export const industries: Industry[] = [
   {
     slug: 'energy-utilities',
     title: 'Energy & Utilities',
+    overview: {
+      headline: 'Resilient assets and informed field operations',
+      paragraphs: [
+        'Energy and utilities operators steward ageing infrastructure, dispersed crews, and safety obligations where weather and demand variability drive planning every season. Enterprise IT and operational technology must interoperate without introducing unmanaged risk.',
+        'Zeldapro supports condition monitoring, outage context, load and renewable forecasting, and mobile access to procedures—always aligned with control-room practices and qualified field judgement.',
+      ],
+    },
     challenges: [
       'Ageing assets and dispersed field workforce',
       'Safety and environmental obligations on any operational change',
@@ -268,6 +317,13 @@ export const industries: Industry[] = [
   {
     slug: 'technology-telecom',
     title: 'Technology & Telecom',
+    overview: {
+      headline: 'Scale product velocity with operational discipline',
+      paragraphs: [
+        'Technology and telecom providers ship under relentless release cycles while billing, provisioning, and support stacks carry years of technical debt. Network and product data grows faster than manual analysis can sustain.',
+        'We help engineering and service organisations deploy assistants on runbooks, automate tier-1 triage with escalation, and modernise customer journeys through API-led platforms—protecting SLAs on what already runs in production.',
+      ],
+    },
     challenges: [
       'Rapid product cycles and technical debt in billing and provisioning stacks',
       'Support organisations overwhelmed by complex product catalogues',
@@ -309,6 +365,13 @@ export const industries: Industry[] = [
   {
     slug: 'public-sector-education',
     title: 'Public Sector & Education',
+    overview: {
+      headline: 'Digital services citizens and learners can trust',
+      paragraphs: [
+        'Public sector and education institutions deliver under procurement transparency, accessibility mandates, and scrutiny of any automated decision that affects people. Legacy records and case systems rarely offer modern APIs out of the box.',
+        'Our programmes emphasise digitised workflows with audit trails, staff search over policy libraries, and accessible self-service—plus responsible-AI planning so innovation stays accountable to the communities you serve.',
+      ],
+    },
     challenges: [
       'Procurement and transparency requirements lengthening delivery',
       'Legacy case and records systems with limited APIs',

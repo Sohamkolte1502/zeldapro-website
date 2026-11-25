@@ -4,7 +4,6 @@ import { Navbar } from '../components/layout/Navbar'
 import { PageTransition } from '../components/layout/PageTransition'
 import { ScrollToTop } from '../components/layout/ScrollToTop'
 import { SkipToContent } from '../components/layout/SkipToContent'
-
 export function MainLayout() {
   return (
     <div className="flex min-h-svh flex-col pt-[var(--nav-h)] print:pt-0">
