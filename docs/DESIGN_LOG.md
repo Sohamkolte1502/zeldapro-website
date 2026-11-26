@@ -280,3 +280,4 @@
 - **Scroll delivery:** `HomeScrollStorySection` — pinned lifecycle narrative on lg+ (progress bar + step sync); static fallback on mobile / `prefers-reduced-motion`.
 - **Carevie home:** `CarevieHomeSection` — product headline from data, four verified capabilities, overview visual, `/carevie` + `carevie.in` CTAs (no placeholder screen grid).
 - **Home interactivity (pass 2):** Services bento (12-col, featured pair), solutions horizontal snap carousel, industries chip explorer + detail panel, Carevie selectable capabilities, hero jump chips, About overlaps hero; scroll section before Carevie.
+- **Home premium (pass 3):** `HeroIntelligenceScene` (glass + network), split hero typography; services **stage** with real hero imagery; solutions **alternating editorial rows** with photos; industries **cinematic panel**; Carevie **device cascade**; section tone accents + tighter vertical rhythm.
