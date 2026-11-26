@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import insightsHero from '../assets/images/insights-hero.jpg'
 import { Seo } from '../components/layout/Seo'
 import { EnterprisePageHero } from '../components/pages/EnterprisePageHero'
-import { Badge, Container } from '../components/ui'
+import { Container } from '../components/ui'
 import { insights } from '../data'
 import {
   insightsMetaFields,

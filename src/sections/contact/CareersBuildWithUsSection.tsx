@@ -57,7 +57,7 @@ export function CareersBuildWithUsSection({
                 'ring-1 ring-inset ring-white/[0.06]',
               )}
             >
-              <motionRings />
+              <MotionRings />
               <span className="text-[0.8125rem] font-bold uppercase tracking-[0.16em] text-[#62e3c0]">
                 {copy.cardEyebrow}
               </span>
@@ -83,7 +83,7 @@ export function CareersBuildWithUsSection({
   )
 }
 
-function motionRings() {
+function MotionRings() {
   return (
     <>
       <span

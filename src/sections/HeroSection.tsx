@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion, useReducedMotion, type MotionValue } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { Container } from '../components/ui'
+import { HERO_PROOF_LINE } from '../data/homePage'
 import { HeroFibersLayer } from './HeroFibersLayer'
 
 const HERO_EYEBROW = 'Enterprise AI & Technology'
@@ -93,6 +94,11 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
       </motion.div>
       <motion.div variants={heroFadeIn} className="w-full">
         {ctas}
+      </motion.div>
+      <motion.div variants={heroFadeIn} className="w-full">
+        <p className="hero-primary-text mt-5 max-w-xl text-left text-sm leading-relaxed text-on-dark/85">
+          {HERO_PROOF_LINE}
+        </p>
       </motion.div>
     </motion.div>
   )
