@@ -20,8 +20,8 @@ export default function HomePage() {
         <HomeServicesSection />
         <HomeSolutionsSection />
         <HomeIndustriesSection />
-        <CarevieHomeSection />
         <HomeScrollStorySection />
+        <CarevieHomeSection />
         {SHOW_INSIGHTS ? <InsightsFeature /> : null}
         <FinalCta />
       </HomeHeroCurtain>

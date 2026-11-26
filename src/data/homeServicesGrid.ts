@@ -24,12 +24,32 @@ const iconBySlug: Record<string, LucideIcon> = {
   'managed-technology-support': LifeBuoy,
 }
 
+/** Tailwind col-span classes for bento layout (12-col grid at lg). */
+const bentoSpanBySlug: Record<string, string> = {
+  'ai-strategy-consulting': 'lg:col-span-6',
+  'generative-agentic-ai-engineering': 'lg:col-span-6',
+  'data-engineering-analytics': 'lg:col-span-4',
+  'application-platform-development': 'lg:col-span-4',
+  'cloud-devops-platform-engineering': 'lg:col-span-4',
+  'iot-iiot-digital-systems': 'lg:col-span-3',
+  'cybersecurity-trust-engineering': 'lg:col-span-3',
+  'digital-transformation': 'lg:col-span-3',
+  'managed-technology-support': 'lg:col-span-3',
+}
+
+const featuredSlugs = new Set([
+  'ai-strategy-consulting',
+  'generative-agentic-ai-engineering',
+])
+
 export type HomeServiceCard = {
   slug: string
   title: string
   description: string
   href: string
   icon: LucideIcon
+  bentoClass: string
+  featured: boolean
 }
 
 export const homeServicesGridCopy = {
@@ -41,11 +61,12 @@ export const homeServicesGridCopy = {
   viewAllHref: '/services',
 } as const
 
-/** All nine services — sourced from `services` data. */
 export const homeServicesGrid: HomeServiceCard[] = services.map((service) => ({
   slug: service.slug,
   title: service.title,
   description: service.summary,
   href: `/services/${service.slug}`,
   icon: iconBySlug[service.slug] ?? Layers,
+  bentoClass: bentoSpanBySlug[service.slug] ?? 'lg:col-span-4',
+  featured: featuredSlugs.has(service.slug),
 }))

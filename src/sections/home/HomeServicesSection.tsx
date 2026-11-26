@@ -14,6 +14,7 @@ export function HomeServicesSection() {
       title={homeServicesGridCopy.heading}
       description={homeServicesGridCopy.subline}
       variant="muted"
+      texture
       action={
         <Link
           to={homeServicesGridCopy.viewAllHref}
@@ -24,17 +25,18 @@ export function HomeServicesSection() {
         </Link>
       }
     >
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-12">
         {homeServicesGrid.map((card, index) => (
-          <li key={card.slug} className="list-none min-w-0">
-            <HomeCapabilityCard
-              href={card.href}
-              title={card.title}
-              description={card.description}
-              icon={card.icon}
-              index={index}
-            />
-          </li>
+          <HomeCapabilityCard
+            key={card.slug}
+            href={card.href}
+            title={card.title}
+            description={card.description}
+            icon={card.icon}
+            index={index}
+            variant={card.featured ? 'featured' : 'default'}
+            className={card.bentoClass}
+          />
         ))}
       </ul>
     </HomeSectionShell>

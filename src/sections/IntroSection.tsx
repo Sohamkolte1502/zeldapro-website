@@ -105,7 +105,7 @@ export function IntroSection() {
   return (
     <section
       id="about"
-      className="relative z-10 scroll-mt-nav overflow-x-hidden border-b border-line bg-white py-20 text-ink sm:py-24 lg:py-28"
+      className="relative z-20 -mt-6 scroll-mt-nav overflow-x-hidden rounded-t-[2rem] border border-b border-line bg-white py-20 text-ink shadow-[0_-20px_60px_rgba(8,29,41,0.06)] sm:-mt-8 sm:py-24 lg:py-28"
     >
       <ConcentricRings />
       <Container className="relative">

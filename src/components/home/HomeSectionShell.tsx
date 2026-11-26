@@ -13,6 +13,8 @@ type HomeSectionShellProps = {
   className?: string
   /** Alternate band for rhythm (lavender-tinted). */
   variant?: 'default' | 'muted'
+  /** Subtle grid texture behind content */
+  texture?: boolean
 }
 
 export function HomeSectionShell({
@@ -24,19 +26,31 @@ export function HomeSectionShell({
   children,
   className,
   variant = 'default',
+  texture = false,
 }: HomeSectionShellProps) {
   return (
     <section
       id={id}
       className={clsx(
-        'scroll-mt-nav overflow-x-hidden py-[var(--spacing-section-y)] text-ink',
+        'relative scroll-mt-nav overflow-x-hidden py-[var(--spacing-section-y)] text-ink',
         variant === 'muted'
           ? 'bg-[linear-gradient(180deg,#f3f5f8_0%,#f6f8f9_55%,#ffffff_100%)]'
           : 'bg-white',
         className,
       )}
     >
-      <Container>
+      {texture ? (
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgb(8 29 41 / 0.04) 1px, transparent 1px), linear-gradient(90deg, rgb(8 29 41 / 0.04) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+          }}
+          aria-hidden
+        />
+      ) : null}
+      <Container className="relative">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
           <Reveal className="min-w-0 max-w-3xl">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-electric-600">

@@ -57,6 +57,25 @@ export function LightCinematicHero() {
       <p className="mt-6 max-w-xl text-sm leading-relaxed text-ink-subtle">
         {HERO_PROOF_LINE}
       </p>
+      <nav
+        className="mt-8 flex flex-wrap gap-2"
+        aria-label="Jump to homepage sections"
+      >
+        {[
+          { label: 'Services', href: '#what-we-do' },
+          { label: 'AI solutions', href: '#ai-solutions' },
+          { label: 'Industries', href: '#industries' },
+          { label: 'How we work', href: '#scroll-delivery-heading' },
+        ].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-brand-950 ring-1 ring-line backdrop-blur-sm transition-colors hover:ring-electric-500/45 hover:text-electric-600"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
     </>
   )
 
@@ -125,6 +144,25 @@ export function LightCinematicHero() {
               <p className="mt-6 max-w-xl text-sm leading-relaxed text-ink-subtle">
                 {HERO_PROOF_LINE}
               </p>
+              <nav
+                className="mt-8 flex flex-wrap gap-2"
+                aria-label="Jump to homepage sections"
+              >
+                {[
+                  { label: 'Services', href: '#what-we-do' },
+                  { label: 'AI solutions', href: '#ai-solutions' },
+                  { label: 'Industries', href: '#industries' },
+                  { label: 'How we work', href: '#scroll-delivery-heading' },
+                ].map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="rounded-full bg-white/90 px-3.5 py-1.5 text-xs font-semibold text-brand-950 ring-1 ring-line backdrop-blur-sm transition-colors hover:ring-electric-500/45 hover:text-electric-600"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+              </nav>
             </motion.div>
           </motion.div>
         )}

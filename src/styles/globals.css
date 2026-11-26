@@ -70,6 +70,22 @@
   scroll-margin-top: calc(var(--nav-h) + 16px);
 }
 
+.home-snap-scroll {
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.home-snap-scroll > li {
+  scroll-snap-align: start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-snap-scroll {
+    scroll-behavior: auto;
+  }
+}
+
 @layer base {
   html {
     @apply scroll-smooth antialiased;
