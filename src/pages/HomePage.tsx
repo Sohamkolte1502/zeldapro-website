@@ -5,7 +5,7 @@ import { FinalCta } from '../sections/FinalCta'
 import { HomeHeroCurtain } from '../sections/home/HomeHeroCurtain'
 import { InsightsFeature } from '../sections/InsightsFeature'
 import { IntroSection } from '../sections/IntroSection'
-import { CategoryCards } from '../components/category/CategoryCards'
+import { WhatWeDoSection } from '../sections/home/WhatWeDoSection'
 import { SoftwareInnovationLinks } from '../sections/SoftwareInnovationLinks'
 import { CarevieSpotlight } from '../sections/CarevieSpotlight'
 import { TechMatrix } from '../sections/TechMatrix'
@@ -19,7 +19,7 @@ export default function HomePage() {
       />
       <HomeHeroCurtain>
         <IntroSection />
-        <CategoryCards />
+        <WhatWeDoSection />
         <SoftwareInnovationLinks />
         <CarevieSpotlight />
         <ApproachTimeline />

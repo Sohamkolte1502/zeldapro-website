@@ -82,7 +82,6 @@ export default function InsightsIndexPage() {
               className="group mt-4 block overflow-hidden rounded-2xl border border-line bg-surface-0 shadow-md transition-shadow hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-600 lg:grid lg:grid-cols-[1.15fr_1fr]"
             >
               <div className="border-b border-line bg-gradient-to-br from-brand-950 via-brand-900 to-electric-600/30 p-8 text-on-dark lg:border-b-0 lg:border-r">
-                <Badge tone="dark">{featured.statusLabel}</Badge>
                 <h2 className="mt-4 font-heading text-2xl sm:text-3xl group-hover:text-electric-300">
                   {featured.title}
                 </h2>
@@ -114,7 +113,7 @@ export default function InsightsIndexPage() {
                 Latest perspectives
               </h2>
               <p className="mt-2 text-sm text-ink-muted">
-                Draft articles for layout and editorial workflow—final versions pending review.
+                Perspectives on responsible AI, engineering, and enterprise transformation.
               </p>
             </div>
           </div>
@@ -154,8 +153,9 @@ export default function InsightsIndexPage() {
                   className="group flex h-full flex-col rounded-2xl border border-line bg-surface-50 p-6 shadow-sm transition-all hover:-translate-y-0.5 hover:border-electric-500/30 hover:shadow-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-electric-600"
                 >
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge tone="light">{article.statusLabel}</Badge>
-                    <span className="text-xs text-ink-subtle">{article.category}</span>
+                    <span className="text-xs font-medium uppercase tracking-wide text-ink-subtle">
+                      {article.category}
+                    </span>
                   </div>
                   <h3 className="mt-3 font-heading text-lg text-brand-950 group-hover:text-electric-600">
                     {article.title}

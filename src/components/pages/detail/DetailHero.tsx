@@ -2,7 +2,6 @@ import clsx from 'clsx'
 import { ArrowRight } from 'lucide-react'
 import { motion, type MotionValue } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { Container } from '../../ui'
 import { getIndustryHeroImage } from './industryHeroImages'
 
 export type ResolveHeroImage = (slug: string) => string | null
@@ -107,27 +106,20 @@ function HeroContent({
   const nameLabel = breadcrumb.currentLabel.toUpperCase()
 
   const inner = (
-    <div className="detail-hero-copy w-full max-w-[min(100%,36rem)] text-left sm:max-w-xl lg:max-w-2xl xl:max-w-[44rem]">
+    <div className="detail-hero-copy w-full text-left">
       <nav aria-label="Breadcrumb">
-        <p className="text-[0.6875rem] font-normal tracking-[0.26em] text-white/95 sm:text-xs">
+        <p className="detail-hero-breadcrumb">
           {categoryLabel} / {nameLabel}
         </p>
       </nav>
-      <div
-        className="detail-hero-divider mt-3 sm:mt-3.5"
-        aria-hidden
-      />
-      <h1 className="detail-hero-headline hero-primary-text mt-9 sm:mt-10 lg:mt-12">
-        {headline}
-      </h1>
-      <p className="detail-hero-description mt-6 max-w-[60ch] sm:mt-7 lg:mt-8">
-        {description}
-      </p>
+      <div className="detail-hero-divider" aria-hidden />
+      <h1 className="detail-hero-headline">{headline}</h1>
+      <p className="detail-hero-description">{description}</p>
       <Link
         to={contactHref}
-        className="group mt-10 inline-flex items-center gap-4 text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric-400 sm:mt-12 lg:mt-14"
+        className="detail-hero-cta group inline-flex items-center gap-4 text-white transition-opacity hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-electric-400"
       >
-        <span className="font-heading text-xl font-medium tracking-tight sm:text-2xl">
+        <span className="font-heading text-xl font-semibold tracking-tight sm:text-2xl">
           Let&apos;s talk
         </span>
         <span
@@ -143,6 +135,7 @@ function HeroContent({
   if (curtainMotion) {
     return (
       <motion.div
+        className="w-full"
         style={{
           y: curtainMotion.y,
           opacity: curtainMotion.opacity,
@@ -168,8 +161,8 @@ export function DetailHero({
   fillSticky = false,
 }: DetailHeroProps) {
   const heightClass = fillSticky
-    ? 'h-full min-h-[calc(100svh-var(--nav-h))]'
-    : 'min-h-[calc(100svh-var(--nav-h))]'
+    ? 'detail-hero-header detail-hero-header--sticky h-full'
+    : 'detail-hero-header'
 
   return (
     <header
@@ -178,11 +171,11 @@ export function DetailHero({
         heightClass,
       )}
     >
-      <div className="detail-hero-overlay hero-section-overlay relative flex min-h-0 flex-1 flex-col">
+      <div className="detail-hero-overlay hero-section-overlay detail-hero-shell relative flex min-h-0 flex-1 flex-col">
         <HeroMedia slug={slug} resolveHeroImage={resolveHeroImage} />
 
         <div className="absolute inset-0 z-10 flex items-center">
-          <Container className="w-full py-10 sm:py-12 lg:py-14">
+          <div className="detail-hero-container w-full py-10 sm:py-12 lg:py-16">
             <HeroContent
               headline={headline}
               description={description}
@@ -190,7 +183,7 @@ export function DetailHero({
               contactHref={contactHref}
               curtainMotion={curtainMotion}
             />
-          </Container>
+          </div>
         </div>
       </div>
     </header>

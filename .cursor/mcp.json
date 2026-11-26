@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "motionsites": {
+      "url": "https://motionsites.ai/api/mcp"
+    }
+  }
+}

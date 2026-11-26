@@ -1,9 +1,8 @@
 import clsx from 'clsx'
-import { motion, useInView, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Compass, Puzzle, Users, type LucideIcon } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { company, industries, services, solutions } from '../data'
+import { company } from '../data'
 import { Container } from '../components/ui'
 
 const highlights = [
@@ -38,88 +37,6 @@ function ConcentricRings() {
       <circle cx="100" cy="100" r="68" stroke="currentColor" strokeWidth="1" />
       <circle cx="100" cy="100" r="44" stroke="currentColor" strokeWidth="1" />
     </svg>
-  )
-}
-
-function useCountUp(target: number, enabled: boolean) {
-  const reduceMotion = useReducedMotion()
-  const [value, setValue] = useState(reduceMotion ? target : 0)
-
-  useEffect(() => {
-    if (!enabled) return
-    if (reduceMotion) {
-      setValue(target)
-      return
-    }
-    const start = performance.now()
-    const duration = 1200
-    let frame = 0
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration)
-      const eased = 1 - (1 - t) ** 3
-      setValue(Math.round(eased * target))
-      if (t < 1) frame = requestAnimationFrame(tick)
-    }
-    frame = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(frame)
-  }, [enabled, reduceMotion, target])
-
-  return value
-}
-
-function FactStat({
-  value,
-  label,
-  animate,
-}: {
-  value: number
-  label: string
-  animate: boolean
-}) {
-  const display = useCountUp(value, animate)
-  return (
-    <div className="min-w-0 text-center sm:text-left">
-      <p className="font-heading text-3xl font-medium tabular-nums text-brand-950 sm:text-4xl">
-        {display}
-      </p>
-      <p className="mt-1 text-xs font-medium uppercase tracking-[0.14em] text-ink-muted">
-        {label}
-      </p>
-    </div>
-  )
-}
-
-function IntroFactsStrip() {
-  const ref = useRef<HTMLDivElement>(null)
-  const inView = useInView(ref, { once: true, amount: 0.35 })
-  const reduceMotion = useReducedMotion()
-
-  const facts = [
-    { value: services.length, label: 'Core services' },
-    { value: solutions.length, label: 'AI solution areas' },
-    { value: industries.length, label: 'Industries' },
-    { value: company.approachSteps.length, label: 'Delivery steps' },
-  ]
-
-  const showStrip = facts.every((f) => typeof f.value === 'number' && f.value > 0)
-  if (!showStrip) return null
-
-  return (
-    <div
-      ref={ref}
-      className="mt-14 border-t border-[#D3DFF0] pt-10 sm:mt-16 sm:pt-12 lg:mt-20 lg:pt-14"
-    >
-      <div className="grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-6">
-        {facts.map((fact) => (
-          <FactStat
-            key={fact.label}
-            value={fact.value}
-            label={fact.label}
-            animate={inView || Boolean(reduceMotion)}
-          />
-        ))}
-      </div>
-    </div>
   )
 }
 
@@ -228,8 +145,6 @@ export function IntroSection() {
             ))}
           </ul>
         </div>
-
-        <IntroFactsStrip />
       </Container>
     </section>
   )

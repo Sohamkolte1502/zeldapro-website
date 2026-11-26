@@ -1,4 +1,15 @@
 /**
+ * Hero background — `src/assets/careers-hero.webp` or `src/assets/images/careers-hero.*`
+ */
+export const careersHeroImageSpec = {
+  width: 1920,
+  height: 720,
+  aspectRatio: '8:3',
+  recommendedFormats: ['webp', 'jpg', 'png'] as const,
+  assetBasename: 'careers-hero',
+} as const
+
+/**
  * Apply section image (left column, below “What’s your story”).
  * Drop your file at `src/assets/images/careers-apply.jpg` (or .png / .webp).
  */

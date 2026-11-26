@@ -61,6 +61,9 @@ function HeroCopy({ reduceMotion }: { reduceMotion: boolean | null }) {
           {HERO_DESCRIPTION}
         </p>
         {ctas}
+        <p className="hero-primary-text mt-5 max-w-xl text-left text-sm leading-relaxed text-on-dark/85">
+          {HERO_PROOF_LINE}
+        </p>
       </div>
     )
   }

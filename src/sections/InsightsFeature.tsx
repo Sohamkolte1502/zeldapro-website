@@ -1,8 +1,9 @@
 import clsx from 'clsx'
 import { ArrowRight, Clock, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { SHOW_INSIGHTS } from '../data/homePage'
 import { insights } from '../data'
-import { Badge, Container, Reveal } from '../components/ui'
+import { Container, Reveal } from '../components/ui'
 
 const categoryAccent: Record<string, string> = {
   'Responsible AI': 'from-electric-600/20 to-brand-950',
@@ -36,7 +37,6 @@ function FeatureLeadCard({
       />
       <div className="relative z-10 min-w-0">
         <div className="flex flex-wrap items-center gap-2">
-          <Badge tone="dark">{article.statusLabel}</Badge>
           <span className="inline-flex items-center gap-1.5 text-xs text-on-dark-muted">
             <Sparkles size={12} className="text-electric-400" aria-hidden />
             {article.category}
@@ -68,9 +68,10 @@ function SupportingCard({ article }: { article: (typeof insights)[number] }) {
       to={`/insights/${article.slug}`}
       className="group flex h-full flex-col rounded-2xl border border-line bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-electric-500/35 hover:shadow-lg motion-reduce:hover:translate-y-0 sm:p-6"
     >
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <Badge tone="light">{article.statusLabel}</Badge>
-        <span className="text-xs font-medium text-ink-subtle">{article.category}</span>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-xs font-medium uppercase tracking-wide text-ink-subtle">
+          {article.category}
+        </span>
       </div>
       <h3 className="mt-4 break-words font-heading text-lg leading-snug text-brand-950 transition-colors group-hover:text-electric-600">
         {article.title}
@@ -92,6 +93,8 @@ function SupportingCard({ article }: { article: (typeof insights)[number] }) {
 }
 
 export function InsightsFeature() {
+  if (!SHOW_INSIGHTS) return null
+
   const lead = insights[0]
   const supporting = insights.slice(1, 3)
 
