@@ -270,3 +270,10 @@
 - Shared hero: semantic breadcrumb, divider, clamp headline (`.detail-hero-headline`), 60ch description, CTA → `/contact`; background `#0B1424`.
 - Copy for all 23 detail slugs in `src/data/detailHeroCopy.ts`; page `title` drives breadcrumb name.
 - Detail hero copy block centered in viewport (TCS-style); headline up to `4rem` at wide breakpoints.
+
+## 2026-11-26 — Light cinematic redesign (`zeldapro-redesign`)
+
+- **Safety:** `backup/pre-redesign-2026-11-26` preserves pre-redesign `main`; work on `zeldapro-redesign` only (see `docs/REDESIGN.md`).
+- **MotionSites alignment (no new MCP prompts):** Palomar/Halden light hero, animated capability cards, subtle network hero motif, scroll `Reveal`s — restrained for enterprise credibility.
+- **Home hero:** `LightCinematicHero` replaces dark fiber curtain; soft lavender/sky gradients + low-opacity `about-hero` plate + `HeroAmbientNetwork`.
+- **Home rhythm:** `HomeSectionShell` + `HomeCapabilityCard`; nine service cards from `services` data; six solution cards; eight industry chips; `IntroSection` as About; Carevie + Approach + Final CTA; insights gated off (`SHOW_INSIGHTS`).

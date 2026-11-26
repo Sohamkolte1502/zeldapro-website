@@ -1,5 +1,5 @@
 /** Homepage-only flags and copy — edit here without touching section components. */
-export const SHOW_INSIGHTS = true
+export const SHOW_INSIGHTS = false
 
 /** Short line under hero CTAs (placeholder). */
 export const HERO_PROOF_LINE =

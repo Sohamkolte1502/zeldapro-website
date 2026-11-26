@@ -103,7 +103,10 @@ export function IntroSection() {
   const reduceMotion = useReducedMotion()
 
   return (
-    <section className="relative z-10 overflow-x-hidden bg-[#F5F7FA] py-20 text-ink sm:py-24 lg:py-[120px]">
+    <section
+      id="about"
+      className="relative z-10 scroll-mt-nav overflow-x-hidden border-b border-line bg-white py-20 text-ink sm:py-24 lg:py-28"
+    >
       <ConcentricRings />
       <Container className="relative">
         <div className="grid gap-10 lg:grid-cols-[42fr_58fr] lg:items-start lg:gap-16">
@@ -114,8 +117,8 @@ export function IntroSection() {
             viewport={{ once: true, amount: 0.25 }}
             transition={{ duration: reduceMotion ? 0 : 0.55, ease: easeOut }}
           >
-            <p className="text-xs font-medium uppercase tracking-[0.18em] text-[#2878F0]">
-              {company.tagline}
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-electric-600">
+              About Zeldapro
             </p>
             <h2 className="mt-4 font-heading text-3xl leading-[1.12] text-brand-950 sm:text-4xl lg:text-[3rem] lg:leading-[1.1] xl:text-[3.5rem]">
               Technology with purpose.{' '}
