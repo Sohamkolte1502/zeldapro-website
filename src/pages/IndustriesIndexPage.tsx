@@ -2,8 +2,8 @@ import { Seo } from '../components/layout/Seo'
 import { CategoryPanelList } from '../components/category/CategoryPanelList'
 import { PageHeaderBand } from '../components/category/PageHeaderBand'
 import { Container } from '../components/ui'
-import industriesHeader from '../assets/headers/industries.webp'
 import { industries } from '../data'
+import { industriesHeaderImage } from '../utils/categoryHeaderImages'
 
 const TITLE = 'Industries'
 const DESCRIPTION =
@@ -27,7 +27,7 @@ export default function IndustriesIndexPage() {
           eyebrow="Industries"
           title={TITLE}
           description={DESCRIPTION}
-          backgroundImage={industriesHeader}
+          backgroundImage={industriesHeaderImage}
         />
         <Container className="relative z-10 -mt-10 sm:-mt-12">
           <CategoryPanelList

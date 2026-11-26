@@ -2,8 +2,8 @@ import { Seo } from '../components/layout/Seo'
 import { CategoryPanelList } from '../components/category/CategoryPanelList'
 import { PageHeaderBand } from '../components/category/PageHeaderBand'
 import { Container } from '../components/ui'
-import aiSolutionsHeader from '../assets/headers/ai-solutions.avif'
 import { solutions } from '../data'
+import { aiSolutionsHeaderImage } from '../utils/categoryHeaderImages'
 
 const TITLE = 'AI Solutions'
 const DESCRIPTION =
@@ -27,7 +27,7 @@ export default function SolutionsIndexPage() {
           eyebrow="AI Solutions"
           title={TITLE}
           description={DESCRIPTION}
-          backgroundImage={aiSolutionsHeader}
+          backgroundImage={aiSolutionsHeaderImage}
         />
         <Container className="relative z-10 -mt-10 sm:-mt-12">
           <CategoryPanelList
