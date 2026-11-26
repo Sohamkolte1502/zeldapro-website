@@ -277,3 +277,5 @@
 - **MotionSites alignment (no new MCP prompts):** Palomar/Halden light hero, animated capability cards, subtle network hero motif, scroll `Reveal`s — restrained for enterprise credibility.
 - **Home hero:** `LightCinematicHero` replaces dark fiber curtain; soft lavender/sky gradients + low-opacity `about-hero` plate + `HeroAmbientNetwork`.
 - **Home rhythm:** `HomeSectionShell` + `HomeCapabilityCard`; nine service cards from `services` data; six solution cards; eight industry chips; `IntroSection` as About; Carevie + Approach + Final CTA; insights gated off (`SHOW_INSIGHTS`).
+- **Scroll delivery:** `HomeScrollStorySection` — pinned lifecycle narrative on lg+ (progress bar + step sync); static fallback on mobile / `prefers-reduced-motion`.
+- **Carevie home:** `CarevieHomeSection` — product headline from data, four verified capabilities, overview visual, `/carevie` + `carevie.in` CTAs (no placeholder screen grid).
